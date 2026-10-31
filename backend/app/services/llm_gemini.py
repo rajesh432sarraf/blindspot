@@ -117,6 +117,7 @@ def build_evidence_pack(sources: List[SourceRecord]) -> str:
 def call_gemini_api(question: str, sources: List[SourceRecord]) -> Dict[str, Any]:
     """
     Sends the evidence pack to the Gemini API requesting structured JSON output.
+    Supports automatic multi-model failover if a model endpoint is temporarily unavailable (503/429).
     """
     api_key = settings.GEMINI_API_KEY.strip()
     if not api_key or api_key == "your_gemini_api_key_here":
@@ -130,8 +131,11 @@ def call_gemini_api(question: str, sources: List[SourceRecord]) -> Dict[str, Any
         "Analyze the provided source evidence strictly following the instructions. Return valid JSON only without markdown wrapping or conversational chatter."
     )
 
-    model_name = settings.LLM_MODEL.strip() or "gemini-3.1-flash-lite"
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
+    primary_model = settings.LLM_MODEL.strip() or "gemini-3.5-flash-lite"
+    candidate_models = [primary_model]
+    for fallback in ["gemini-3.5-flash-lite", "gemini-3.5-flash", "gemini-3.1-flash-lite", "gemini-flash-latest"]:
+        if fallback not in candidate_models:
+            candidate_models.append(fallback)
 
     payload = {
         "contents": [
@@ -147,16 +151,27 @@ def call_gemini_api(question: str, sources: List[SourceRecord]) -> Dict[str, Any
     }
 
     headers = {"Content-Type": "application/json"}
+    last_error = None
 
     with httpx.Client(timeout=45.0) as client:
-        response = client.post(url, json=payload, headers=headers)
-        if response.status_code != 200:
-            raise RuntimeError(f"Gemini API returned error {response.status_code}: {response.text}")
+        for model in candidate_models:
+            url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+            try:
+                response = client.post(url, json=payload, headers=headers)
+                if response.status_code == 200:
+                    data = response.json()
+                    candidate = data["candidates"][0]
+                    raw_text = candidate["content"]["parts"][0]["text"]
+                    return extract_json_payload(raw_text)
+                elif response.status_code in (503, 429, 404):
+                    logger.warning("Model %s returned HTTP %s. Attempting fallback model.", model, response.status_code)
+                    last_error = RuntimeError(f"Gemini model {model} returned HTTP {response.status_code}: {response.text}")
+                    continue
+                else:
+                    raise RuntimeError(f"Gemini API returned error {response.status_code}: {response.text}")
+            except httpx.TimeoutException:
+                logger.warning("Model %s timed out. Attempting next candidate.", model)
+                last_error = RuntimeError(f"Gemini model {model} timed out after 45s.")
+                continue
 
-        data = response.json()
-        try:
-            candidate = data["candidates"][0]
-            raw_text = candidate["content"]["parts"][0]["text"]
-            return extract_json_payload(raw_text)
-        except (KeyError, IndexError) as e:
-            raise ValueError(f"Failed to find content candidate in Gemini response: {e}")
+    raise last_error or RuntimeError("All candidate Gemini models failed.")
