@@ -21,7 +21,6 @@ import {
   Sparkles,
   Download,
   Check,
-  ShieldCheck,
 } from 'lucide-react';
 import type { HealthResponse, AnalyzeRequest, AnalysisResult, SourceRecord } from './types';
 
@@ -425,15 +424,10 @@ ${analysisResult.sources
 
                 {/* 🎯 Hackathon Executive Verdict (Section 3 Illustrative Output Match) */}
                 <div className="bg-[#024950]/40 border border-[#024950] p-5 sm:p-6 space-y-4 animate-fade-rise">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#024950] gap-2">
-                    <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-[#0FA4AF]" />
-                      <span className="text-xs sm:text-sm font-mono font-black uppercase tracking-[0.2em] text-white">
-                        Executive Audit Verdict (At-a-Glance)
-                      </span>
-                    </div>
-                    <span className="text-[10px] font-mono px-2.5 py-0.5 bg-[#003135] text-[#AFDDE5] border border-[#024950]">
-                      Problem Statement Spec: 3-Second Briefing
+                  <div className="flex items-center gap-2 pb-3 border-b border-[#024950]">
+                    <Sparkles className="w-4 h-4 text-[#0FA4AF]" />
+                    <span className="text-xs sm:text-sm font-mono font-black uppercase tracking-[0.2em] text-white">
+                      Executive Audit Verdict (At-a-Glance)
                     </span>
                   </div>
 
@@ -487,33 +481,6 @@ ${analysisResult.sources
                         Target: {analysisResult.verification_checklist[0]?.suggested_source_type || 'Official Portal'}
                       </span>
                     </div>
-                  </div>
-                </div>
-
-                {/* 🛡️ Outcome 8 Epistemic Protocol: Explicitly Distinguishing Sourced Facts vs AI Gaps & Actions */}
-                <div className="p-3.5 bg-[#003135] border border-[#024950] flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs font-mono animate-fade-rise">
-                  <div className="flex items-center gap-2 text-white">
-                    <ShieldCheck className="w-4 h-4 text-[#0FA4AF] shrink-0" />
-                    <span className="font-black uppercase tracking-wider text-xs">
-                      Outcome 8 Protocol:
-                    </span>
-                    <span className="text-[#AFDDE5]/80 text-[11px] hidden sm:inline">
-                      Clear visual separation of sourced factual extractions from AI-inferred voids & actions
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2 text-[10px]">
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#024950] text-[#0FA4AF] border border-[#0FA4AF]/50 font-bold uppercase tracking-wider">
-                      <span className="w-2 h-2 rounded-full bg-[#0FA4AF]"></span>
-                      Sourced Fact (Extracted)
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#003135] text-[#E76F51] border border-[#E76F51]/60 font-bold uppercase tracking-wider">
-                      <span className="w-2 h-2 rounded-full bg-[#E76F51]"></span>
-                      AI Gap Void (Unaddressed)
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#003135] text-[#AFDDE5] border border-[#024950] font-bold uppercase tracking-wider">
-                      <span className="w-2 h-2 rounded-full bg-[#AFDDE5]"></span>
-                      AI Action (Checklist)
-                    </span>
                   </div>
                 </div>
 
