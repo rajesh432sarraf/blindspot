@@ -33,6 +33,17 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
     // Basic URL validation & duplicate detection
     const seenNormalized = new Set<string>();
     for (const u of validUrls) {
+      const lower = u.toLowerCase();
+      if (lower.startsWith('javascript:') || lower.startsWith('data:') || lower.startsWith('file:') || lower.startsWith('blob:')) {
+        setFormError(`Blocked dangerous protocol in "${u}". Only public http:// and https:// URLs are permitted.`);
+        return;
+      }
+
+      if (lower.includes('localhost') || lower.includes('127.0.0.1') || lower.includes('169.254.169.254')) {
+        setFormError(`Security restriction: Localhost, loopback, and cloud metadata addresses are blocked.`);
+        return;
+      }
+
       try {
         const parsed = new URL(u);
         if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {

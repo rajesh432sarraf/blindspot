@@ -1,6 +1,6 @@
 from enum import Enum
 from typing import List, Optional
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field, HttpUrl, field_validator
 
 class SourceStatus(str, Enum):
     RETRIEVED = "retrieved"
@@ -36,6 +36,57 @@ class FreshnessWarningType(str, Enum):
 class AnalyzeRequest(BaseModel):
     question: str = Field(..., min_length=3, max_length=1000, description="The research question or topic")
     urls: List[str] = Field(..., min_length=1, max_length=10, description="List of public source URLs to analyze")
+
+    @field_validator("question")
+    @classmethod
+    def sanitize_question(cls, v: str) -> str:
+        cleaned = v.strip()
+        if "\x00" in cleaned:
+            raise ValueError("Null bytes are not permitted in research questions.")
+        if len(cleaned) < 3:
+            raise ValueError("Research question must be at least 3 characters long.")
+        if len(cleaned) > 1000:
+            raise ValueError("Research question exceeds maximum permitted length of 1000 characters.")
+        return cleaned
+
+    @field_validator("urls")
+    @classmethod
+    def validate_urls(cls, v: List[str]) -> List[str]:
+        cleaned_urls: List[str] = []
+        seen = set()
+
+        for raw_u in v:
+            u_str = str(raw_u).strip()
+            if not u_str:
+                continue
+
+            if "\x00" in u_str:
+                raise ValueError("Null bytes are not permitted in URLs.")
+
+            if len(u_str) > 2048:
+                raise ValueError(f"URL exceeds maximum length of 2048 characters ({len(u_str)} chars).")
+
+            lower_u = u_str.lower()
+            # Strictly enforce permitted public web schemes
+            if not (lower_u.startswith("http://") or lower_u.startswith("https://")):
+                raise ValueError(f"Dangerous or unsupported URL scheme in '{u_str[:40]}'. Only http:// and https:// are permitted.")
+
+            # Explicitly reject dangerous pseudoprotocols
+            dangerous_prefixes = ("javascript:", "data:", "file:", "blob:", "ftp:", "gopher:", "vbscript:")
+            if any(lower_u.startswith(p) for p in dangerous_prefixes):
+                raise ValueError(f"Blocked dangerous URL scheme: {u_str[:30]}")
+
+            if u_str not in seen:
+                seen.add(u_str)
+                cleaned_urls.append(u_str)
+
+        if not cleaned_urls:
+            raise ValueError("At least one valid HTTP or HTTPS source URL is required.")
+
+        if len(cleaned_urls) > 10:
+            raise ValueError(f"Maximum 10 source URLs allowed, received {len(cleaned_urls)}.")
+
+        return cleaned_urls
 
 class SourceRecord(BaseModel):
     id: str = Field(..., description="Stable source identifier, e.g. S1, S2")
