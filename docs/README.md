@@ -1,8 +1,8 @@
-# Digital Dark Spot
+# Blindspot
 
 **AI-Assisted Information Gap Detection Platform**
 
-Digital Dark Spot helps users inspect multiple sources for a research question and identify potential unanswered questions, conflicting claims, unclear or outdated dates, and what to verify next. It emphasizes evidence and uncertainty rather than guessing.
+Blindspot helps users inspect multiple sources for a research question and identify potential unanswered questions, conflicting claims, unclear or outdated dates, and what to verify next. It emphasizes evidence and uncertainty rather than guessing.
 
 ## Core workflow
 Question + multiple public sources → source extraction → evidence-grounded LLM analysis → gaps/conflicts/freshness warnings → prioritized verification checklist.

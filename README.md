@@ -1,9 +1,9 @@
-# Digital Dark Spot
+# Blindspot
 
 **AI-Assisted Information-Gap Detection Platform**  
 *Built for Shinchan Online Hackathon 2026 by Devengers*
 
-Digital Dark Spot helps researchers inspect multiple sources for a research question and identify potential unanswered questions, conflicting claims, unclear or outdated dates, and a prioritized verification checklist. It emphasizes evidence and uncertainty rather than guessing.
+Blindspot helps researchers inspect multiple sources for a research question and identify potential unanswered questions, conflicting claims, unclear or outdated dates, and a prioritized verification checklist. It emphasizes evidence and uncertainty rather than guessing.
 
 ---
 

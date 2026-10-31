@@ -6,7 +6,7 @@ from typing import Dict, Any, List
 from app.core.config import settings
 from app.models.schemas import SourceRecord
 
-logger = logging.getLogger("digital-dark-spot.llm")
+logger = logging.getLogger("blindspot.llm")
 
 SYSTEM_INSTRUCTION = """You are Blindspot, an expert AI information-gap auditor.
 Your job is to objectively analyze evidence collected from multiple sources in response to a user's research question.

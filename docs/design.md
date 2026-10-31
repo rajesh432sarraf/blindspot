@@ -1,4 +1,4 @@
-# Design System — Digital Dark Spot
+# Design System — Blindspot
 
 ## 1. Design direction
 Build a polished research workspace that feels like a serious information-audit tool. The interface should look intentionally designed by a developer/designer—not like a generic AI landing-page template.
@@ -27,7 +27,7 @@ Build a polished research workspace that feels like a serious information-audit 
 
 ## 4. Information hierarchy
 ### Landing / new investigation
-1. Wordmark: Digital Dark Spot.
+1. Wordmark: Blindspot.
 2. Short value proposition: “See what your sources answer—and what still needs verification.”
 3. Research question field.
 4. Multiple URL input/list with add/remove controls.

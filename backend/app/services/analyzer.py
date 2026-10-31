@@ -23,7 +23,7 @@ from app.services.extractor import extract_source_record
 from app.services.llm_gemini import call_gemini_api
 from app.core.config import settings
 
-logger = logging.getLogger("digital-dark-spot.analyzer")
+logger = logging.getLogger("blindspot.analyzer")
 
 def _normalize_priority(raw: Any) -> PriorityLevel:
     if not raw:

@@ -1,4 +1,4 @@
-# Engineering Rules — Digital Dark Spot
+# Engineering Rules — Blindspot
 
 ## Product scope
 1. The official hackathon problem statement is the source of truth.

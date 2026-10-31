@@ -1,7 +1,7 @@
-# Product Requirements Document — Digital Dark Spot
+# Product Requirements Document — Blindspot
 
 ## 1. Product overview
-**Digital Dark Spot** is an AI-assisted information-gap detection platform. It reviews information collected from multiple sources for a user's research question, then identifies potential unanswered questions, conflicting claims, and information whose date/currentness is unclear. It presents the evidence and helps the user decide what to verify next.
+**Blindspot** is an AI-assisted information-gap detection platform. It reviews information collected from multiple sources for a user's research question, then identifies potential unanswered questions, conflicting claims, and information whose date/currentness is unclear. It presents the evidence and helps the user decide what to verify next.
 
 ## 2. Problem statement alignment
 The official hackathon statement is the product's source of truth. The product must help users:

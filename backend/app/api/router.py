@@ -9,7 +9,7 @@ api_router = APIRouter(prefix="/api")
 def get_health():
     return HealthResponse(
         status="ok",
-        service="digital-dark-spot",
+        service="blindspot",
         version="0.1.0",
         gemini_configured=bool(settings.GEMINI_API_KEY and settings.GEMINI_API_KEY.strip() != "your_gemini_api_key_here")
     )

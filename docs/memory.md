@@ -1,7 +1,7 @@
-# Digital Dark Spot — Project Memory
+# Blindspot — Project Memory
 
 ## Project identity
-- **Project name:** Digital Dark Spot
+- **Project name:** Blindspot
 - **Tagline:** Find what the sources say, what they miss, and what needs verification.
 - **Event:** Shinchan Online Hackathon 2026 by Devengers
 - **Product type:** AI-assisted information-gap detection platform

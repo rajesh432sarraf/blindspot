@@ -105,7 +105,7 @@ class AnalysisResult(BaseModel):
 
 class HealthResponse(BaseModel):
     status: str = "ok"
-    service: str = "digital-dark-spot"
+    service: str = "blindspot"
     version: str = "0.1.0"
     gemini_configured: bool = False
 

@@ -1,4 +1,4 @@
-# Build Plan — Digital Dark Spot
+# Build Plan — Blindspot
 
 Work in order. Do not skip ahead to decorative UI or advanced features before the core workflow works. After each phase, report what changed, what was tested, and what remains.
 

@@ -1,4 +1,4 @@
-# Architecture — Digital Dark Spot
+# Architecture — Blindspot
 
 ## 1. Architecture principle
 Use a small, maintainable client-server application. The LLM is an evidence-analysis component, not a source of facts. Only analyze content the application actually retrieved or the user supplied.
