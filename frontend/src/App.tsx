@@ -221,66 +221,66 @@ export function App() {
                 </div>
 
                 {/* 🎯 Hackathon Executive Verdict (Section 3 Illustrative Output Match) */}
-                <div className="p-4 sm:p-5 bg-[#001c1f] border border-[#0FA4AF] space-y-3 animate-fade-rise shadow-[0_0_20px_rgba(15,164,175,0.15)]">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-[#024950] gap-2">
+                <div className="p-5 sm:p-6 bg-gradient-to-r from-[#024950] via-[#035962] to-[#024950] border-2 border-[#0FA4AF] space-y-4 animate-fade-rise shadow-[0_4px_30px_rgba(15,164,175,0.25)] relative">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#0FA4AF]/30 gap-2">
                     <div className="flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-[#0FA4AF]" />
-                      <span className="text-xs font-mono font-black uppercase tracking-[0.2em] text-white">
+                      <Sparkles className="w-4 h-4 text-[#AFDDE5]" />
+                      <span className="text-xs sm:text-sm font-mono font-black uppercase tracking-[0.2em] text-white">
                         Executive Audit Verdict (At-a-Glance)
                       </span>
                     </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 bg-[#024950] text-[#AFDDE5] border border-[#0FA4AF]/40">
+                    <span className="text-[10px] font-mono px-2.5 py-0.5 bg-[#003135] text-[#AFDDE5] border border-[#0FA4AF]/50 font-bold">
                       Problem Statement Spec: 3-Second Briefing
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-xs font-mono">
                     {/* 1. Potential Gap */}
-                    <div className="p-3 bg-[#00272b] border-l-4 border-l-[#E76F51] border border-[#024950] flex flex-col justify-between space-y-2">
+                    <div className="p-3.5 bg-gradient-to-b from-[#003135] to-[#261512] border-l-4 border-l-[#E76F51] border border-[#E76F51]/30 flex flex-col justify-between space-y-2.5 hover:border-[#E76F51] transition-all shadow-sm">
                       <div>
-                        <span className="text-[10px] font-mono font-black text-[#E76F51] uppercase tracking-wider block mb-1">
+                        <span className="text-[11px] font-mono font-black text-[#E76F51] uppercase tracking-wider block mb-1">
                           ⚠️ Potential Gap Identified
                         </span>
-                        <p className="text-white text-xs leading-snug line-clamp-3">
+                        <p className="text-white text-xs leading-snug line-clamp-3 font-medium">
                           {analysisResult.gaps.find(g => g.status === 'not_found_in_reviewed_sources')?.question ||
                            analysisResult.gaps[0]?.question ||
                            'No unaddressed information gaps detected across reviewed sources.'}
                         </p>
                       </div>
-                      <span className="text-[10px] text-[#AFDDE5]/70 block pt-1 border-t border-[#024950]">
+                      <span className="text-[10px] text-[#AFDDE5]/80 block pt-1.5 border-t border-[#024950]">
                         Status: Not Found in Reviewed Sources
                       </span>
                     </div>
 
                     {/* 2. Possible Conflict */}
-                    <div className="p-3 bg-[#00272b] border-l-4 border-l-[#AFDDE5] border border-[#024950] flex flex-col justify-between space-y-2">
+                    <div className="p-3.5 bg-gradient-to-b from-[#003135] to-[#024950] border-l-4 border-l-[#AFDDE5] border border-[#AFDDE5]/30 flex flex-col justify-between space-y-2.5 hover:border-[#AFDDE5] transition-all shadow-sm">
                       <div>
-                        <span className="text-[10px] font-mono font-black text-[#AFDDE5] uppercase tracking-wider block mb-1">
+                        <span className="text-[11px] font-mono font-black text-[#AFDDE5] uppercase tracking-wider block mb-1">
                           ⚖️ Contradiction Audit
                         </span>
-                        <p className="text-white text-xs leading-snug line-clamp-3">
+                        <p className="text-white text-xs leading-snug line-clamp-3 font-medium">
                           {analysisResult.conflicts.length > 0
                             ? `${analysisResult.conflicts[0].claim_a} vs ${analysisResult.conflicts[0].claim_b}`
                             : 'Zero material factual contradictions found between reviewed sources.'}
                         </p>
                       </div>
-                      <span className="text-[10px] text-[#AFDDE5]/70 block pt-1 border-t border-[#024950]">
+                      <span className="text-[10px] text-[#AFDDE5]/80 block pt-1.5 border-t border-[#024950]">
                         {analysisResult.conflicts.length > 0 ? 'Bilateral quotes cited' : 'Consensus across sources'}
                       </span>
                     </div>
 
                     {/* 3. Priority Action Checklist */}
-                    <div className="p-3 bg-[#00272b] border-l-4 border-l-[#0FA4AF] border border-[#024950] flex flex-col justify-between space-y-2">
+                    <div className="p-3.5 bg-gradient-to-b from-[#003135] to-[#014147] border-l-4 border-l-[#0FA4AF] border border-[#0FA4AF]/30 flex flex-col justify-between space-y-2.5 hover:border-[#0FA4AF] transition-all shadow-sm">
                       <div>
-                        <span className="text-[10px] font-mono font-black text-[#0FA4AF] uppercase tracking-wider block mb-1">
+                        <span className="text-[11px] font-mono font-black text-[#0FA4AF] uppercase tracking-wider block mb-1">
                           📋 Verify Next
                         </span>
-                        <p className="text-white text-xs leading-snug line-clamp-3">
+                        <p className="text-white text-xs leading-snug line-clamp-3 font-medium">
                           {analysisResult.verification_checklist[0]?.action ||
                            'Confirm current cycle guidelines on primary registry.'}
                         </p>
                       </div>
-                      <span className="text-[10px] text-[#AFDDE5]/70 block pt-1 border-t border-[#024950]">
+                      <span className="text-[10px] text-[#AFDDE5]/80 block pt-1.5 border-t border-[#024950]">
                         Target: {analysisResult.verification_checklist[0]?.suggested_source_type || 'Official Portal'}
                       </span>
                     </div>
