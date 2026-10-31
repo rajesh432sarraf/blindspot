@@ -13,6 +13,7 @@ from app.models.schemas import (
     PriorityLevel,
     AnalysisResult,
     VerificationTask,
+    EvidenceReference,
 )
 
 def test_heuristic_analysis_with_sources():
@@ -91,7 +92,7 @@ def test_all_sources_failed_insufficient_evidence():
 # ============================================================================
 
 def test_phase1_evidence_grounded_findings():
-    """Acceptance Test 1: Verify findings reference only actually reviewed sources with real evidence."""
+    """Acceptance Test 1: Verify findings reference only actually reviewed sources with real grounded evidence."""
     s1 = SourceRecord(
         id="S1",
         title="Source Alpha",
@@ -120,6 +121,76 @@ def test_phase1_evidence_grounded_findings():
         for sid in gap.checked_source_ids:
             assert sid in valid_source_ids
             assert sid != "S99"
+
+    # Verify that evidence references are validated against actual retrieved source text
+    grounded_ev = EvidenceReference(
+        source_id="S1",
+        quote="minimum GPA of 3.8 and two recommendation letters"
+    )
+    fabricated_ev = EvidenceReference(
+        source_id="S1",
+        quote="guaranteed 100000 dollar cash bonus on entry" # completely ungrounded
+    )
+    test_gap = GapFinding(
+        id="G1",
+        question="What is the GPA requirement?",
+        status=GapStatus.PARTIALLY_ADDRESSED,
+        why_it_matters="Important for eligibility in the reviewed sources.",
+        checked_source_ids=["S1"],
+        priority=PriorityLevel.HIGH,
+        evidence=[grounded_ev, fabricated_ev]
+    )
+    dummy_res = AnalysisResult(
+        investigation_id="INV-GROUND",
+        question="Test",
+        summary="Summary",
+        sources=[s1, s2],
+        gaps=[test_gap],
+        conflicts=[],
+        freshness_warnings=[],
+        verification_checklist=[],
+        limitations=[]
+    )
+    validated = validate_citations(dummy_res, valid_source_ids, sources=[s1, s2])
+    # Grounded evidence is kept; fabricated evidence is pruned
+    assert len(validated.gaps[0].evidence) == 1
+    assert "GPA of 3.8" in validated.gaps[0].evidence[0].quote
+
+    # Verify conflict grounding check
+    grounded_conflict = ConflictFinding(
+        id="C1",
+        claim_a="Requires GPA 3.8",
+        source_id_a="S1",
+        evidence_a="requires a minimum GPA of 3.8",
+        claim_b="No aid for part-time",
+        source_id_b="S2",
+        evidence_b="No aid is guaranteed for part-time study",
+        conflict_status=ConflictStatus.POSSIBLE_DISCREPANCY
+    )
+    fabricated_conflict = ConflictFinding(
+        id="C2",
+        claim_a="Fake claim A",
+        source_id_a="S1",
+        evidence_a="completely non-existent phrase not in source alpha",
+        claim_b="Claim B",
+        source_id_b="S2",
+        evidence_b="No aid is guaranteed for part-time study",
+        conflict_status=ConflictStatus.MATERIAL_CONFLICT
+    )
+    dummy_res2 = AnalysisResult(
+        investigation_id="INV-GROUND-C",
+        question="Test",
+        summary="Summary",
+        sources=[s1, s2],
+        gaps=[],
+        conflicts=[grounded_conflict, fabricated_conflict],
+        freshness_warnings=[],
+        verification_checklist=[],
+        limitations=[]
+    )
+    validated2 = validate_citations(dummy_res2, valid_source_ids, sources=[s1, s2])
+    assert len(validated2.conflicts) == 1
+    assert validated2.conflicts[0].id == "C1"
 
 def test_phase1_missing_information_cautious_wording():
     """Acceptance Test 2: Verify gaps refer only to sources actually reviewed and use cautious scoping."""

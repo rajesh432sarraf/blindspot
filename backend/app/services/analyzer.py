@@ -193,19 +193,71 @@ def build_heuristic_analysis(question: str, sources: List[SourceRecord], investi
         is_insufficient_evidence=False
     )
 
-def validate_citations(result: AnalysisResult, valid_source_ids: Set[str]) -> AnalysisResult:
+def _is_grounded_in_text(quote: str, source_text: Optional[str]) -> bool:
+    """Verifies that a cited evidence excerpt is genuinely grounded in retrieved source text."""
+    if not quote or not quote.strip():
+        return False
+    if not source_text or not source_text.strip():
+        return True  # If text not available, cannot refute
+
+    clean_quote = re.sub(r"[^\w\s]", "", quote).strip().lower()
+    clean_source = re.sub(r"[^\w\s]", "", source_text).strip().lower()
+    if not clean_quote or not clean_source:
+        return True
+
+    # Exact cleaned substring match
+    if clean_quote in clean_source:
+        return True
+
+    # Check 4-word consecutive sequence
+    words = clean_quote.split()
+    if len(words) <= 3:
+        return clean_quote in clean_source
+
+    for i in range(len(words) - 3):
+        shingle = " ".join(words[i:i+4])
+        if shingle in clean_source:
+            return True
+
+    return False
+
+def validate_citations(
+    result: AnalysisResult,
+    valid_source_ids: Set[str],
+    sources: Optional[List[SourceRecord]] = None
+) -> AnalysisResult:
     """
     Validates that every cited source ID in findings actually exists in the retrieved sources.
     Filters out spurious or invalid source references, ensures bilateral evidence on conflicts,
-    enforces cautious gap scoping, and ensures freshness warnings do not assert falsity.
+    verifies text grounding against retrieved source content, enforces cautious gap scoping,
+    and ensures freshness warnings do not assert falsity.
     """
+    sources_map: Dict[str, SourceRecord] = {}
+    if sources:
+        sources_map = {s.id: s for s in sources if s.status != SourceStatus.FAILED}
+
     # 1. Validate gaps: refer only to sources actually reviewed and use cautious scoping
     sanitized_gaps: List[GapFinding] = []
     for gap in result.gaps:
         checked_ids = [sid for sid in gap.checked_source_ids if sid in valid_source_ids]
         if not checked_ids:
             checked_ids = list(valid_source_ids)
-        ev_list = [ev for ev in gap.evidence if ev.source_id in valid_source_ids]
+
+        ev_list: List[EvidenceReference] = []
+        for ev in gap.evidence:
+            if ev.source_id in valid_source_ids:
+                # If sources available, verify grounding and populate metadata
+                if sources_map and ev.source_id in sources_map:
+                    src = sources_map[ev.source_id]
+                    if not _is_grounded_in_text(ev.quote, src.full_text):
+                        logger.warning("Dropping ungrounded gap evidence quote for source %s", ev.source_id)
+                        continue
+                    if not ev.source_title:
+                        ev.source_title = src.title
+                    if not ev.source_url:
+                        ev.source_url = src.url
+                ev_list.append(ev)
+
         gap.checked_source_ids = checked_ids
         gap.evidence = ev_list
 
@@ -217,7 +269,7 @@ def validate_citations(result: AnalysisResult, valid_source_ids: Set[str]) -> An
         sanitized_gaps.append(gap)
     result.gaps = sanitized_gaps
 
-    # 2. Validate conflicts: must cite two distinct valid sources and have evidence on both sides
+    # 2. Validate conflicts: must cite two distinct valid sources, have bilateral evidence, and be grounded
     sanitized_conflicts: List[ConflictFinding] = []
     for conf in result.conflicts:
         is_valid_sources = (
@@ -229,12 +281,21 @@ def validate_citations(result: AnalysisResult, valid_source_ids: Set[str]) -> An
             conf.evidence_a and conf.evidence_a.strip() and
             conf.evidence_b and conf.evidence_b.strip()
         )
-        if is_valid_sources and has_bilateral_evidence:
+        is_grounded = True
+        if sources_map:
+            src_a = sources_map.get(conf.source_id_a)
+            src_b = sources_map.get(conf.source_id_b)
+            if src_a and src_a.full_text and not _is_grounded_in_text(conf.evidence_a, src_a.full_text):
+                is_grounded = False
+            if src_b and src_b.full_text and not _is_grounded_in_text(conf.evidence_b, src_b.full_text):
+                is_grounded = False
+
+        if is_valid_sources and has_bilateral_evidence and is_grounded:
             sanitized_conflicts.append(conf)
         else:
             logger.warning(
-                "Dropping invalid conflict: source_a=%s, source_b=%s, has_evidence=%s",
-                conf.source_id_a, conf.source_id_b, has_bilateral_evidence
+                "Dropping invalid conflict: source_a=%s, source_b=%s, has_evidence=%s, is_grounded=%s",
+                conf.source_id_a, conf.source_id_b, has_bilateral_evidence, is_grounded
             )
     result.conflicts = sanitized_conflicts
 
@@ -316,14 +377,14 @@ def run_investigation(request: AnalyzeRequest) -> AnalysisResult:
                 limitations=limitations_data,
                 is_insufficient_evidence=llm_output.get("is_insufficient_evidence", False)
             )
-            return validate_citations(result, valid_source_ids)
+            return validate_citations(result, valid_source_ids, sources=sources)
         except Exception as e:
             logger.error("Gemini API call failed (%s). Falling back to heuristic evidence audit.", e)
             res = build_heuristic_analysis(request.question, sources, investigation_id)
             res.limitations.append(f"Gemini API call encountered an error: {e}. Fallback evidence synthesis provided.")
-            return validate_citations(res, valid_source_ids)
+            return validate_citations(res, valid_source_ids, sources=sources)
 
     # Heuristic audit when GEMINI_API_KEY is not configured
     res = build_heuristic_analysis(request.question, sources, investigation_id)
-    return validate_citations(res, valid_source_ids)
+    return validate_citations(res, valid_source_ids, sources=sources)
 
