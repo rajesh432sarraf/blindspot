@@ -102,7 +102,7 @@ function renderHighlightedText(text: string) {
       return (
         <span
           key={i}
-          className="text-white font-bold px-1.5 py-0.5 bg-[#001c1f] border border-[#0FA4AF]/40 rounded-xs mx-0.5 inline-block font-mono text-[11px] sm:text-xs tracking-tight shadow-xs"
+          className="text-white font-bold px-1.5 py-0.5 bg-[#024950]/80 border border-[#0FA4AF]/40 rounded-xs mx-0.5 inline-block font-mono text-[11px] sm:text-xs tracking-tight shadow-xs"
         >
           {part}
         </span>
@@ -191,7 +191,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
-          <span className="px-2.5 py-1 bg-[#001c1f] border border-[#024950] text-[#AFDDE5]">
+          <span className="px-2.5 py-1 bg-[#003135] border border-[#024950] text-[#AFDDE5]">
             ID: <strong className="text-white">{result.investigation_id}</strong>
           </span>
 
@@ -220,7 +220,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
       </div>
 
       {/* Audited Research Question with Scope Banner */}
-      <div className="p-4 bg-[#001c1f] border border-[#024950] relative overflow-hidden">
+      <div className="p-4 bg-[#003135] border border-[#024950] relative overflow-hidden">
         <div className="absolute top-0 left-0 w-1 h-full bg-[#0FA4AF]"></div>
         <span className="text-[#0FA4AF] uppercase tracking-[0.15em] text-[11px] font-mono font-black block mb-1">
           Audited Research Question
@@ -231,7 +231,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
       </div>
 
       {/* Interactive Topic Audit Coverage Meter (Visual Progress Animation) */}
-      <div className="p-4 bg-[#00272b] border border-[#024950] space-y-2.5 animate-fade-rise">
+      <div className="p-4 bg-[#003135] border border-[#024950] space-y-2.5 animate-fade-rise">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono gap-1">
           <span className="text-[#AFDDE5] uppercase font-bold flex items-center gap-2">
             <Sparkles className="w-3.5 h-3.5 text-[#0FA4AF]" />
@@ -250,7 +250,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
         </div>
 
         {/* Dynamic Dual-Segment Progress Bar */}
-        <div className="w-full h-2.5 bg-[#001c1f] overflow-hidden flex border border-[#024950] relative">
+        <div className="w-full h-2.5 bg-[#024950]/60 overflow-hidden flex border border-[#024950] relative">
           <div
             style={{ width: `${coveragePct}%` }}
             className="bg-gradient-to-r from-[#024950] via-[#0FA4AF] to-[#AFDDE5] h-full transition-all duration-700 ease-out"
@@ -264,14 +264,14 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
 
         {/* 4 Quick Stat Micro-Pills */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px] font-mono">
-          <div className="p-2 bg-[#001c1f] border border-[#024950] flex items-center justify-between">
+          <div className="p-2 bg-[#024950]/50 border border-[#024950] flex items-center justify-between">
             <span className="text-[#AFDDE5]/70">Sources:</span>
             <span className="text-white font-bold">
               {result.sources.filter(s => s.status !== 'failed').length} Active
             </span>
           </div>
 
-          <div className="p-2 bg-[#001c1f] border border-[#024950] flex items-center justify-between">
+          <div className="p-2 bg-[#024950]/50 border border-[#024950] flex items-center justify-between">
             <span className="text-[#AFDDE5]/70">Density:</span>
             <span className="text-[#0FA4AF] font-bold">
               {result.sources
@@ -281,7 +281,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
             </span>
           </div>
 
-          <div className="p-2 bg-[#001c1f] border border-[#024950] flex items-center justify-between">
+          <div className="p-2 bg-[#024950]/50 border border-[#024950] flex items-center justify-between">
             <span className="text-[#AFDDE5]/70">Gaps:</span>
             <span
               className={`font-bold ${
@@ -292,7 +292,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
             </span>
           </div>
 
-          <div className="p-2 bg-[#001c1f] border border-[#024950] flex items-center justify-between">
+          <div className="p-2 bg-[#024950]/50 border border-[#024950] flex items-center justify-between">
             <span className="text-[#AFDDE5]/70">Conflicts:</span>
             <span className="text-white font-bold">
               {result.conflicts.length} Detected
@@ -305,13 +305,13 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-1 border-t border-[#024950]">
         <div className="flex items-center gap-2">
           {/* View Switcher: Cards vs Full Narrative */}
-          <div className="inline-flex p-0.5 bg-[#001c1f] border border-[#024950]">
+          <div className="inline-flex p-0.5 bg-[#003135] border border-[#024950]">
             <button
               type="button"
               onClick={() => setViewMode('cards')}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold transition-all cursor-pointer ${
                 viewMode === 'cards'
-                  ? 'bg-[#0FA4AF] text-[#001c1f] shadow-xs'
+                  ? 'bg-[#0FA4AF] text-[#003135] shadow-xs'
                   : 'text-[#AFDDE5]/70 hover:text-white'
               }`}
             >
@@ -323,7 +323,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
               onClick={() => setViewMode('text')}
               className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold transition-all cursor-pointer ${
                 viewMode === 'text'
-                  ? 'bg-[#0FA4AF] text-[#001c1f] shadow-xs'
+                  ? 'bg-[#0FA4AF] text-[#003135] shadow-xs'
                   : 'text-[#AFDDE5]/70 hover:text-white'
               }`}
             >
@@ -341,7 +341,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
             className={`inline-flex items-center gap-2 px-3.5 py-1.5 border text-xs font-mono font-bold transition-all duration-150 cursor-pointer active:scale-95 ${
               isPlayingAudio
                 ? 'bg-[#E76F51] text-white border-[#E76F51] shadow-[0_0_15px_rgba(231,111,81,0.5)]'
-                : 'bg-[#001c1f] text-[#AFDDE5] border-[#0FA4AF]/50 hover:bg-[#0FA4AF] hover:text-[#001c1f] hover:border-[#0FA4AF]'
+                : 'bg-[#003135] text-[#AFDDE5] border-[#0FA4AF]/50 hover:bg-[#0FA4AF] hover:text-[#003135] hover:border-[#0FA4AF]'
             }`}
             title="Play high-speed audio briefing using native speech synthesis"
           >
@@ -383,7 +383,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
             {cards.map((card, idx) => (
               <div
                 key={card.id}
-                className={`p-4 bg-[#001c1f] border transition-all duration-200 group relative hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(2,73,80,0.4)] ${
+                className={`p-4 bg-[#003135] border transition-all duration-200 group relative hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(2,73,80,0.4)] ${
                   card.type === 'gap'
                     ? 'border-l-4 border-l-[#E76F51] border-[#024950] bg-[#E76F51]/5 hover:border-l-[#E76F51] hover:border-[#E76F51]/60'
                     : card.type === 'metric'
@@ -426,7 +426,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
 
       {/* VIEW 2: FULL FORENSIC NARRATIVE (With Copy Button & Word Count) */}
       {viewMode === 'text' && (
-        <div className="p-5 bg-[#001c1f] border border-[#024950] space-y-3 animate-fade-rise">
+        <div className="p-5 bg-[#003135] border border-[#024950] space-y-3 animate-fade-rise">
           <div className="flex items-center justify-between pb-2 border-b border-[#024950] text-xs font-mono text-[#AFDDE5]/70">
             <span className="text-[11px] uppercase tracking-wider text-[#0FA4AF] font-bold">
               Uninterrupted Evidence-Grounded Narrative
@@ -436,7 +436,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
               <button
                 type="button"
                 onClick={handleCopyText}
-                className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#024950] hover:bg-[#0FA4AF] hover:text-[#001c1f] text-white transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#024950] hover:bg-[#0FA4AF] hover:text-[#003135] text-white transition-colors cursor-pointer"
                 title="Copy entire synthesis text"
               >
                 {isCopied ? (
@@ -462,7 +462,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
 
       {/* Methodological Constraints Dropdown */}
       {result.limitations && result.limitations.length > 0 && (
-        <div className="border border-[#024950] bg-[#001c1f]">
+        <div className="border border-[#024950] bg-[#003135]">
           <button
             type="button"
             onClick={() => setShowLimits(!showLimits)}
@@ -481,7 +481,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
             )}
           </button>
           {showLimits && (
-            <div className="p-4 border-t border-[#024950] bg-[#001c1f]/90 text-xs font-mono text-[#AFDDE5]/90 space-y-1.5 animate-fade-in">
+            <div className="p-4 border-t border-[#024950] bg-[#003135]/90 text-xs font-mono text-[#AFDDE5]/90 space-y-1.5 animate-fade-in">
               {result.limitations.map((limit, idx) => (
                 <div key={idx} className="flex items-start gap-2">
                   <span className="text-[#0FA4AF]">•</span>

@@ -21,7 +21,7 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
         </span>
       </div>
 
-      <div className="p-3 bg-[#001c1f] border border-[#024950] text-xs font-mono text-[#AFDDE5]/90 flex items-center gap-2">
+      <div className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/90 flex items-center gap-2">
         <strong className="text-[#0FA4AF] uppercase tracking-wider">Principle:</strong>
         <span>
           "Not found in reviewed sources" means the question is unaddressed by the submitted materials—not that the information does not exist on the wider internet.
@@ -29,7 +29,7 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
       </div>
 
       {gaps.length === 0 ? (
-        <div className="p-6 bg-[#001c1f] border border-[#024950] text-xs font-mono text-[#AFDDE5]/70 text-center">
+        <div className="p-6 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/70 text-center">
           No evident information gaps identified across reviewed sources.
         </div>
       ) : (
@@ -37,7 +37,7 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
           {gaps.map((gap, idx) => (
             <div
               key={gap.id}
-              className={`p-5 bg-[#001c1f] border border-[#024950] space-y-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(231,111,81,0.2)] animate-fade-rise ${
+              className={`p-5 bg-[#003135] border border-[#024950] space-y-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(231,111,81,0.2)] animate-fade-rise ${
                 gap.status === 'not_found_in_reviewed_sources'
                   ? 'border-l-4 border-l-[#E76F51] hover:border-[#E76F51]'
                   : 'border-l-4 border-l-[#0FA4AF] hover:border-[#0FA4AF]'
@@ -50,7 +50,7 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
                     className={`px-2.5 py-1 text-white text-xs font-mono font-bold shadow-xs ${
                       gap.status === 'not_found_in_reviewed_sources'
                         ? 'bg-[#E76F51]'
-                        : 'bg-[#0FA4AF] text-[#001c1f]'
+                        : 'bg-[#0FA4AF] text-[#003135]'
                     }`}
                   >
                     {gap.id}
@@ -83,7 +83,7 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
                         ? 'bg-[#E76F51] text-white border-[#E76F51]'
                         : gap.priority === 'medium'
                         ? 'bg-[#024950] text-[#AFDDE5] border-[#0FA4AF]'
-                        : 'bg-[#001c1f] text-[#AFDDE5]/70 border-[#024950]'
+                        : 'bg-[#003135] text-[#AFDDE5]/70 border-[#024950]'
                     }`}
                   >
                     {gap.priority === 'high' && (
@@ -133,7 +133,7 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
                   {gap.evidence.map((ev, i) => (
                     <div
                       key={i}
-                      className="p-3 bg-[#001c1f] border border-[#024950] text-xs font-mono text-[#AFDDE5] flex items-start gap-2.5"
+                      className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5] flex items-start gap-2.5"
                     >
                       <Quote className="w-3.5 h-3.5 text-[#0FA4AF] shrink-0 mt-0.5" />
                       <div className="flex-1 min-w-0">

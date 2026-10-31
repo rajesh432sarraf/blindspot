@@ -117,11 +117,11 @@ export function App() {
 
                   {/* Symmetrical 4-Column Grid: Uniform heights, identical padding, crisp 1px borders */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="p-5 bg-[#00272b] border border-[#024950] flex flex-col justify-between space-y-4">
+                    <div className="p-5 bg-[#003135] border border-[#024950] flex flex-col justify-between space-y-4">
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
-                          <span className="text-2xl font-mono font-black text-[#964734]">01</span>
-                          <Search className="w-4 h-4 text-[#964734]" />
+                          <span className="text-2xl font-mono font-black text-[#E76F51]">01</span>
+                          <Search className="w-4 h-4 text-[#E76F51]" />
                         </div>
                         <h4 className="text-xs font-mono font-black text-white uppercase tracking-wider">
                           Gap Detection
@@ -130,12 +130,12 @@ export function App() {
                           Categorizes findings into Fully Addressed, Partially Addressed, and Not Found in Reviewed Sources with strict scoping.
                         </p>
                       </div>
-                      <div className="text-[10px] font-mono text-[#964734] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
+                      <div className="text-[10px] font-mono text-[#E76F51] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
                         3-Tier Taxonomy
                       </div>
                     </div>
 
-                    <div className="p-5 bg-[#00272b] border border-[#024950] flex flex-col justify-between space-y-4">
+                    <div className="p-5 bg-[#003135] border border-[#024950] flex flex-col justify-between space-y-4">
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-2xl font-mono font-black text-[#0FA4AF]">02</span>
@@ -153,7 +153,7 @@ export function App() {
                       </div>
                     </div>
 
-                    <div className="p-5 bg-[#00272b] border border-[#024950] flex flex-col justify-between space-y-4">
+                    <div className="p-5 bg-[#003135] border border-[#024950] flex flex-col justify-between space-y-4">
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-2xl font-mono font-black text-[#AFDDE5]">03</span>
@@ -171,7 +171,7 @@ export function App() {
                       </div>
                     </div>
 
-                    <div className="p-5 bg-[#00272b] border border-[#024950] flex flex-col justify-between space-y-4">
+                    <div className="p-5 bg-[#003135] border border-[#024950] flex flex-col justify-between space-y-4">
                       <div className="space-y-2">
                         <div className="flex items-center justify-between">
                           <span className="text-2xl font-mono font-black text-[#0FA4AF]">04</span>

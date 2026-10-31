@@ -54,7 +54,7 @@ export const UrlInputList: React.FC<UrlInputListProps> = ({ urls, onChange, disa
                 onChange={(e) => handleUrlChange(idx, e.target.value)}
                 disabled={disabled}
                 placeholder="https://example.com/article-or-documentation"
-                className="w-full pl-10 pr-3 py-2.5 bg-[#001c1f] text-xs font-mono border border-[#024950] text-[#AFDDE5] placeholder-[#AFDDE5]/40 focus:outline-none focus:border-[#0FA4AF] focus:ring-1 focus:ring-[#0FA4AF] disabled:opacity-50 transition-colors duration-150"
+                className="w-full pl-10 pr-3 py-2.5 bg-[#003135] text-xs font-mono border border-[#024950] text-[#AFDDE5] placeholder-[#AFDDE5]/40 focus:outline-none focus:border-[#0FA4AF] focus:ring-1 focus:ring-[#0FA4AF] disabled:opacity-50 transition-colors duration-150"
               />
             </div>
             {urls.length > 1 && (
@@ -62,7 +62,7 @@ export const UrlInputList: React.FC<UrlInputListProps> = ({ urls, onChange, disa
                 type="button"
                 onClick={() => handleRemoveUrl(idx)}
                 disabled={disabled}
-                className="p-2.5 border border-[#024950] bg-[#001c1f] text-[#AFDDE5]/70 hover:text-white hover:bg-[#964734] hover:border-[#964734] active:scale-95 transition-all duration-150 disabled:opacity-50 shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#964734]"
+                className="p-2.5 border border-[#024950] bg-[#003135] text-[#AFDDE5]/70 hover:text-white hover:bg-[#E76F51] hover:border-[#E76F51] active:scale-95 transition-all duration-150 disabled:opacity-50 shrink-0 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E76F51]"
                 title="Remove URL"
               >
                 <Trash2 className="w-4 h-4" />
@@ -78,7 +78,7 @@ export const UrlInputList: React.FC<UrlInputListProps> = ({ urls, onChange, disa
             type="button"
             onClick={handleAddUrl}
             disabled={disabled}
-            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono font-bold border border-[#0FA4AF] bg-[#00272b] text-[#AFDDE5] hover:bg-[#0FA4AF] hover:text-[#001c1f] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
+            className="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-mono font-bold border border-[#0FA4AF] bg-[#003135] text-[#AFDDE5] hover:bg-[#0FA4AF] hover:text-[#003135] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
           >
             <Plus className="w-4 h-4" />
             <span>Add Source URL</span>

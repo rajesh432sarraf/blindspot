@@ -9,7 +9,7 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = () => {
   return (
-    <header className="border-b border-[#024950] bg-[#00272b] px-6 lg:px-8 py-4 sticky top-0 z-30 transition-colors">
+    <header className="border-b border-[#024950] bg-[#003135] px-6 lg:px-8 py-4 sticky top-0 z-30 transition-colors">
       <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         {/* Brand / Wordmark with subtle entrance */}
         <div className="flex items-center gap-4 animate-fade-rise delay-0">

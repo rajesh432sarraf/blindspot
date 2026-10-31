@@ -29,7 +29,7 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
     <aside className="w-full h-full flex flex-col border-l border-[#024950] divide-y divide-[#024950] select-none bg-[#003135]">
       {/* Panel 1: Deep Teal #003135 (Sources) */}
       <div
-        className="h-[20%] p-3.5 xl:p-4 bg-[#003135] text-[#AFDDE5] flex flex-col justify-between transition-colors duration-150 hover:bg-[#00272b] group relative animate-fade-rise delay-0"
+        className="h-[20%] p-3.5 xl:p-4 bg-[#003135] text-[#AFDDE5] flex flex-col justify-between transition-colors duration-150 hover:bg-[#024950]/50 group relative animate-fade-rise delay-0"
       >
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-mono tracking-[0.2em] text-[#0FA4AF] uppercase font-black">
@@ -119,23 +119,23 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
           }
         }}
         onClick={() => onSelectTab && onSelectTab('conflicts')}
-        className={`h-[20%] p-3.5 xl:p-4 bg-[#AFDDE5] text-[#001c1f] flex flex-col justify-between transition-all duration-150 group relative animate-fade-rise delay-120 ${
+        className={`h-[20%] p-3.5 xl:p-4 bg-[#AFDDE5] text-[#003135] flex flex-col justify-between transition-all duration-150 group relative animate-fade-rise delay-120 ${
           onSelectTab
-            ? 'cursor-pointer hover:bg-[#c2eaf0] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#001c1f]'
+            ? 'cursor-pointer hover:bg-[#c2eaf0] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]'
             : ''
         }`}
       >
         <div className="flex items-center justify-between">
-          <span className="text-[11px] font-mono tracking-[0.2em] text-[#001c1f] uppercase font-black">
+          <span className="text-[11px] font-mono tracking-[0.2em] text-[#003135] uppercase font-black">
             04 // CONFLICTS
           </span>
         </div>
 
         <div className="my-auto py-1">
-          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-[#001c1f] tracking-tight leading-tight">
+          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-[#003135] tracking-tight leading-tight">
             {animatedConflicts !== null ? `${animatedConflicts} DETECTED` : 'BILATERAL'}
           </div>
-          <p className="text-[10px] xl:text-[11px] font-mono text-[#001c1f]/90 mt-1 leading-snug line-clamp-2 font-medium">
+          <p className="text-[10px] xl:text-[11px] font-mono text-[#003135]/90 mt-1 leading-snug line-clamp-2 font-medium">
             {conflictsCount !== null
               ? 'Material contradictions with quoted evidence'
               : 'Contradiction vs contextual difference'}
@@ -154,23 +154,23 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
           }
         }}
         onClick={() => onSelectTab && onSelectTab('checklist')}
-        className={`h-[20%] p-3.5 xl:p-4 bg-[#0FA4AF] text-[#001c1f] flex flex-col justify-between transition-all duration-150 group relative animate-fade-rise delay-160 ${
+        className={`h-[20%] p-3.5 xl:p-4 bg-[#0FA4AF] text-[#003135] flex flex-col justify-between transition-all duration-150 group relative animate-fade-rise delay-160 ${
           onSelectTab
-            ? 'cursor-pointer hover:bg-[#12b9c6] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#001c1f]'
+            ? 'cursor-pointer hover:bg-[#12b9c6] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]'
             : ''
         }`}
       >
         <div className="flex items-center justify-between">
-          <span className="text-[11px] font-mono tracking-[0.2em] text-[#001c1f] uppercase font-black">
+          <span className="text-[11px] font-mono tracking-[0.2em] text-[#003135] uppercase font-black">
             05 // VERIFICATION
           </span>
         </div>
 
         <div className="my-auto py-1">
-          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-[#001c1f] tracking-tight leading-tight">
+          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-[#003135] tracking-tight leading-tight">
             {animatedVerify !== null ? `${animatedVerify} ACTIONS` : 'NEXT STEPS'}
           </div>
-          <p className="text-[10px] xl:text-[11px] font-mono text-[#001c1f]/90 mt-1 leading-snug line-clamp-2 font-medium">
+          <p className="text-[10px] xl:text-[11px] font-mono text-[#003135]/90 mt-1 leading-snug line-clamp-2 font-medium">
             {verifyCount !== null
               ? 'Direct primary authority recommendations'
               : 'Official registries, portals & handbooks'}

@@ -79,9 +79,9 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
   };
 
   return (
-    <div className="w-full flex flex-col bg-[#001c1f]">
+    <div className="w-full flex flex-col bg-[#003135]">
       {/* 1. Cinematic Hero Visual Block (Direct Visual from Image 2) */}
-      <div className="relative w-full h-[360px] sm:h-[440px] md:h-[500px] overflow-hidden bg-[#001c1f]">
+      <div className="relative w-full h-[360px] sm:h-[440px] md:h-[500px] overflow-hidden bg-[#003135]">
         {/* Background visual with crisp high-contrast styling */}
         <img
           src={heroBg}
@@ -91,8 +91,8 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
         />
 
         {/* Directional bottom-heavy gradient keeping top peaks luminous */}
-        <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-[#001c1f] via-[#001c1f]/75 to-transparent"></div>
-        <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#001c1f]/85 via-transparent to-transparent"></div>
+        <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-[#003135] via-[#003135]/75 to-transparent"></div>
+        <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#003135]/85 via-transparent to-transparent"></div>
 
         {/* Oversized typography directly over visual with razor-sharp contrast */}
         <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-10 z-10">
@@ -105,7 +105,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
       </div>
 
       {/* 2. Unified, Symmetrical Investigation Console (Seamlessly integrated with top border) */}
-      <div id="investigation-console" className="border-t border-b border-[#024950] bg-[#00272b] p-6 sm:p-8 lg:p-10 space-y-6 relative">
+      <div id="investigation-console" className="border-t border-b border-[#024950] bg-[#024950]/40 p-6 sm:p-8 lg:p-10 space-y-6 relative">
         {/* Real-time Scanning Indicator (Stops immediately on completion/failure) */}
         {isLoading && (
           <div className="absolute top-0 inset-x-0 h-[2px] bg-[#024950] overflow-hidden" role="progressbar" aria-label="Investigation in progress">
@@ -130,7 +130,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
               type="button"
               onClick={handleLoadGatesExample}
               disabled={isLoading}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold border border-[#0FA4AF]/50 bg-[#001c1f] text-[#AFDDE5] hover:bg-[#0FA4AF] hover:text-[#001c1f] hover:border-[#0FA4AF] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold border border-[#0FA4AF]/50 bg-[#003135] text-[#AFDDE5] hover:bg-[#0FA4AF] hover:text-[#003135] hover:border-[#0FA4AF] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
               title="Load Gates Cambridge multi-source benchmark"
             >
               <Sparkles className="w-3.5 h-3.5 text-[#0FA4AF]" />
@@ -140,10 +140,10 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
               type="button"
               onClick={handleLoadNspExample}
               disabled={isLoading}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold border border-[#964734]/70 bg-[#001c1f] text-[#AFDDE5] hover:bg-[#964734] hover:text-white hover:border-[#964734] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold border border-[#E76F51]/70 bg-[#003135] text-[#AFDDE5] hover:bg-[#E76F51] hover:text-white hover:border-[#E76F51] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
               title="Load National Scholarship Portal benchmark with 404 failure containment test"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#964734]" />
+              <Sparkles className="w-3.5 h-3.5 text-[#E76F51]" />
               <span>Preset 2: NSP + 404 Test</span>
             </button>
           </div>
@@ -172,7 +172,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
                 onChange={(e) => setQuestion(e.target.value)}
                 disabled={isLoading}
                 placeholder="Enter any research question or topic (e.g. policy guidelines, technical specifications, scientific consensus, or admission requirements across sources)..."
-                className="w-full h-full min-h-[160px] p-4 bg-[#001c1f] text-xs sm:text-sm font-mono border border-[#024950] text-[#AFDDE5] placeholder-[#AFDDE5]/40 focus:outline-none focus:border-[#0FA4AF] focus:ring-1 focus:ring-[#0FA4AF] disabled:opacity-50 transition-colors"
+                className="w-full h-full min-h-[160px] p-4 bg-[#003135] text-xs sm:text-sm font-mono border border-[#024950] text-[#AFDDE5] placeholder-[#AFDDE5]/40 focus:outline-none focus:border-[#0FA4AF] focus:ring-1 focus:ring-[#0FA4AF] disabled:opacity-50 transition-colors"
                 required
               />
             </div>
@@ -188,15 +188,15 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
           </div>
 
           {formError && (
-            <div className="p-3 bg-[#964734]/30 border border-[#964734] text-xs font-mono text-white font-semibold flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 shrink-0 text-[#964734]" />
+            <div className="p-3 bg-[#E76F51]/30 border border-[#E76F51] text-xs font-mono text-white font-semibold flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 shrink-0 text-[#E76F51]" />
               <span>{formError}</span>
             </div>
           )}
 
           {/* Real-time Honest Loading Progress Indicator */}
           {isLoading && (
-            <div className="w-full bg-[#001c1f] border border-[#0FA4AF]/40 p-3 text-xs font-mono text-[#AFDDE5] flex items-center justify-between gap-3 animate-fade-in">
+            <div className="w-full bg-[#003135] border border-[#0FA4AF]/40 p-3 text-xs font-mono text-[#AFDDE5] flex items-center justify-between gap-3 animate-fade-in">
               <div className="flex items-center gap-2.5">
                 <span className="w-2 h-2 rounded-full bg-[#0FA4AF] animate-pulse"></span>
                 <span className="font-bold text-white uppercase tracking-wider">
