@@ -165,3 +165,4 @@ def fetch_url_content(url_str: str, max_redirects: int = 4) -> Tuple[str, str, i
             return text_content, current_url, response.status_code
 
         raise FetchError(f"Exceeded maximum redirect limit ({max_redirects}).")
+

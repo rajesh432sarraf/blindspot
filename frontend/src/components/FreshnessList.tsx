@@ -72,3 +72,4 @@ export const FreshnessList: React.FC<FreshnessListProps> = ({ warnings }) => {
     </div>
   );
 };
+

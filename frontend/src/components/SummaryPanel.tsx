@@ -81,3 +81,4 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
     </div>
   );
 };
+

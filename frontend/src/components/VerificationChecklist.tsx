@@ -129,3 +129,4 @@ export const VerificationChecklist: React.FC<VerificationChecklistProps> = ({ ch
     </div>
   );
 };
+

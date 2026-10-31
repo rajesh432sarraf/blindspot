@@ -85,3 +85,4 @@ def test_extract_source_record_clean_text():
     # Ensure scripts and nav are stripped
     assert "var x = 123" not in record.full_text
     assert "Home" not in record.full_text
+

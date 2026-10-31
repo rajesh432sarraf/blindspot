@@ -296,3 +296,4 @@ def run_investigation(request: AnalyzeRequest) -> AnalysisResult:
     # Heuristic audit when GEMINI_API_KEY is not configured
     res = build_heuristic_analysis(request.question, sources, investigation_id)
     return validate_citations(res, valid_source_ids)
+

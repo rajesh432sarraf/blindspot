@@ -75,3 +75,4 @@ def test_all_sources_failed_insufficient_evidence():
     res = build_heuristic_analysis("Question", sources, "INV-TEST3")
     assert res.is_insufficient_evidence is True
     assert len(res.gaps) == 0
+
