@@ -46,7 +46,7 @@ export const FreshnessList: React.FC<FreshnessListProps> = ({ warnings }) => {
                 <span
                   className={`text-[11px] font-mono px-2.5 py-1 border font-bold ${
                     w.warning_type === 'stale_dated'
-                      ? 'bg-[#964734]/30 text-white border-[#964734]'
+                      ? 'bg-[#E76F51]/20 text-[#E76F51] border-[#E76F51]'
                       : 'bg-[#024950] text-[#AFDDE5] border-[#0FA4AF]'
                   }`}
                 >

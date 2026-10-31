@@ -34,13 +34,18 @@ export const ConflictList: React.FC<ConflictListProps> = ({ conflicts }) => {
           {conflicts.map((conf) => (
             <div key={conf.id} className="p-5 bg-[#003135] border border-[#024950] space-y-4">
               <div className="flex items-center justify-between">
-                <span className="px-2.5 py-1 bg-[#0FA4AF] text-[#003135] text-xs font-mono font-bold">
-                  {conf.id}
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="px-2.5 py-1 bg-[#0FA4AF] text-[#003135] text-xs font-mono font-bold">
+                    {conf.id}
+                  </span>
+                  <span className="hidden sm:inline-flex text-[9px] font-mono uppercase px-2 py-0.5 bg-[#003135] text-[#AFDDE5] border border-[#024950] font-bold">
+                    Bilateral Source Comparison
+                  </span>
+                </div>
                 <span
                   className={`text-[11px] font-mono px-2.5 py-1 border font-bold ${
                     conf.conflict_status === 'material_conflict'
-                      ? 'bg-[#964734]/30 text-white border-[#964734]'
+                      ? 'bg-[#E76F51]/20 text-[#E76F51] border-[#E76F51]'
                       : 'bg-[#024950] text-[#AFDDE5] border-[#0FA4AF]'
                   }`}
                 >

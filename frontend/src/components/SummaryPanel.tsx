@@ -407,6 +407,9 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
                     >
                       {card.category}
                     </span>
+                    <span className="hidden sm:inline-flex text-[9px] font-mono uppercase px-1.5 py-0.5 bg-[#024950] text-[#0FA4AF] border border-[#0FA4AF]/30 font-bold">
+                      Sourced Fact
+                    </span>
                   </div>
 
                   <span className="text-[10px] font-mono font-bold text-[#AFDDE5]/50 group-hover:text-[#0FA4AF] transition-colors">
