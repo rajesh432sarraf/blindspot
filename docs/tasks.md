@@ -35,13 +35,15 @@ Work in order. Do not skip ahead to decorative UI or advanced features before th
 ## Phase 3 — LLM evidence analysis
 - [x] Configure one LLM provider (Gemini API) through backend environment variables.
 - [x] Verify the selected model name is available to the configured API project.
-- [x] Create a clear evidence-only analysis prompt.
+- [x] Create a clear evidence-only analysis prompt with facet decomposition and risk-weighted prioritization.
 - [x] Define structured output schema for summary, gaps, conflicts, freshness warnings, checklist, and limitations.
+- [x] Implement three-tier gap classification (`not_found_in_reviewed_sources`, `partially_addressed`, `fully_addressed`).
 - [x] Pass only collected source text and source IDs to the model.
-- [x] Validate JSON with Pydantic.
-- [x] Validate every cited source ID and evidence excerpt.
+- [x] Validate JSON with Pydantic with resilient evidence coercion and enum fallback.
+- [x] Validate every cited source ID and require grounded evidence excerpts for partial/addressed facets.
+- [x] Enforce bidirectional finding ID linking on verification checklist tasks.
 - [x] Handle provider errors, malformed output, and insufficient evidence.
-- [x] Add tests for citation integrity and status validation.
+- [x] Add tests for citation integrity, status validation, and Phase 3 intelligence (27 tests passing).
 
 **Exit criteria:** a real question and retrieved source texts produce a validated, traceable analysis; no hardcoded fake findings.
 
@@ -64,7 +66,9 @@ Work in order. Do not skip ahead to decorative UI or advanced features before th
 - [x] Confirm secrets never enter frontend bundles or logs.
 - [x] Test responsive layout and keyboard navigation.
 - [x] Remove fake metrics, dead controls, and unused components.
-- [x] Run frontend production build and backend tests.
+- [x] Run frontend production build and backend tests (30 passed, 0 failed).
+- [x] Verify real-world investigation quality against official multi-source benchmark with live dateModified extraction and partial failure handling.
+- [x] Add dual hackathon benchmark presets (Gates Cambridge & NSP PM-USP + 404 test) for repeatable evaluator demonstrations.
 - [x] Update docs with actual implemented behavior and known limitations.
 
 **Exit criteria:** clean build, core tests passing, honest failure states.

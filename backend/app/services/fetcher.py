@@ -1,6 +1,6 @@
 import ipaddress
 import socket
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 import httpx
 from typing import Tuple, Optional
 from app.core.config import settings
@@ -100,9 +100,17 @@ def fetch_url_content(url_str: str, max_redirects: int = 4) -> Tuple[str, str, i
     """
     current_url, _ = validate_url_security(url_str)
     headers = {
-        "User-Agent": "DigitalDarkSpot-Auditor/1.0 (+https://github.com/shinchan-hackathon/digital-dark-spot; research-bot)",
-        "Accept": "text/html,application/xhtml+xml,text/plain;q=0.9,*/*;q=0.8",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.9",
+        "Sec-Ch-Ua": '"Chromium";v="124", "Google Chrome";v="124"',
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": '"Windows"',
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": "1"
     }
 
     redirect_count = 0
@@ -123,11 +131,8 @@ def fetch_url_content(url_str: str, max_redirects: int = 4) -> Tuple[str, str, i
                 if not location:
                     raise FetchError("Redirect response received without Location header.")
                 
-                # Resolve relative redirect
-                target_parsed = urlparse(location)
-                if not target_parsed.netloc:
-                    base_parsed = urlparse(current_url)
-                    location = f"{base_parsed.scheme}://{base_parsed.netloc}/{location.lstrip('/')}"
+                # Resolve relative redirect RFC-compliantly
+                location = urljoin(current_url, location)
 
                 # Revalidate destination for SSRF safety
                 current_url, _ = validate_url_security(location)

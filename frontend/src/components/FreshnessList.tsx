@@ -8,46 +8,46 @@ interface FreshnessListProps {
 
 export const FreshnessList: React.FC<FreshnessListProps> = ({ warnings }) => {
   return (
-    <div className="bg-[#F3F0E8] border border-[#D7D2C7] p-6 space-y-4">
-      <div className="flex items-center justify-between border-b border-[#D7D2C7] pb-3">
+    <div className="bg-[#024950]/40 border border-[#024950] p-6 space-y-4">
+      <div className="flex items-center justify-between border-b border-[#024950] pb-3">
         <div className="flex items-center gap-2">
-          <Clock className="w-4 h-4 text-[#171918]" />
-          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-[#171918]">
-            Freshness & Date Warnings ({warnings.length})
+          <Clock className="w-4 h-4 text-[#0FA4AF]" />
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
+            FRESHNESS & DATE WARNINGS ({warnings.length})
           </h2>
         </div>
-        <span className="text-[11px] font-mono text-[#625F57]">
+        <span className="text-xs font-mono text-[#AFDDE5]/80">
           Currentness audit
         </span>
       </div>
 
-      <div className="p-2.5 bg-[#EAE5DA] border border-[#D7D2C7] text-[11px] font-mono text-[#625F57]">
-        <strong>Principle:</strong> Age does not equate to falsity. Older documents may accurately describe their historical context, but changes over time necessitate verifying current applicability.
+      <div className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/90">
+        <strong className="text-[#0FA4AF] uppercase tracking-wider mr-1">Principle:</strong> Age does not equate to falsity. Older documents may accurately describe their historical context, but changes over time necessitate verifying current applicability.
       </div>
 
       {warnings.length === 0 ? (
-        <div className="p-4 bg-white border border-[#D7D2C7] text-xs font-mono text-[#625F57] text-center">
-          All reviewed sources have verified, up-to-date timestamps.
+        <div className="p-6 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/70 text-center">
+          No stale date warnings triggered across reviewed sources. Note that a published timestamp does not guarantee ongoing currency; verify active guidelines with primary registries.
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {warnings.map((w) => (
-            <div key={w.id} className="p-4 bg-white border border-[#D7D2C7] space-y-2">
+            <div key={w.id} className="p-5 bg-[#003135] border border-[#024950] space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 bg-[#171918] text-[#F3F0E8] text-xs font-mono font-bold">
+                <div className="flex items-center gap-2.5">
+                  <span className="px-2.5 py-1 bg-[#0FA4AF] text-[#003135] text-xs font-mono font-bold">
                     {w.id}
                   </span>
-                  <span className="text-xs font-mono font-bold text-[#171918]">
+                  <span className="text-xs sm:text-sm font-mono font-bold text-white">
                     Applies to Source {w.source_id}
                   </span>
                 </div>
 
                 <span
-                  className={`text-[11px] font-mono px-2 py-0.5 border ${
+                  className={`text-[11px] font-mono px-2.5 py-1 border font-bold ${
                     w.warning_type === 'stale_dated'
-                      ? 'bg-[#FEF9E7] text-[#171918] border-[#D6A64F]'
-                      : 'bg-[#EAE5DA] text-[#625F57] border-[#D7D2C7]'
+                      ? 'bg-[#964734]/30 text-white border-[#964734]'
+                      : 'bg-[#024950] text-[#AFDDE5] border-[#0FA4AF]'
                   }`}
                 >
                   {w.warning_type === 'stale_dated'
@@ -58,10 +58,10 @@ export const FreshnessList: React.FC<FreshnessListProps> = ({ warnings }) => {
                 </span>
               </div>
 
-              <div className="p-2.5 bg-[#F3F0E8] border border-[#D7D2C7] text-xs font-mono text-[#171918] flex items-start gap-2">
-                <AlertTriangle className="w-3.5 h-3.5 text-[#D6A64F] shrink-0 mt-0.5" />
+              <div className="p-3 bg-[#024950]/40 border border-[#024950] text-xs font-mono text-[#AFDDE5] flex items-start gap-2.5">
+                <AlertTriangle className="w-4 h-4 text-[#0FA4AF] shrink-0 mt-0.5" />
                 <div>
-                  <strong className="text-[#171918]">Rationale: </strong>
+                  <strong className="text-white font-bold uppercase tracking-wider mr-1">Rationale:</strong>
                   {w.rationale}
                 </div>
               </div>
@@ -72,4 +72,3 @@ export const FreshnessList: React.FC<FreshnessListProps> = ({ warnings }) => {
     </div>
   );
 };
-

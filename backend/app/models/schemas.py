@@ -17,6 +17,7 @@ class DateStatus(str, Enum):
 class GapStatus(str, Enum):
     NOT_FOUND_IN_REVIEWED_SOURCES = "not_found_in_reviewed_sources"
     PARTIALLY_ADDRESSED = "partially_addressed"
+    FULLY_ADDRESSED = "fully_addressed"
 
 class PriorityLevel(str, Enum):
     HIGH = "high"
@@ -100,6 +101,7 @@ class AnalysisResult(BaseModel):
     verification_checklist: List[VerificationTask] = Field(default_factory=list, description="Prioritized next verification actions")
     limitations: List[str] = Field(default_factory=list, description="Methodological limitations or source constraints")
     is_insufficient_evidence: bool = Field(default=False, description="True if available sources are inadequate to answer the question")
+    evidence_fully_audited: bool = Field(default=False, description="True only when all sources were retrieved and every citation and evidence integrity check passed")
 
 class HealthResponse(BaseModel):
     status: str = "ok"

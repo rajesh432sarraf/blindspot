@@ -8,40 +8,40 @@ interface ConflictListProps {
 
 export const ConflictList: React.FC<ConflictListProps> = ({ conflicts }) => {
   return (
-    <div className="bg-[#F3F0E8] border border-[#D7D2C7] p-6 space-y-4">
-      <div className="flex items-center justify-between border-b border-[#D7D2C7] pb-3">
+    <div className="bg-[#024950]/40 border border-[#024950] p-6 space-y-4">
+      <div className="flex items-center justify-between border-b border-[#024950] pb-3">
         <div className="flex items-center gap-2">
-          <GitCompare className="w-4 h-4 text-[#171918]" />
-          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-[#171918]">
-            Evidence Conflicts & Discrepancies ({conflicts.length})
+          <GitCompare className="w-4 h-4 text-[#0FA4AF]" />
+          <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
+            EVIDENCE CONFLICTS & DISCREPANCIES ({conflicts.length})
           </h2>
         </div>
-        <span className="text-[11px] font-mono text-[#625F57]">
+        <span className="text-xs font-mono text-[#AFDDE5]/80">
           Contradictions with bilateral evidence
         </span>
       </div>
 
-      <div className="p-2.5 bg-[#EAE5DA] border border-[#D7D2C7] text-[11px] font-mono text-[#625F57]">
-        <strong>Principle:</strong> Discrepancies are flagged only when sources assert materially incompatible claims. Differences stemming from distinct dates or jurisdictions are labeled as discrepancies requiring context review.
+      <div className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/90">
+        <strong className="text-[#0FA4AF] uppercase tracking-wider mr-1">Principle:</strong> Discrepancies are flagged only when sources assert materially incompatible claims. Differences stemming from distinct dates or jurisdictions are labeled as discrepancies requiring context review.
       </div>
 
       {conflicts.length === 0 ? (
-        <div className="p-4 bg-white border border-[#D7D2C7] text-xs font-mono text-[#625F57] text-center">
+        <div className="p-6 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/70 text-center">
           No direct factual contradictions identified between the reviewed sources.
         </div>
       ) : (
         <div className="space-y-4">
           {conflicts.map((conf) => (
-            <div key={conf.id} className="p-4 bg-white border border-[#D7D2C7] space-y-3">
+            <div key={conf.id} className="p-5 bg-[#003135] border border-[#024950] space-y-4">
               <div className="flex items-center justify-between">
-                <span className="px-2 py-0.5 bg-[#171918] text-[#F3F0E8] text-xs font-mono font-bold">
+                <span className="px-2.5 py-1 bg-[#0FA4AF] text-[#003135] text-xs font-mono font-bold">
                   {conf.id}
                 </span>
                 <span
-                  className={`text-[11px] font-mono px-2 py-0.5 border ${
+                  className={`text-[11px] font-mono px-2.5 py-1 border font-bold ${
                     conf.conflict_status === 'material_conflict'
-                      ? 'bg-[#F9EBEA] text-[#D9534F] border-[#D9534F] font-semibold'
-                      : 'bg-[#FEF9E7] text-[#171918] border-[#D6A64F]'
+                      ? 'bg-[#964734]/30 text-white border-[#964734]'
+                      : 'bg-[#024950] text-[#AFDDE5] border-[#0FA4AF]'
                   }`}
                 >
                   {conf.conflict_status === 'material_conflict'
@@ -51,51 +51,59 @@ export const ConflictList: React.FC<ConflictListProps> = ({ conflicts }) => {
               </div>
 
               {/* Side by side comparison */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
                 {/* Side A */}
-                <div className="p-3 bg-[#F3F0E8] border border-[#D7D2C7] space-y-2">
+                <div className="p-4 bg-[#024950]/40 border border-[#024950] space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-mono font-bold text-[#171918] uppercase">
+                    <span className="text-xs font-mono font-bold text-[#AFDDE5] uppercase tracking-wider">
                       Claim from {conf.source_id_a}
                     </span>
-                    <span className="px-1.5 py-0.5 bg-[#171918] text-[#F3F0E8] text-[10px] font-mono">
+                    <a
+                      href={`#source-${conf.source_id_a}`}
+                      className="px-2 py-0.5 bg-[#003135] text-[#0FA4AF] text-xs font-mono border border-[#024950] hover:border-[#0FA4AF] transition-colors"
+                      title={`Jump to source ${conf.source_id_a} in rail`}
+                    >
                       {conf.source_id_a}
-                    </span>
+                    </a>
                   </div>
-                  <p className="text-xs font-mono font-semibold text-[#171918]">
+                  <p className="text-xs sm:text-sm font-mono font-bold text-white">
                     {conf.claim_a}
                   </p>
-                  <div className="p-2 bg-white border border-[#D7D2C7] text-[11px] font-mono text-[#625F57] flex items-start gap-1.5">
-                    <Quote className="w-3 h-3 text-[#D6A64F] shrink-0 mt-0.5" />
+                  <div className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5] flex items-start gap-2">
+                    <Quote className="w-3.5 h-3.5 text-[#0FA4AF] shrink-0 mt-0.5" />
                     <span>"{conf.evidence_a}"</span>
                   </div>
                 </div>
 
                 {/* Side B */}
-                <div className="p-3 bg-[#F3F0E8] border border-[#D7D2C7] space-y-2">
+                <div className="p-4 bg-[#024950]/40 border border-[#024950] space-y-2.5">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-mono font-bold text-[#171918] uppercase">
+                    <span className="text-xs font-mono font-bold text-[#AFDDE5] uppercase tracking-wider">
                       Claim from {conf.source_id_b}
                     </span>
-                    <span className="px-1.5 py-0.5 bg-[#171918] text-[#F3F0E8] text-[10px] font-mono">
+                    <a
+                      href={`#source-${conf.source_id_b}`}
+                      className="px-2 py-0.5 bg-[#003135] text-[#0FA4AF] text-xs font-mono border border-[#024950] hover:border-[#0FA4AF] transition-colors"
+                      title={`Jump to source ${conf.source_id_b} in rail`}
+                    >
                       {conf.source_id_b}
-                    </span>
+                    </a>
                   </div>
-                  <p className="text-xs font-mono font-semibold text-[#171918]">
+                  <p className="text-xs sm:text-sm font-mono font-bold text-white">
                     {conf.claim_b}
                   </p>
-                  <div className="p-2 bg-white border border-[#D7D2C7] text-[11px] font-mono text-[#625F57] flex items-start gap-1.5">
-                    <Quote className="w-3 h-3 text-[#D6A64F] shrink-0 mt-0.5" />
+                  <div className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5] flex items-start gap-2">
+                    <Quote className="w-3.5 h-3.5 text-[#0FA4AF] shrink-0 mt-0.5" />
                     <span>"{conf.evidence_b}"</span>
                   </div>
                 </div>
               </div>
 
               {conf.context_note && (
-                <div className="p-2.5 bg-[#FEF9E7] border border-[#D6A64F] text-xs font-mono text-[#171918] flex items-start gap-2">
-                  <AlertTriangle className="w-3.5 h-3.5 text-[#D6A64F] shrink-0 mt-0.5" />
+                <div className="p-3 bg-[#024950]/30 border border-[#0FA4AF] text-xs font-mono text-[#AFDDE5] flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 text-[#0FA4AF] shrink-0 mt-0.5" />
                   <div>
-                    <strong className="text-[#171918]">Contextual Note: </strong>
+                    <strong className="text-white font-bold uppercase tracking-wider mr-1">Contextual Note:</strong>
                     {conf.context_note}
                   </div>
                 </div>
@@ -107,4 +115,3 @@ export const ConflictList: React.FC<ConflictListProps> = ({ conflicts }) => {
     </div>
   );
 };
-

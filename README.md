@@ -75,33 +75,29 @@ npm run dev
 
 All test suites have been run and verified:
 
-### 1. Backend Automated Unit Tests (13/13 Passing)
+### 1. Backend Automated Unit Tests (30/30 Passing)
 ```bash
 cd backend; python -m pytest
 ```
-- `tests/test_fetcher_extractor.py`: SSRF defenses (blocking `localhost`, `127.0.0.1`, `10.0.0.1`, `192.168.1.1`, `169.254.169.254`, `ftp://`, `file://`), date metadata parsing, HTML cleaning.
-- `tests/test_analyzer.py`: Citation integrity validation, invalid source ID filtering, heuristic fallback audit, honest insufficient evidence reporting.
+- `tests/test_fetcher_extractor.py`: SSRF defenses (blocking `localhost`, `127.0.0.1`, `10.0.0.1`, `192.168.1.1`, `169.254.169.254`, `ftp://`, `file://`), date metadata parsing, dateModified prioritization over older datePublished, JSON-LD `@graph` extraction, HTML cleaning.
+- `tests/test_analyzer.py`: URL deduplication and normalization, topic-aware heuristic fallback adaptation, empty readable page containment, three-tier gap taxonomy (`not_found_in_reviewed_sources`, `partially_addressed`, `fully_addressed`), grounded excerpt shingle verification, downgrade of ungrounded partial claims, bidirectional checklist linking (`related_finding_ids`), freshness date synchronization, partial source failure limitation reporting, Phase 1 acceptance tests, heuristic fallback audit.
 - `tests/test_health.py`: Health endpoint contract verification.
 - `tests/test_schemas.py`: Pydantic request and response schema validation.
 
-### 2. Live Citation & Evidence Fidelity Verification
-```bash
-cd backend; python -m tests.verify_e2e_fidelity
-```
-- Live audit verified across multiple public URLs (`https://example.org`, `https://www.w3.org`).
-- Confirmed that every source title, URL, date status, and excerpt corresponds directly to actual retrieved content.
-- Verified that the LLM never invents citations or claims an unretrieved source was reviewed.
+### 2. Live Hackathon Demo Benchmarks
+The application includes two one-click evaluation presets directly on the landing form:
+- **Preset 1 (Gates Cambridge Multi-Source Audit):** Demonstrates multi-page evidence synthesis across live Cambridge portals, verifiable dateModified extraction, allowance figures (£23,152), cohort deadlines, and actionable course-directory verification tasks.
+- **Preset 2 (PM-USP Central Sector Scholarship Audit & Failure Containment):** Demonstrates live extraction from the National Scholarship Portal (`scholarships.gov.in`), graceful failure handling of an empty client-side SPA (`education.gov.in`) and a deliberate 404 URL, explicit partial-source warnings, cautious gap scoping, and targeted verification checklist items.
 
-### 3. Failure Modes & Edge-Case Handling
 ```bash
-cd backend; python -m tests.verify_failure_modes
-```
-- **Invalid / Blocked URLs:** Blocked immediately with `SSRFSecurityError`.
-- **Partial Failure:** Successfully retrieved sources are analyzed while failed URLs are flagged in the source rail.
-- **Total Failure:** If all URLs fail, returns `is_insufficient_evidence: true` with zero fabricated findings.
-- **LLM / Quota Error:** Gracefully degrades to deterministic heuristic evidence analysis with a clear limitations banner.
+# Run Gates Cambridge verification
+cd backend; python tests/verify_real_investigation.py
 
-### 4. Frontend Production Build
+# Run PM-USP Central Sector verification
+cd backend; python test_pm_usp_investigation.py
+```
+
+### 3. Frontend Production Build
 ```bash
 cd frontend; npm run build
 ```

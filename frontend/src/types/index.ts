@@ -2,7 +2,7 @@ export type SourceStatus = 'retrieved' | 'failed' | 'partial' | 'analyzed' | 'sk
 
 export type DateStatus = 'dated' | 'undated' | 'unknown';
 
-export type GapStatus = 'not_found_in_reviewed_sources' | 'partially_addressed';
+export type GapStatus = 'not_found_in_reviewed_sources' | 'partially_addressed' | 'fully_addressed';
 
 export type PriorityLevel = 'high' | 'medium' | 'low';
 
@@ -85,6 +85,7 @@ export interface AnalysisResult {
   verification_checklist: VerificationTask[];
   limitations: string[];
   is_insufficient_evidence: boolean;
+  evidence_fully_audited?: boolean;
 }
 
 export interface HealthResponse {

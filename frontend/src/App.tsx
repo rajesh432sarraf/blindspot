@@ -7,10 +7,17 @@ import { GapList } from './components/GapList';
 import { ConflictList } from './components/ConflictList';
 import { FreshnessList } from './components/FreshnessList';
 import { VerificationChecklist } from './components/VerificationChecklist';
-import { EmptyState } from './components/EmptyState';
 import { ErrorState } from './components/ErrorState';
+import { EditorialRightRail } from './components/EditorialRightRail';
 import { checkHealth, analyzeSources } from './lib/api';
-import { PlusCircle, Search, GitCompare, Clock, CheckSquare, Layers } from 'lucide-react';
+import {
+  PlusCircle,
+  Search,
+  GitCompare,
+  Clock,
+  CheckSquare,
+  Layers,
+} from 'lucide-react';
 import type { HealthResponse, AnalyzeRequest, AnalysisResult } from './types';
 
 type ActiveTab = 'all' | 'gaps' | 'conflicts' | 'freshness' | 'checklist';
@@ -52,6 +59,8 @@ export function App() {
       const result = await analyzeSources(request);
       setAnalysisResult(result);
       setActiveTab('all');
+      // Scroll smoothly to results
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'An unexpected error occurred';
       setAnalysisError(message);
@@ -69,148 +78,270 @@ export function App() {
   const handleReset = () => {
     setAnalysisResult(null);
     setAnalysisError(null);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   return (
-    <div className="min-h-screen bg-[#F3F0E8] text-[#171918] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#003135] text-[#AFDDE5] flex flex-col font-sans selection:bg-[#0FA4AF] selection:text-[#003135]">
+      {/* Top Header */}
       <Header health={health} healthError={healthError} />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
-        {!analysisResult && (
-          <section aria-labelledby="form-section">
-            <ResearchForm onSubmit={handleStartAnalysis} isLoading={isLoading} />
-          </section>
-        )}
+      {/* Main Asymmetrical Split Composition (Directly inspired by Image 2) */}
+      <div className="flex-1 w-full flex flex-col lg:flex-row">
+        {/* Left Side (~78% width on desktop) */}
+        <div className="w-full lg:w-[78%] flex flex-col min-h-screen border-r border-[#024950]">
+          <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-12">
+            {/* If no result active: Hero & Form View */}
+            {!analysisResult && (
+              <section aria-labelledby="investigation-form" className="space-y-12">
+                <ResearchForm onSubmit={handleStartAnalysis} isLoading={isLoading} />
 
-        {analysisError && (
-          <section aria-labelledby="error-section">
-            <ErrorState message={analysisError} onRetry={handleRetry} />
-          </section>
-        )}
+                {analysisError && (
+                  <section aria-labelledby="error-section">
+                    <ErrorState message={analysisError} onRetry={handleRetry} />
+                  </section>
+                )}
 
-        {analysisResult && (
-          <section aria-labelledby="dashboard-section" className="space-y-6">
-            {/* Action Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-[#D7D2C7] gap-3">
-              <div>
-                <span className="text-xs font-mono uppercase tracking-wider text-[#625F57]">
-                  Active Audit Report
-                </span>
-                <h2 className="text-base font-mono font-bold text-[#171918]">
-                  {analysisResult.investigation_id}
-                </h2>
-              </div>
-              <button
-                type="button"
-                onClick={handleReset}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#171918] text-[#F3F0E8] text-xs font-mono uppercase tracking-wider hover:bg-[#202321] transition-colors"
+                {/* Symmetrical Core Architecture Grid (No redundant boxes) */}
+                <section id="features" className="pt-6 border-t border-[#024950] space-y-6">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-mono font-black text-[#0FA4AF] uppercase tracking-[0.2em]">
+                      AUDIT ARCHITECTURE
+                    </span>
+                    <span className="w-8 h-px bg-[#0FA4AF]/50"></span>
+                    <span className="text-xs font-mono text-[#AFDDE5]/70 uppercase">
+                      Evidence Grounding & Verification
+                    </span>
+                  </div>
+
+                  {/* Symmetrical 4-Column Grid: Uniform heights, identical padding, crisp 1px borders */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="p-5 bg-[#00272b] border border-[#024950] flex flex-col justify-between space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-mono font-black text-[#964734]">01</span>
+                          <Search className="w-4 h-4 text-[#964734]" />
+                        </div>
+                        <h4 className="text-xs font-mono font-black text-white uppercase tracking-wider">
+                          Gap Detection
+                        </h4>
+                        <p className="text-xs font-mono text-[#AFDDE5]/80 leading-relaxed">
+                          Categorizes findings into Fully Addressed, Partially Addressed, and Not Found in Reviewed Sources with strict scoping.
+                        </p>
+                      </div>
+                      <div className="text-[10px] font-mono text-[#964734] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
+                        3-Tier Taxonomy
+                      </div>
+                    </div>
+
+                    <div className="p-5 bg-[#00272b] border border-[#024950] flex flex-col justify-between space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-mono font-black text-[#0FA4AF]">02</span>
+                          <GitCompare className="w-4 h-4 text-[#0FA4AF]" />
+                        </div>
+                        <h4 className="text-xs font-mono font-black text-white uppercase tracking-wider">
+                          Conflict Proof
+                        </h4>
+                        <p className="text-xs font-mono text-[#AFDDE5]/80 leading-relaxed">
+                          Requires non-empty verified quotes on both sides from distinct sources before confirming a material contradiction.
+                        </p>
+                      </div>
+                      <div className="text-[10px] font-mono text-[#0FA4AF] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
+                        Bilateral Grounding
+                      </div>
+                    </div>
+
+                    <div className="p-5 bg-[#00272b] border border-[#024950] flex flex-col justify-between space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-mono font-black text-[#AFDDE5]">03</span>
+                          <Clock className="w-4 h-4 text-[#AFDDE5]" />
+                        </div>
+                        <h4 className="text-xs font-mono font-black text-white uppercase tracking-wider">
+                          Temporal Warnings
+                        </h4>
+                        <p className="text-xs font-mono text-[#AFDDE5]/80 leading-relaxed">
+                          Monitors timestamps and flags stale documents without falsely claiming that older information is incorrect.
+                        </p>
+                      </div>
+                      <div className="text-[10px] font-mono text-[#AFDDE5] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
+                        Currentness Audit
+                      </div>
+                    </div>
+
+                    <div className="p-5 bg-[#00272b] border border-[#024950] flex flex-col justify-between space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-mono font-black text-[#0FA4AF]">04</span>
+                          <CheckSquare className="w-4 h-4 text-[#0FA4AF]" />
+                        </div>
+                        <h4 className="text-xs font-mono font-black text-white uppercase tracking-wider">
+                          Action Checklist
+                        </h4>
+                        <p className="text-xs font-mono text-[#AFDDE5]/80 leading-relaxed">
+                          Generates prioritized, concrete inquiries directly linked to primary registers to resolve uncertainties.
+                        </p>
+                      </div>
+                      <div className="text-[10px] font-mono text-[#0FA4AF] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
+                        Primary Registers
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </section>
+            )}
+
+            {/* If Analysis Result is Active: Full Dashboard View with Staggered Entrance */}
+            {analysisResult && (
+              <section
+                key={analysisResult.investigation_id}
+                aria-labelledby="dashboard-section"
+                className="space-y-6"
               >
-                <PlusCircle className="w-3.5 h-3.5" />
-                <span>Start New Investigation</span>
-              </button>
-            </div>
+                {/* Active Report Header Bar */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#024950] gap-4 animate-fade-rise delay-0">
+                  <div>
+                    <span className="text-xs font-mono uppercase tracking-wider text-[#0FA4AF] font-bold">
+                      Active Evidence Audit Report
+                    </span>
+                    <h2 className="text-base sm:text-lg font-mono font-black text-white">
+                      {analysisResult.investigation_id}
+                    </h2>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#964734] hover:bg-[#aa533e] active:scale-[0.98] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#964734]"
+                  >
+                    <PlusCircle className="w-4 h-4" />
+                    <span>New Investigation</span>
+                  </button>
+                </div>
 
-            {/* Summary Panel */}
-            <SummaryPanel result={analysisResult} />
+                {/* Summary Panel */}
+                <div className="animate-fade-rise delay-40">
+                  <SummaryPanel result={analysisResult} />
+                </div>
 
-            {/* Sources Rail */}
-            <SourceList sources={analysisResult.sources} />
+                {/* Sources Rail */}
+                <div className="animate-fade-rise delay-80">
+                  <SourceList sources={analysisResult.sources} />
+                </div>
 
-            {/* Analysis Findings Tabs */}
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-1 border-b border-[#D7D2C7] pb-2 text-xs font-mono">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('all')}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-colors ${
-                    activeTab === 'all'
-                      ? 'bg-[#171918] text-[#F3F0E8] border-[#171918] font-bold'
-                      : 'bg-[#EAE5DA] text-[#625F57] border-[#D7D2C7] hover:text-[#171918]'
-                  }`}
-                >
-                  <Layers className="w-3.5 h-3.5" />
-                  <span>All Audit Findings</span>
-                </button>
+                {/* Findings Filter Tabs */}
+                <div className="space-y-4 animate-fade-rise delay-120">
+                  <div className="flex flex-wrap items-center gap-1 border-b border-[#024950] pb-2 text-xs font-mono">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('all')}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
+                        activeTab === 'all'
+                          ? 'bg-[#0FA4AF] text-[#003135] border-[#0FA4AF] font-black'
+                          : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#0FA4AF]'
+                      }`}
+                    >
+                      <Layers className="w-3.5 h-3.5" />
+                      <span>All Audit Findings</span>
+                    </button>
 
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('gaps')}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-colors ${
-                    activeTab === 'gaps'
-                      ? 'bg-[#171918] text-[#F3F0E8] border-[#171918] font-bold'
-                      : 'bg-[#EAE5DA] text-[#625F57] border-[#D7D2C7] hover:text-[#171918]'
-                  }`}
-                >
-                  <Search className="w-3.5 h-3.5" />
-                  <span>Gaps ({analysisResult.gaps.length})</span>
-                </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('gaps')}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#964734] ${
+                        activeTab === 'gaps'
+                          ? 'bg-[#964734] text-white border-[#964734] font-bold'
+                          : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#964734]'
+                      }`}
+                    >
+                      <Search className="w-3.5 h-3.5" />
+                      <span>Gaps ({analysisResult.gaps.length})</span>
+                    </button>
 
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('conflicts')}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-colors ${
-                    activeTab === 'conflicts'
-                      ? 'bg-[#171918] text-[#F3F0E8] border-[#171918] font-bold'
-                      : 'bg-[#EAE5DA] text-[#625F57] border-[#D7D2C7] hover:text-[#171918]'
-                  }`}
-                >
-                  <GitCompare className="w-3.5 h-3.5" />
-                  <span>Conflicts ({analysisResult.conflicts.length})</span>
-                </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('conflicts')}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
+                        activeTab === 'conflicts'
+                          ? 'bg-[#0FA4AF] text-[#003135] border-[#0FA4AF] font-bold'
+                          : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#0FA4AF]'
+                      }`}
+                    >
+                      <GitCompare className="w-3.5 h-3.5" />
+                      <span>Conflicts ({analysisResult.conflicts.length})</span>
+                    </button>
 
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('freshness')}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-colors ${
-                    activeTab === 'freshness'
-                      ? 'bg-[#171918] text-[#F3F0E8] border-[#171918] font-bold'
-                      : 'bg-[#EAE5DA] text-[#625F57] border-[#D7D2C7] hover:text-[#171918]'
-                  }`}
-                >
-                  <Clock className="w-3.5 h-3.5" />
-                  <span>Freshness ({analysisResult.freshness_warnings.length})</span>
-                </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('freshness')}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
+                        activeTab === 'freshness'
+                          ? 'bg-[#024950] text-[#AFDDE5] border-[#0FA4AF] font-bold'
+                          : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#0FA4AF]'
+                      }`}
+                    >
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>Freshness ({analysisResult.freshness_warnings.length})</span>
+                    </button>
 
-                <button
-                  type="button"
-                  onClick={() => setActiveTab('checklist')}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-colors ${
-                    activeTab === 'checklist'
-                      ? 'bg-[#171918] text-[#F3F0E8] border-[#171918] font-bold'
-                      : 'bg-[#EAE5DA] text-[#625F57] border-[#D7D2C7] hover:text-[#171918]'
-                  }`}
-                >
-                  <CheckSquare className="w-3.5 h-3.5" />
-                  <span>Checklist ({analysisResult.verification_checklist.length})</span>
-                </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('checklist')}
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#AFDDE5] ${
+                        activeTab === 'checklist'
+                          ? 'bg-[#AFDDE5] text-[#003135] border-[#AFDDE5] font-black'
+                          : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#AFDDE5]'
+                      }`}
+                    >
+                      <CheckSquare className="w-3.5 h-3.5" />
+                      <span>Checklist ({analysisResult.verification_checklist.length})</span>
+                    </button>
+                  </div>
+
+                  {/* Dynamic Findings Views */}
+                  {(activeTab === 'all' || activeTab === 'gaps') && (
+                    <GapList gaps={analysisResult.gaps} />
+                  )}
+
+                  {(activeTab === 'all' || activeTab === 'conflicts') && (
+                    <ConflictList conflicts={analysisResult.conflicts} />
+                  )}
+
+                  {(activeTab === 'all' || activeTab === 'freshness') && (
+                    <FreshnessList warnings={analysisResult.freshness_warnings} />
+                  )}
+
+                  {(activeTab === 'all' || activeTab === 'checklist') && (
+                    <VerificationChecklist checklist={analysisResult.verification_checklist} />
+                  )}
+                </div>
+              </section>
+            )}
+          </main>
+
+          {/* Editorial Footer */}
+          <footer className="border-t border-[#024950] bg-[#003135] py-6 px-6 sm:px-8 mt-auto">
+            <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#AFDDE5]/70">
+              <div className="flex items-center gap-2">
+                <span className="text-white font-bold tracking-wider">BLINDSPOT</span>
+                <span>• Evidence-Grounded AI Analysis</span>
               </div>
-
-              {/* Sections */}
-              {(activeTab === 'all' || activeTab === 'gaps') && (
-                <GapList gaps={analysisResult.gaps} />
-              )}
-
-              {(activeTab === 'all' || activeTab === 'conflicts') && (
-                <ConflictList conflicts={analysisResult.conflicts} />
-              )}
-
-              {(activeTab === 'all' || activeTab === 'freshness') && (
-                <FreshnessList warnings={analysisResult.freshness_warnings} />
-              )}
-
-              {(activeTab === 'all' || activeTab === 'checklist') && (
-                <VerificationChecklist checklist={analysisResult.verification_checklist} />
-              )}
             </div>
-          </section>
-        )}
+          </footer>
+        </div>
 
-        {!analysisResult && !analysisError && <EmptyState />}
-      </main>
-
-      <footer className="border-t border-[#D7D2C7] bg-[#EAE5DA] py-4 px-6 text-center text-xs font-mono text-[#625F57]">
-        <p>Digital Dark Spot • Shinchan Online Hackathon 2026 • Evidence-only analysis</p>
-      </footer>
+        {/* Right Side (~22% width on desktop) — The 5 Stacked Editorial Color Panels from Image 2 */}
+        <div className="hidden lg:block lg:w-[22%] sticky top-[65px] h-[calc(100vh-65px)] overflow-hidden bg-[#003135]">
+          <EditorialRightRail
+            result={analysisResult}
+            onSelectTab={(tab) => {
+              if (analysisResult) {
+                setActiveTab(tab);
+              }
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }

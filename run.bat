@@ -1,16 +1,16 @@
 @echo off
 echo ========================================================
-echo Starting Digital Dark Spot (Shinchan Hackathon 2026)
+echo Starting Blindspot Investigation Console (Shinchan Hackathon 2026)
 echo ========================================================
 
 echo Starting FastAPI Backend on http://127.0.0.1:8000 ...
-start "Digital Dark Spot - Backend" cmd /k "cd /d %~dp0backend && python -m uvicorn app.main:app --port 8000 --reload"
+start "Blindspot - Backend" cmd /k "cd /d %~dp0backend && python -m uvicorn app.main:app --port 8000 --reload"
 
 echo Starting Vite React Frontend on http://localhost:5173 ...
-start "Digital Dark Spot - Frontend" cmd /k "cd /d %~dp0frontend && npm run dev"
+start "Blindspot - Frontend" cmd /k "cd /d %~dp0frontend && npm run dev"
 
 timeout /t 3 /nobreak >nul
-echo Opening application in browser...
+echo Opening Blindspot in browser...
 start http://localhost:5173
 
 echo.

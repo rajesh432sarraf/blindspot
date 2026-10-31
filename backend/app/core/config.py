@@ -16,7 +16,16 @@ class Settings(BaseSettings):
 
     @property
     def cors_origins(self) -> List[str]:
-        return [origin.strip() for origin in self.FRONTEND_ORIGIN.split(",") if origin.strip()]
+        configured = [origin.strip() for origin in self.FRONTEND_ORIGIN.split(",") if origin.strip()]
+        defaults = [
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+            "http://localhost:4173",
+            "http://127.0.0.1:4173",
+            "http://localhost:3000",
+            "http://127.0.0.1:3000",
+        ]
+        return list(dict.fromkeys(configured + defaults))
 
     model_config = SettingsConfigDict(
         env_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env"),

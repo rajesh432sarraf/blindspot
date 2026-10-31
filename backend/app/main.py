@@ -4,7 +4,7 @@ from app.core.config import settings
 from app.api.router import api_router
 
 app = FastAPI(
-    title="Digital Dark Spot API",
+    title="Blindspot API",
     description="Evidence-grounded information gap and conflict detection platform for Shinchan Online Hackathon 2026",
     version="0.1.0"
 )

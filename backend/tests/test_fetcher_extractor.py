@@ -86,3 +86,51 @@ def test_extract_source_record_clean_text():
     assert "var x = 123" not in record.full_text
     assert "Home" not in record.full_text
 
+def test_extract_dates_modified_over_published():
+    """Verify that last-modified timestamp is prioritized over older initial published timestamp."""
+    html = """
+    <html>
+        <head>
+            <meta property="article:published_time" content="2020-04-06T10:00:00Z" />
+            <meta property="article:modified_time" content="2026-09-14T12:00:00Z" />
+        </head>
+        <body><p>Updated content</p></body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    date_val, date_status, provenance = extract_dates(soup)
+    assert date_status == DateStatus.DATED
+    assert date_val == "2026-09-14"
+    assert "article:modified_time" in provenance
+
+def test_extract_dates_json_ld_graph():
+    """Verify that dateModified inside schema.org @graph is extracted and cleanly formatted."""
+    html = """
+    <html>
+        <head>
+            <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@graph": [
+                    {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": []
+                    },
+                    {
+                        "@type": "WebPage",
+                        "datePublished": "2021-01-01T00:00:00Z",
+                        "dateModified": "2026-10-15T08:30:00Z"
+                    }
+                ]
+            }
+            </script>
+        </head>
+        <body><p>Body</p></body>
+    </html>
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    date_val, date_status, provenance = extract_dates(soup)
+    assert date_status == DateStatus.DATED
+    assert date_val == "2026-10-15"
+    assert provenance == "json-ld:dateModified"
+
