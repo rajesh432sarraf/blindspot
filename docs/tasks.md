@@ -60,24 +60,24 @@ Work in order. Do not skip ahead to decorative UI or advanced features before th
 **Exit criteria:** all required outcomes appear in the dashboard and are traceable to the actual investigation.
 
 ## Phase 5 — Reliability and polish
-- [ ] Test empty input, invalid URL, inaccessible URL, timeout, oversized response, unsupported content type, partial source failure, all-source failure, LLM failure, malformed output, and invalid source IDs.
-- [ ] Confirm secrets never enter frontend bundles or logs.
-- [ ] Test responsive layout and keyboard navigation.
-- [ ] Remove fake metrics, dead controls, and unused components.
-- [ ] Run frontend production build and backend tests.
-- [ ] Update docs with actual implemented behavior and known limitations.
+- [x] Test empty input, invalid URL, inaccessible URL, timeout, oversized response, unsupported content type, partial source failure, all-source failure, LLM failure, malformed output, and invalid source IDs.
+- [x] Confirm secrets never enter frontend bundles or logs.
+- [x] Test responsive layout and keyboard navigation.
+- [x] Remove fake metrics, dead controls, and unused components.
+- [x] Run frontend production build and backend tests.
+- [x] Update docs with actual implemented behavior and known limitations.
 
 **Exit criteria:** clean build, core tests passing, honest failure states.
 
 ## Phase 6 — Demo and submission
-- [ ] Choose a public, low-risk example topic with accessible sources.
-- [ ] Run a real investigation and verify every displayed citation manually.
-- [ ] Prepare a short demo script: question → sources → findings → evidence → checklist.
+- [x] Choose a public, low-risk example topic with accessible sources (Gates Cambridge Scholarship benchmark).
+- [x] Run a real investigation and verify every displayed citation manually.
+- [x] Prepare a short demo script: question → sources → findings → evidence → checklist.
 - [ ] Record a demo video or prepare slides only if useful/required.
 - [ ] Deploy frontend and backend if time allows.
 - [ ] Configure production environment variables and CORS safely.
 - [ ] Verify the deployed demo end-to-end.
-- [ ] Update README and GitHub repo with setup, architecture, limitations, and demo URL if available.
+- [x] Update README and GitHub repo with setup, architecture, limitations, and demo URL if available.
 
 **Exit criteria:** a clear, working, evidence-backed demonstration aligned with the official problem statement.
 
