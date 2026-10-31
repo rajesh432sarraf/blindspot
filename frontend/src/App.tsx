@@ -9,6 +9,7 @@ import { FreshnessList } from './components/FreshnessList';
 import { VerificationChecklist } from './components/VerificationChecklist';
 import { ErrorState } from './components/ErrorState';
 import { EditorialRightRail } from './components/EditorialRightRail';
+import { WebpageModal } from './components/WebpageModal';
 import { checkHealth, analyzeSources } from './lib/api';
 import {
   PlusCircle,
@@ -22,7 +23,7 @@ import {
   Check,
   ShieldCheck,
 } from 'lucide-react';
-import type { HealthResponse, AnalyzeRequest, AnalysisResult } from './types';
+import type { HealthResponse, AnalyzeRequest, AnalysisResult, SourceRecord } from './types';
 
 type ActiveTab = 'all' | 'gaps' | 'conflicts' | 'freshness' | 'checklist';
 
@@ -35,6 +36,8 @@ export function App() {
   const [lastRequest, setLastRequest] = useState<AnalyzeRequest | null>(null);
   const [activeTab, setActiveTab] = useState<ActiveTab>('all');
   const [exportCopied, setExportCopied] = useState(false);
+  const [previewSource, setPreviewSource] = useState<SourceRecord | null>(null);
+  const [highlightedSourceId, setHighlightedSourceId] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -83,7 +86,64 @@ export function App() {
   const handleReset = () => {
     setAnalysisResult(null);
     setAnalysisError(null);
+    setPreviewSource(null);
+    setHighlightedSourceId(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavigateSection = (
+    section: 'sources' | 'evidence' | 'gaps' | 'conflicts' | 'checklist',
+    sourceId?: string
+  ) => {
+    if (!analysisResult) return;
+
+    if (sourceId) {
+      const targetSource = analysisResult.sources.find((s) => s.id === sourceId);
+      if (targetSource) {
+        setHighlightedSourceId(sourceId);
+        setPreviewSource(targetSource);
+      }
+    } else if (section === 'sources') {
+      const firstSource =
+        analysisResult.sources.find((s) => s.status !== 'failed') || analysisResult.sources[0];
+      if (firstSource) {
+        setHighlightedSourceId(firstSource.id);
+      }
+    }
+
+    if (section === 'gaps') {
+      setActiveTab('gaps');
+    } else if (section === 'conflicts') {
+      setActiveTab('conflicts');
+    } else if (section === 'checklist') {
+      setActiveTab('checklist');
+    }
+
+    const targetId = sourceId
+      ? `source-${sourceId}`
+      : section === 'sources'
+      ? 'section-sources'
+      : section === 'evidence'
+      ? 'section-synthesis'
+      : 'section-findings';
+
+    setTimeout(() => {
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        el.classList.add(
+          'ring-2',
+          'ring-[#0FA4AF]',
+          'ring-offset-4',
+          'ring-offset-[#003135]',
+          'transition-all',
+          'duration-500'
+        );
+        setTimeout(() => {
+          el.classList.remove('ring-2', 'ring-[#0FA4AF]', 'ring-offset-4', 'ring-offset-[#003135]');
+        }, 2500);
+      }
+    }, 50);
   };
 
   const handleExportMarkdown = () => {
@@ -358,6 +418,7 @@ ${analysisResult.sources
                   <EditorialRightRail
                     orientation="horizontal"
                     result={analysisResult}
+                    onNavigateSection={handleNavigateSection}
                     onSelectTab={(tab) => setActiveTab(tab)}
                   />
                 </div>
@@ -457,17 +518,21 @@ ${analysisResult.sources
                 </div>
 
                 {/* Summary Panel */}
-                <div className="animate-fade-rise delay-40">
+                <div id="section-synthesis" className="animate-fade-rise delay-40 scroll-mt-20">
                   <SummaryPanel result={analysisResult} />
                 </div>
 
                 {/* Sources Rail */}
-                <div className="animate-fade-rise delay-80">
-                  <SourceList sources={analysisResult.sources} />
+                <div id="section-sources" className="animate-fade-rise delay-80 scroll-mt-20">
+                  <SourceList
+                    sources={analysisResult.sources}
+                    highlightedSourceId={highlightedSourceId}
+                    onPreviewSource={(s) => setPreviewSource(s)}
+                  />
                 </div>
 
                 {/* Findings Filter Tabs */}
-                <div className="space-y-4 animate-fade-rise delay-120">
+                <div id="section-findings" className="space-y-4 animate-fade-rise delay-120 scroll-mt-20">
                   <div className="flex items-center gap-1.5 border-b border-[#024950] pb-2 text-xs font-mono overflow-x-auto no-scrollbar scroll-smooth py-1">
                     <button
                       type="button"
@@ -571,6 +636,7 @@ ${analysisResult.sources
         <div className="hidden lg:block lg:w-[22%] sticky top-[65px] h-[calc(100vh-65px)] overflow-hidden bg-[#003135]">
           <EditorialRightRail
             result={analysisResult}
+            onNavigateSection={handleNavigateSection}
             onSelectTab={(tab) => {
               if (analysisResult) {
                 setActiveTab(tab);
@@ -579,6 +645,19 @@ ${analysisResult.sources
           />
         </div>
       </div>
+
+      {/* Webpage Inspection Modal */}
+      {analysisResult && (
+        <WebpageModal
+          source={previewSource}
+          allSources={analysisResult.sources}
+          onClose={() => setPreviewSource(null)}
+          onSelectSource={(s) => {
+            setPreviewSource(s);
+            setHighlightedSourceId(s.id);
+          }}
+        />
+      )}
     </div>
   );
 }

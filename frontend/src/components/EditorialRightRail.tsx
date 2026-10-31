@@ -4,19 +4,21 @@ import { useCountUp } from '../hooks/useCountUp';
 
 interface EditorialRightRailProps {
   result: AnalysisResult | null;
+  onNavigateSection?: (section: 'sources' | 'evidence' | 'gaps' | 'conflicts' | 'checklist', sourceId?: string) => void;
   onSelectTab?: (tab: 'all' | 'gaps' | 'conflicts' | 'freshness' | 'checklist') => void;
   orientation?: 'vertical' | 'horizontal';
 }
 
 export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
   result,
+  onNavigateSection,
   onSelectTab,
   orientation = 'vertical',
 }) => {
   const isHoriz = orientation === 'horizontal';
   const itemBaseClass = isHoriz
-    ? 'min-w-[185px] sm:min-w-[210px] p-3 sm:p-3.5 flex flex-col justify-between shrink-0'
-    : 'h-[20%] p-3.5 xl:p-4 flex flex-col justify-between';
+    ? 'min-w-[195px] sm:min-w-[220px] p-3 sm:p-3.5 flex flex-col justify-between shrink-0 cursor-pointer transition-all duration-150 active:scale-[0.99]'
+    : 'h-[20%] p-3.5 xl:p-4 flex flex-col justify-between cursor-pointer transition-all duration-150 active:scale-[0.99]';
 
   const totalCount = result ? result.sources.length : 0;
   const sourcesCount = result ? result.sources.filter(s => s.status !== 'failed').length : null;
@@ -35,6 +37,14 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
   const animatedConflicts = useCountUp(conflictsCount, result?.investigation_id);
   const animatedVerify = useCountUp(verifyCount, result?.investigation_id);
 
+  const handleSectionClick = (section: 'sources' | 'evidence' | 'gaps' | 'conflicts' | 'checklist', sourceId?: string) => {
+    if (onNavigateSection) {
+      onNavigateSection(section, sourceId);
+    } else if (onSelectTab && (section === 'gaps' || section === 'conflicts' || section === 'checklist')) {
+      onSelectTab(section);
+    }
+  };
+
   return (
     <aside
       className={`w-full select-none bg-[#003135] ${
@@ -45,11 +55,19 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
     >
       {/* Panel 1: Deep Teal #003135 (Sources) */}
       <div
-        className={`${itemBaseClass} bg-[#003135] text-[#AFDDE5] transition-colors duration-150 hover:bg-[#024950]/50 group relative animate-fade-rise delay-0`}
+        role="button"
+        tabIndex={0}
+        onClick={() => handleSectionClick('sources')}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('sources')}
+        className={`${itemBaseClass} bg-[#003135] text-[#AFDDE5] hover:bg-[#024950]/80 group relative animate-fade-rise delay-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]`}
+        title="Click to view Source Evidence Rail"
       >
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-mono tracking-[0.2em] text-[#0FA4AF] uppercase font-black">
             01 // SOURCES
+          </span>
+          <span className="text-[9px] font-mono text-[#0FA4AF] font-bold opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+            {result ? 'View Webpages →' : 'Sources →'}
           </span>
         </div>
 
@@ -64,16 +82,44 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
                 : `${sourcesCount}/${totalCount} sources retrieved (0 failed)`
               : 'Up to 10 distinct URLs with SSRF protection'}
           </p>
+
+          {/* Quick Clickable Source Pills */}
+          {result && result.sources.length > 0 && (
+            <div className="flex flex-wrap items-center gap-1 mt-2 pt-1.5 border-t border-[#024950]">
+              {result.sources.map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSectionClick('sources', s.id);
+                  }}
+                  className="px-1.5 py-0.5 bg-[#024950] text-[#0FA4AF] hover:bg-[#0FA4AF] hover:text-[#003135] text-[10px] font-mono font-bold border border-[#0FA4AF]/30 transition-colors"
+                  title={`Jump to ${s.id}: ${s.title || s.url}`}
+                >
+                  {s.id}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Panel 2: Teal #024950 (Evidence) */}
       <div
-        className={`${itemBaseClass} bg-[#024950] text-[#AFDDE5] transition-colors duration-150 hover:bg-[#035962] group relative animate-fade-rise delay-40`}
+        role="button"
+        tabIndex={0}
+        onClick={() => handleSectionClick('evidence')}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('evidence')}
+        className={`${itemBaseClass} bg-[#024950] text-[#AFDDE5] hover:bg-[#035962] group relative animate-fade-rise delay-40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#AFDDE5]`}
+        title="Click to view Evidence Synthesis"
       >
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-mono tracking-[0.2em] text-[#AFDDE5] uppercase font-black">
             02 // EVIDENCE
+          </span>
+          <span className="text-[9px] font-mono text-[#AFDDE5] font-bold opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+            Synthesis →
           </span>
         </div>
 
@@ -91,24 +137,19 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
 
       {/* Panel 3: Vibrant Luminous Coral #E76F51 (Gaps) */}
       <div
-        role={onSelectTab ? 'button' : undefined}
-        tabIndex={onSelectTab ? 0 : undefined}
-        onKeyDown={(e) => {
-          if (onSelectTab && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault();
-            onSelectTab('gaps');
-          }
-        }}
-        onClick={() => onSelectTab && onSelectTab('gaps')}
-        className={`${itemBaseClass} bg-[#E76F51] text-white transition-all duration-150 group relative animate-fade-rise delay-80 ${
-          onSelectTab
-            ? 'cursor-pointer hover:bg-[#eb7d61] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white'
-            : ''
-        }`}
+        role="button"
+        tabIndex={0}
+        onClick={() => handleSectionClick('gaps')}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('gaps')}
+        className={`${itemBaseClass} bg-[#E76F51] text-white hover:bg-[#eb7d61] group relative animate-fade-rise delay-80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white`}
+        title="Click to open Potential Information Gaps"
       >
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-mono tracking-[0.2em] text-white/90 uppercase font-black">
             03 // GAPS
+          </span>
+          <span className="text-[9px] font-mono text-white font-bold opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+            Open Gaps →
           </span>
         </div>
 
@@ -126,24 +167,19 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
 
       {/* Panel 4: Pale Cyan #AFDDE5 (Conflicts) */}
       <div
-        role={onSelectTab ? 'button' : undefined}
-        tabIndex={onSelectTab ? 0 : undefined}
-        onKeyDown={(e) => {
-          if (onSelectTab && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault();
-            onSelectTab('conflicts');
-          }
-        }}
-        onClick={() => onSelectTab && onSelectTab('conflicts')}
-        className={`${itemBaseClass} bg-[#AFDDE5] text-[#003135] transition-all duration-150 group relative animate-fade-rise delay-120 ${
-          onSelectTab
-            ? 'cursor-pointer hover:bg-[#c2eaf0] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]'
-            : ''
-        }`}
+        role="button"
+        tabIndex={0}
+        onClick={() => handleSectionClick('conflicts')}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('conflicts')}
+        className={`${itemBaseClass} bg-[#AFDDE5] text-[#003135] hover:bg-[#c2eaf0] group relative animate-fade-rise delay-120 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]`}
+        title="Click to open Evidence Conflicts"
       >
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-mono tracking-[0.2em] text-[#003135] uppercase font-black">
             04 // CONFLICTS
+          </span>
+          <span className="text-[9px] font-mono text-[#003135] font-bold opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+            Open Conflicts →
           </span>
         </div>
 
@@ -161,24 +197,19 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
 
       {/* Panel 5: Vibrant Cyan #0FA4AF (Verification) */}
       <div
-        role={onSelectTab ? 'button' : undefined}
-        tabIndex={onSelectTab ? 0 : undefined}
-        onKeyDown={(e) => {
-          if (onSelectTab && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault();
-            onSelectTab('checklist');
-          }
-        }}
-        onClick={() => onSelectTab && onSelectTab('checklist')}
-        className={`${itemBaseClass} bg-[#0FA4AF] text-[#003135] transition-all duration-150 group relative animate-fade-rise delay-160 ${
-          onSelectTab
-            ? 'cursor-pointer hover:bg-[#12b9c6] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]'
-            : ''
-        }`}
+        role="button"
+        tabIndex={0}
+        onClick={() => handleSectionClick('checklist')}
+        onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('checklist')}
+        className={`${itemBaseClass} bg-[#0FA4AF] text-[#003135] hover:bg-[#12b9c6] group relative animate-fade-rise delay-160 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]`}
+        title="Click to open Verification Checklist"
       >
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-mono tracking-[0.2em] text-[#003135] uppercase font-black">
             05 // VERIFICATION
+          </span>
+          <span className="text-[9px] font-mono text-[#003135] font-bold opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+            Open Checklist →
           </span>
         </div>
 
