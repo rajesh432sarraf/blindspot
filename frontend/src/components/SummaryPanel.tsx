@@ -9,7 +9,7 @@ import {
   Square,
   Copy,
   Check,
-  Sparkles,
+  Activity,
   Layers,
   TrendingUp,
   CheckCircle2,
@@ -234,7 +234,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
       <div className="p-4 bg-[#003135] border border-[#024950] space-y-2.5 animate-fade-rise">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs font-mono gap-1">
           <span className="text-[#AFDDE5] uppercase font-bold flex items-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-[#0FA4AF]" />
+            <Activity className="w-3.5 h-3.5 text-[#0FA4AF]" />
             Evidence Coverage & Resolution Meter
           </span>
           <div className="flex items-center gap-3">

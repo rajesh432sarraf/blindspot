@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { UrlInputList } from './UrlInputList';
-import { ArrowRight, AlertCircle, Info, Sparkles } from 'lucide-react';
+import { ArrowRight, AlertCircle, Info, Terminal } from 'lucide-react';
 import type { AnalyzeRequest } from '../types';
 import heroBg from '../assets/hero-bg.jpg';
 
@@ -144,7 +144,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
               className="flex-1 sm:flex-none justify-center inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-bold border border-[#0FA4AF]/50 bg-[#003135] text-[#AFDDE5] hover:bg-[#0FA4AF] hover:text-[#003135] hover:border-[#0FA4AF] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
               title="Load Gates Cambridge multi-source benchmark"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#0FA4AF] shrink-0" />
+              <Terminal className="w-3.5 h-3.5 text-[#0FA4AF] shrink-0" />
               <span className="truncate">Preset 1: Gates Cambridge</span>
             </button>
             <button
@@ -154,7 +154,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
               className="flex-1 sm:flex-none justify-center inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-bold border border-[#E76F51]/70 bg-[#003135] text-[#AFDDE5] hover:bg-[#E76F51] hover:text-white hover:border-[#E76F51] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
               title="Load National Scholarship Portal benchmark with 404 failure containment test"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#E76F51] shrink-0" />
+              <Terminal className="w-3.5 h-3.5 text-[#E76F51] shrink-0" />
               <span className="truncate">Preset 2: NSP + 404 Test</span>
             </button>
           </div>

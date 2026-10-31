@@ -18,7 +18,8 @@ import {
   Clock,
   CheckSquare,
   Layers,
-  Sparkles,
+  Terminal,
+  AlertTriangle,
   Download,
   Check,
 } from 'lucide-react';
@@ -169,9 +170,9 @@ export function App() {
 ---
 
 ## 1. Executive Verdict (At-a-Glance)
-- ⚠️ **Potential Gap Identified:** ${gapFound}
-- ⚖️ **Contradiction Audit:** ${conflictSummary}
-- 📋 **Verify Next:** ${verifyFirst}
+- [GAP] **Potential Gap Identified:** ${gapFound}
+- [CONFLICT] **Contradiction Audit:** ${conflictSummary}
+- [VERIFY] **Verify Next:** ${verifyFirst}
 
 ---
 
@@ -422,10 +423,10 @@ ${analysisResult.sources
                   />
                 </div>
 
-                {/* 🎯 Hackathon Executive Verdict (Section 3 Illustrative Output Match) */}
+                {/* Executive Audit Verdict */}
                 <div className="bg-[#024950]/40 border border-[#024950] p-5 sm:p-6 space-y-4 animate-fade-rise">
                   <div className="flex items-center gap-2 pb-3 border-b border-[#024950]">
-                    <Sparkles className="w-4 h-4 text-[#0FA4AF]" />
+                    <Terminal className="w-4 h-4 text-[#0FA4AF] shrink-0" />
                     <span className="text-xs sm:text-sm font-mono font-black uppercase tracking-[0.2em] text-white">
                       Executive Audit Verdict (At-a-Glance)
                     </span>
@@ -435,8 +436,9 @@ ${analysisResult.sources
                     {/* 1. Potential Gap */}
                     <div className="p-4 bg-[#003135] border border-[#024950] border-l-4 border-l-[#E76F51] flex flex-col justify-between space-y-2.5 hover:border-[#0FA4AF]/60 transition-colors">
                       <div>
-                        <span className="text-[11px] font-mono font-black text-[#E76F51] uppercase tracking-wider block mb-1">
-                          ⚠️ Potential Gap Identified
+                        <span className="text-[11px] font-mono font-black text-[#E76F51] uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                          <AlertTriangle className="w-3.5 h-3.5 text-[#E76F51] shrink-0" />
+                          <span>Potential Gap Identified</span>
                         </span>
                         <p className="text-white text-xs leading-snug line-clamp-3 font-medium">
                           {analysisResult.gaps.find(g => g.status === 'not_found_in_reviewed_sources')?.question ||
@@ -452,8 +454,9 @@ ${analysisResult.sources
                     {/* 2. Possible Conflict */}
                     <div className="p-4 bg-[#003135] border border-[#024950] border-l-4 border-l-[#AFDDE5] flex flex-col justify-between space-y-2.5 hover:border-[#0FA4AF]/60 transition-colors">
                       <div>
-                        <span className="text-[11px] font-mono font-black text-[#AFDDE5] uppercase tracking-wider block mb-1">
-                          ⚖️ Contradiction Audit
+                        <span className="text-[11px] font-mono font-black text-[#AFDDE5] uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                          <GitCompare className="w-3.5 h-3.5 text-[#AFDDE5] shrink-0" />
+                          <span>Contradiction Audit</span>
                         </span>
                         <p className="text-white text-xs leading-snug line-clamp-3 font-medium">
                           {analysisResult.conflicts.length > 0
@@ -469,8 +472,9 @@ ${analysisResult.sources
                     {/* 3. Priority Action Checklist */}
                     <div className="p-4 bg-[#003135] border border-[#024950] border-l-4 border-l-[#0FA4AF] flex flex-col justify-between space-y-2.5 hover:border-[#0FA4AF]/60 transition-colors">
                       <div>
-                        <span className="text-[11px] font-mono font-black text-[#0FA4AF] uppercase tracking-wider block mb-1">
-                          📋 Verify Next
+                        <span className="text-[11px] font-mono font-black text-[#0FA4AF] uppercase tracking-wider flex items-center gap-1.5 mb-1">
+                          <CheckSquare className="w-3.5 h-3.5 text-[#0FA4AF] shrink-0" />
+                          <span>Verify Next</span>
                         </span>
                         <p className="text-white text-xs leading-snug line-clamp-3 font-medium">
                           {analysisResult.verification_checklist[0]?.action ||
