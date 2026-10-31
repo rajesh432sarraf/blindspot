@@ -5,9 +5,19 @@ import { useCountUp } from '../hooks/useCountUp';
 interface EditorialRightRailProps {
   result: AnalysisResult | null;
   onSelectTab?: (tab: 'all' | 'gaps' | 'conflicts' | 'freshness' | 'checklist') => void;
+  orientation?: 'vertical' | 'horizontal';
 }
 
-export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, onSelectTab }) => {
+export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
+  result,
+  onSelectTab,
+  orientation = 'vertical',
+}) => {
+  const isHoriz = orientation === 'horizontal';
+  const itemBaseClass = isHoriz
+    ? 'min-w-[185px] sm:min-w-[210px] p-3 sm:p-3.5 flex flex-col justify-between shrink-0'
+    : 'h-[20%] p-3.5 xl:p-4 flex flex-col justify-between';
+
   const totalCount = result ? result.sources.length : 0;
   const sourcesCount = result ? result.sources.filter(s => s.status !== 'failed').length : null;
   const failedCount = result ? result.sources.filter(s => s.status === 'failed').length : 0;
@@ -26,10 +36,16 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
   const animatedVerify = useCountUp(verifyCount, result?.investigation_id);
 
   return (
-    <aside className="w-full h-full flex flex-col border-l border-[#024950] divide-y divide-[#024950] select-none bg-[#003135]">
+    <aside
+      className={`w-full select-none bg-[#003135] ${
+        isHoriz
+          ? 'flex overflow-x-auto no-scrollbar scroll-smooth divide-x divide-[#024950] border-t border-b border-[#024950]'
+          : 'h-full flex flex-col border-l border-[#024950] divide-y divide-[#024950]'
+      }`}
+    >
       {/* Panel 1: Deep Teal #003135 (Sources) */}
       <div
-        className="h-[20%] p-3.5 xl:p-4 bg-[#003135] text-[#AFDDE5] flex flex-col justify-between transition-colors duration-150 hover:bg-[#024950]/50 group relative animate-fade-rise delay-0"
+        className={`${itemBaseClass} bg-[#003135] text-[#AFDDE5] transition-colors duration-150 hover:bg-[#024950]/50 group relative animate-fade-rise delay-0`}
       >
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-mono tracking-[0.2em] text-[#0FA4AF] uppercase font-black">
@@ -53,7 +69,7 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
 
       {/* Panel 2: Teal #024950 (Evidence) */}
       <div
-        className="h-[20%] p-3.5 xl:p-4 bg-[#024950] text-[#AFDDE5] flex flex-col justify-between transition-colors duration-150 hover:bg-[#035962] group relative animate-fade-rise delay-40"
+        className={`${itemBaseClass} bg-[#024950] text-[#AFDDE5] transition-colors duration-150 hover:bg-[#035962] group relative animate-fade-rise delay-40`}
       >
         <div className="flex items-center justify-between">
           <span className="text-[11px] font-mono tracking-[0.2em] text-[#AFDDE5] uppercase font-black">
@@ -84,7 +100,7 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
           }
         }}
         onClick={() => onSelectTab && onSelectTab('gaps')}
-        className={`h-[20%] p-3.5 xl:p-4 bg-[#E76F51] text-white flex flex-col justify-between transition-all duration-150 group relative animate-fade-rise delay-80 ${
+        className={`${itemBaseClass} bg-[#E76F51] text-white transition-all duration-150 group relative animate-fade-rise delay-80 ${
           onSelectTab
             ? 'cursor-pointer hover:bg-[#eb7d61] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white'
             : ''
@@ -119,7 +135,7 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
           }
         }}
         onClick={() => onSelectTab && onSelectTab('conflicts')}
-        className={`h-[20%] p-3.5 xl:p-4 bg-[#AFDDE5] text-[#003135] flex flex-col justify-between transition-all duration-150 group relative animate-fade-rise delay-120 ${
+        className={`${itemBaseClass} bg-[#AFDDE5] text-[#003135] transition-all duration-150 group relative animate-fade-rise delay-120 ${
           onSelectTab
             ? 'cursor-pointer hover:bg-[#c2eaf0] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]'
             : ''
@@ -154,7 +170,7 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
           }
         }}
         onClick={() => onSelectTab && onSelectTab('checklist')}
-        className={`h-[20%] p-3.5 xl:p-4 bg-[#0FA4AF] text-[#003135] flex flex-col justify-between transition-all duration-150 group relative animate-fade-rise delay-160 ${
+        className={`${itemBaseClass} bg-[#0FA4AF] text-[#003135] transition-all duration-150 group relative animate-fade-rise delay-160 ${
           onSelectTab
             ? 'cursor-pointer hover:bg-[#12b9c6] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]'
             : ''

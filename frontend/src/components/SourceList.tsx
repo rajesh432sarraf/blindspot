@@ -14,8 +14,8 @@ export const SourceList: React.FC<SourceListProps> = ({ sources }) => {
   };
 
   return (
-    <div className="bg-[#024950]/40 border border-[#024950] p-6 space-y-4">
-      <div className="flex items-center justify-between border-b border-[#024950] pb-3">
+    <div className="bg-[#024950]/40 border border-[#024950] p-3.5 sm:p-6 space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#024950] pb-3 gap-2">
         <div className="flex items-center gap-2">
           <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
             SOURCE EVIDENCE RAIL ({sources.length})
@@ -41,10 +41,10 @@ export const SourceList: React.FC<SourceListProps> = ({ sources }) => {
                   : 'border-[#024950] bg-[#003135] hover:border-[#0FA4AF]/60'
               }`}
             >
-              <div className="p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start gap-3 flex-1 min-w-0">
-                    <span className="px-2.5 py-1 bg-[#0FA4AF] text-[#003135] text-xs font-mono font-black shrink-0">
+              <div className="p-3 sm:p-4">
+                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2.5 sm:gap-3">
+                  <div className="flex items-start gap-2.5 sm:gap-3 flex-1 min-w-0">
+                    <span className="px-2 py-1 sm:px-2.5 bg-[#0FA4AF] text-[#003135] text-xs font-mono font-black shrink-0">
                       {s.id}
                     </span>
                     <div className="min-w-0 flex-1">
@@ -56,7 +56,7 @@ export const SourceList: React.FC<SourceListProps> = ({ sources }) => {
                           href={s.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[11px] font-mono text-[#AFDDE5]/70 hover:text-white truncate underline inline-flex items-center gap-1 max-w-[280px] sm:max-w-md transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
+                          className="text-[11px] font-mono text-[#AFDDE5]/70 hover:text-white truncate underline inline-flex items-center gap-1 max-w-[200px] sm:max-w-md transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
                           title="Open original source in new tab"
                         >
                           <span className="truncate">{s.url}</span>
@@ -66,7 +66,7 @@ export const SourceList: React.FC<SourceListProps> = ({ sources }) => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
+                  <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
                     {/* Status Pill */}
                     {s.status === 'failed' ? (
                       <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold px-2 py-0.5 bg-[#964734]/30 text-white border border-[#964734]">
@@ -123,7 +123,7 @@ export const SourceList: React.FC<SourceListProps> = ({ sources }) => {
                     <span className="uppercase tracking-wider text-[#0FA4AF] font-bold">Extracted Text Excerpt (Grounded Corpus):</span>
                     {s.date_provenance && <span>Provenance: {s.date_provenance}</span>}
                   </div>
-                  <pre className="p-3 bg-[#024950]/50 border border-[#024950] text-[11px] font-mono whitespace-pre-wrap max-h-56 overflow-y-auto leading-relaxed text-[#AFDDE5]">
+                  <pre className="p-3 bg-[#024950]/50 border border-[#024950] text-[11px] font-mono whitespace-pre-wrap break-all max-h-56 overflow-y-auto leading-relaxed text-[#AFDDE5]">
                     {s.full_text}
                   </pre>
                 </div>

@@ -8,8 +8,8 @@ interface GapListProps {
 
 export const GapList: React.FC<GapListProps> = ({ gaps }) => {
   return (
-    <div className="bg-[#024950]/40 border border-[#024950] p-5 sm:p-6 space-y-4">
-      <div className="flex items-center justify-between border-b border-[#024950] pb-3">
+    <div className="bg-[#024950]/40 border border-[#024950] p-3.5 sm:p-6 space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#024950] pb-3 gap-2">
         <div className="flex items-center gap-2">
           <Search className="w-4 h-4 text-[#E76F51]" />
           <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
@@ -37,7 +37,7 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
           {gaps.map((gap, idx) => (
             <div
               key={gap.id}
-              className={`p-5 bg-[#003135] border border-[#024950] space-y-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(231,111,81,0.2)] animate-fade-rise ${
+              className={`p-3.5 sm:p-5 bg-[#003135] border border-[#024950] space-y-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_4px_16px_rgba(231,111,81,0.2)] animate-fade-rise ${
                 gap.status === 'not_found_in_reviewed_sources'
                   ? 'border-l-4 border-l-[#E76F51] hover:border-[#E76F51]'
                   : 'border-l-4 border-l-[#0FA4AF] hover:border-[#0FA4AF]'
@@ -60,7 +60,7 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
                   </h3>
                 </div>
 
-                <div className="flex items-center gap-2 shrink-0">
+                <div className="flex flex-wrap items-center gap-1.5 shrink-0">
                   <span className="hidden sm:inline-flex text-[9px] font-mono uppercase px-2 py-0.5 bg-[#003135] text-[#E76F51] border border-[#E76F51]/40 font-bold">
                     AI Gap Void
                   </span>

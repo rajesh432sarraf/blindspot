@@ -175,9 +175,9 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
   };
 
   return (
-    <div className="bg-[#024950]/40 border border-[#024950] p-5 sm:p-6 lg:p-7 space-y-6">
+    <div className="bg-[#024950]/40 border border-[#024950] p-3.5 sm:p-6 lg:p-7 space-y-5 sm:space-y-6">
       {/* Top Header Bar */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#024950] gap-3">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 sm:pb-4 border-b border-[#024950] gap-3">
         <div className="flex items-center gap-2.5">
           <FileText className="w-5 h-5 text-[#0FA4AF]" />
           <div>
@@ -418,7 +418,7 @@ export const SummaryPanel: React.FC<SummaryPanelProps> = ({ result }) => {
                 </div>
 
                 {/* Card Content with Auto-Highlighted Entities */}
-                <p className="text-xs sm:text-sm font-mono text-[#AFDDE5] leading-relaxed pl-6">
+                <p className="text-xs sm:text-sm font-mono text-[#AFDDE5] leading-relaxed pl-1 sm:pl-6">
                   {renderHighlightedText(card.text)}
                 </p>
               </div>

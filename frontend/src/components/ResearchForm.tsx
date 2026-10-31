@@ -81,7 +81,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
   return (
     <div className="w-full flex flex-col bg-[#003135]">
       {/* 1. Cinematic Hero Visual Block (Direct Visual from Image 2) */}
-      <div className="relative w-full h-[360px] sm:h-[440px] md:h-[500px] overflow-hidden bg-[#003135]">
+      <div className="relative w-full h-[280px] sm:h-[400px] md:h-[480px] lg:h-[500px] overflow-hidden bg-[#003135]">
         {/* Background visual with crisp high-contrast styling */}
         <img
           src={heroBg}
@@ -92,11 +92,11 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
 
         {/* Directional bottom-heavy gradient keeping top peaks luminous */}
         <div className="absolute inset-x-0 bottom-0 h-3/4 bg-gradient-to-t from-[#003135] via-[#003135]/75 to-transparent"></div>
-        <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#003135]/85 via-transparent to-transparent"></div>
+        <div className="absolute inset-y-0 left-0 w-full sm:w-1/2 bg-gradient-to-r from-[#003135]/90 via-[#003135]/40 to-transparent"></div>
 
         {/* Oversized typography directly over visual with razor-sharp contrast */}
-        <div className="absolute bottom-6 sm:bottom-10 left-6 sm:left-10 z-10">
-          <h1 className="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white uppercase leading-none font-sans drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+        <div className="absolute bottom-5 sm:bottom-10 left-4 sm:left-10 right-4 z-10">
+          <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white uppercase leading-none font-sans drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
             Find the gaps <span className="text-[#0FA4AF]">→</span>
             <br />
             behind the answers.
@@ -105,7 +105,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
       </div>
 
       {/* 2. Unified, Symmetrical Investigation Console (Seamlessly integrated with top border) */}
-      <div id="investigation-console" className="border-t border-b border-[#024950] bg-[#024950]/40 p-6 sm:p-8 lg:p-10 space-y-6 relative">
+      <div id="investigation-console" className="border-t border-b border-[#024950] bg-[#024950]/40 p-4 sm:p-8 lg:p-10 space-y-5 sm:space-y-6 relative">
         {/* Real-time Scanning Indicator (Stops immediately on completion/failure) */}
         {isLoading && (
           <div className="absolute top-0 inset-x-0 h-[2px] bg-[#024950] overflow-hidden" role="progressbar" aria-label="Investigation in progress">
@@ -114,7 +114,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
         )}
 
         {/* Symmetric Top Bar: Title on Left, Presets on Right */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#024950] gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 sm:pb-4 border-b border-[#024950] gap-3 sm:gap-4">
           <div className="flex items-center gap-2">
             <h2 className="text-xs sm:text-sm font-mono uppercase tracking-[0.2em] font-black text-white">
               INVESTIGATION CONSOLE
@@ -122,7 +122,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
           </div>
 
           {/* Dual Evaluation Benchmark Buttons */}
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
             <span className="text-[11px] font-mono text-[#AFDDE5]/70 font-bold hidden md:inline">
               Sample Presets:
             </span>
@@ -130,21 +130,21 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
               type="button"
               onClick={handleLoadGatesExample}
               disabled={isLoading}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold border border-[#0FA4AF]/50 bg-[#003135] text-[#AFDDE5] hover:bg-[#0FA4AF] hover:text-[#003135] hover:border-[#0FA4AF] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
+              className="flex-1 sm:flex-none justify-center inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-bold border border-[#0FA4AF]/50 bg-[#003135] text-[#AFDDE5] hover:bg-[#0FA4AF] hover:text-[#003135] hover:border-[#0FA4AF] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
               title="Load Gates Cambridge multi-source benchmark"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#0FA4AF]" />
-              <span>Preset 1: Gates Cambridge</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#0FA4AF] shrink-0" />
+              <span className="truncate">Preset 1: Gates Cambridge</span>
             </button>
             <button
               type="button"
               onClick={handleLoadNspExample}
               disabled={isLoading}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono font-bold border border-[#E76F51]/70 bg-[#003135] text-[#AFDDE5] hover:bg-[#E76F51] hover:text-white hover:border-[#E76F51] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
+              className="flex-1 sm:flex-none justify-center inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-bold border border-[#E76F51]/70 bg-[#003135] text-[#AFDDE5] hover:bg-[#E76F51] hover:text-white hover:border-[#E76F51] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
               title="Load National Scholarship Portal benchmark with 404 failure containment test"
             >
-              <Sparkles className="w-3.5 h-3.5 text-[#E76F51]" />
-              <span>Preset 2: NSP + 404 Test</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#E76F51] shrink-0" />
+              <span className="truncate">Preset 2: NSP + 404 Test</span>
             </button>
           </div>
         </div>

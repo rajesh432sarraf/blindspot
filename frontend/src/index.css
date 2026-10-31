@@ -164,6 +164,15 @@ img {
 .delay-160 { animation-delay: 160ms; }
 .delay-200 { animation-delay: 200ms; }
 
+/* Hide scrollbar for seamless touch swipe on mobile */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *,

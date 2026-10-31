@@ -41,20 +41,20 @@ export const UrlInputList: React.FC<UrlInputListProps> = ({ urls, onChange, disa
       <div className="space-y-2.5">
         {urls.map((url, idx) => (
           <div key={idx} className="flex items-center gap-2">
-            <span className="px-2.5 py-2 bg-[#024950] border border-[#0FA4AF]/40 text-[#AFDDE5] text-xs font-mono font-bold shrink-0">
+            <span className="px-2 py-2 sm:px-2.5 bg-[#024950] border border-[#0FA4AF]/40 text-[#AFDDE5] text-xs font-mono font-bold shrink-0">
               S{idx + 1}
             </span>
-            <div className="relative flex-1">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#0FA4AF]">
-                <Globe className="w-4 h-4" />
+            <div className="relative flex-1 min-w-0">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0FA4AF]">
+                <Globe className="w-3.5 h-3.5" />
               </div>
               <input
                 type="url"
                 value={url}
                 onChange={(e) => handleUrlChange(idx, e.target.value)}
                 disabled={disabled}
-                placeholder="https://example.com/article-or-documentation"
-                className="w-full pl-10 pr-3 py-2.5 bg-[#003135] text-xs font-mono border border-[#024950] text-[#AFDDE5] placeholder-[#AFDDE5]/40 focus:outline-none focus:border-[#0FA4AF] focus:ring-1 focus:ring-[#0FA4AF] disabled:opacity-50 transition-colors duration-150"
+                placeholder="https://example.com/article-or-doc"
+                className="w-full pl-9 pr-2.5 py-2.5 bg-[#003135] text-xs font-mono border border-[#024950] text-[#AFDDE5] placeholder-[#AFDDE5]/40 focus:outline-none focus:border-[#0FA4AF] focus:ring-1 focus:ring-[#0FA4AF] disabled:opacity-50 transition-colors duration-150 truncate"
               />
             </div>
             {urls.length > 1 && (

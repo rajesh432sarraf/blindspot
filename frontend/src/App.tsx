@@ -202,6 +202,14 @@ ${analysisResult.sources
               <section aria-labelledby="investigation-form" className="w-full flex-1 flex flex-col">
                 <ResearchForm onSubmit={handleStartAnalysis} isLoading={isLoading} />
 
+                {/* Mobile / Tablet Horizontal Editorial Capability Rail */}
+                <div className="lg:hidden w-full">
+                  <EditorialRightRail
+                    orientation="horizontal"
+                    result={null}
+                  />
+                </div>
+
                 {analysisError && (
                   <section aria-labelledby="error-section" className="p-6 sm:p-8 lg:p-10">
                     <ErrorState message={analysisError} onRetry={handleRetry} />
@@ -303,10 +311,10 @@ ${analysisResult.sources
               <section
                 key={analysisResult.investigation_id}
                 aria-labelledby="dashboard-section"
-                className="w-full p-6 sm:p-8 lg:p-10 space-y-8 animate-fade-rise"
+                className="w-full p-3.5 sm:p-6 lg:p-10 space-y-5 sm:space-y-8 animate-fade-rise"
               >
                 {/* Active Report Header Bar */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#024950] gap-4 animate-fade-rise delay-0">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 sm:pb-4 border-b border-[#024950] gap-3 sm:gap-4 animate-fade-rise delay-0">
                   <div>
                     <span className="text-xs font-mono uppercase tracking-wider text-[#0FA4AF] font-bold">
                       Active Evidence Audit Report
@@ -315,11 +323,11 @@ ${analysisResult.sources
                       {analysisResult.investigation_id}
                     </h2>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
                     <button
                       type="button"
                       onClick={handleExportMarkdown}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#003135] hover:bg-[#024950] border border-[#0FA4AF] text-[#0FA4AF] text-xs font-mono font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
+                      className="flex-1 sm:flex-none justify-center inline-flex items-center gap-1.5 px-3.5 py-2.5 bg-[#003135] hover:bg-[#024950] border border-[#0FA4AF] text-[#0FA4AF] text-xs font-mono font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
                       title="Download full audit report as Markdown"
                     >
                       {exportCopied ? (
@@ -337,12 +345,21 @@ ${analysisResult.sources
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-[#E76F51] hover:bg-[#ea7b5f] active:scale-[0.98] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E76F51]"
+                      className="flex-1 sm:flex-none justify-center inline-flex items-center gap-2 px-4 py-2.5 bg-[#E76F51] hover:bg-[#ea7b5f] active:scale-[0.98] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E76F51]"
                     >
                       <PlusCircle className="w-4 h-4" />
                       <span>New Investigation</span>
                     </button>
                   </div>
+                </div>
+
+                {/* Mobile / Tablet Live Counter Rail (Swipeable 5 Panels from Image 2) */}
+                <div className="lg:hidden w-full overflow-hidden">
+                  <EditorialRightRail
+                    orientation="horizontal"
+                    result={analysisResult}
+                    onSelectTab={(tab) => setActiveTab(tab)}
+                  />
                 </div>
 
                 {/* 🎯 Hackathon Executive Verdict (Section 3 Illustrative Output Match) */}
@@ -451,11 +468,11 @@ ${analysisResult.sources
 
                 {/* Findings Filter Tabs */}
                 <div className="space-y-4 animate-fade-rise delay-120">
-                  <div className="flex flex-wrap items-center gap-1 border-b border-[#024950] pb-2 text-xs font-mono">
+                  <div className="flex items-center gap-1.5 border-b border-[#024950] pb-2 text-xs font-mono overflow-x-auto no-scrollbar scroll-smooth py-1">
                     <button
                       type="button"
                       onClick={() => setActiveTab('all')}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
+                      className={`shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-3 py-2 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
                         activeTab === 'all'
                           ? 'bg-[#0FA4AF] text-[#003135] border-[#0FA4AF] font-black'
                           : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#0FA4AF]'
@@ -468,7 +485,7 @@ ${analysisResult.sources
                     <button
                       type="button"
                       onClick={() => setActiveTab('gaps')}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E76F51] ${
+                      className={`shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-3 py-2 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E76F51] ${
                         activeTab === 'gaps'
                           ? 'bg-[#E76F51] text-white border-[#E76F51] font-bold'
                           : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#E76F51]'
@@ -481,7 +498,7 @@ ${analysisResult.sources
                     <button
                       type="button"
                       onClick={() => setActiveTab('conflicts')}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
+                      className={`shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-3 py-2 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
                         activeTab === 'conflicts'
                           ? 'bg-[#0FA4AF] text-[#003135] border-[#0FA4AF] font-bold'
                           : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#0FA4AF]'
@@ -494,7 +511,7 @@ ${analysisResult.sources
                     <button
                       type="button"
                       onClick={() => setActiveTab('freshness')}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
+                      className={`shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-3 py-2 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
                         activeTab === 'freshness'
                           ? 'bg-[#024950] text-[#AFDDE5] border-[#0FA4AF] font-bold'
                           : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#0FA4AF]'
@@ -507,7 +524,7 @@ ${analysisResult.sources
                     <button
                       type="button"
                       onClick={() => setActiveTab('checklist')}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#AFDDE5] ${
+                      className={`shrink-0 whitespace-nowrap inline-flex items-center gap-1.5 px-3 py-2 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#AFDDE5] ${
                         activeTab === 'checklist'
                           ? 'bg-[#AFDDE5] text-[#003135] border-[#AFDDE5] font-black'
                           : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#AFDDE5]'

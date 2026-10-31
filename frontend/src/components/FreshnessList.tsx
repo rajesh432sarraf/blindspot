@@ -8,8 +8,8 @@ interface FreshnessListProps {
 
 export const FreshnessList: React.FC<FreshnessListProps> = ({ warnings }) => {
   return (
-    <div className="bg-[#024950]/40 border border-[#024950] p-6 space-y-4">
-      <div className="flex items-center justify-between border-b border-[#024950] pb-3">
+    <div className="bg-[#024950]/40 border border-[#024950] p-3.5 sm:p-6 space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#024950] pb-3 gap-2">
         <div className="flex items-center gap-2">
           <Clock className="w-4 h-4 text-[#0FA4AF]" />
           <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
@@ -32,8 +32,8 @@ export const FreshnessList: React.FC<FreshnessListProps> = ({ warnings }) => {
       ) : (
         <div className="space-y-4">
           {warnings.map((w) => (
-            <div key={w.id} className="p-5 bg-[#003135] border border-[#024950] space-y-3">
-              <div className="flex items-center justify-between">
+            <div key={w.id} className="p-3.5 sm:p-5 bg-[#003135] border border-[#024950] space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5">
                   <span className="px-2.5 py-1 bg-[#0FA4AF] text-[#003135] text-xs font-mono font-bold">
                     {w.id}

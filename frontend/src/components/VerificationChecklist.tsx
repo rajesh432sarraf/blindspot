@@ -22,8 +22,8 @@ export const VerificationChecklist: React.FC<VerificationChecklistProps> = ({ ch
   };
 
   return (
-    <div className="bg-[#024950]/40 border border-[#024950] p-6 space-y-4">
-      <div className="flex items-center justify-between border-b border-[#024950] pb-3">
+    <div className="bg-[#024950]/40 border border-[#024950] p-3.5 sm:p-6 space-y-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#024950] pb-3 gap-2">
         <div className="flex items-center gap-2">
           <CheckSquare className="w-4 h-4 text-[#AFDDE5]" />
           <h2 className="text-sm font-mono font-bold uppercase tracking-wider text-white">
@@ -51,7 +51,7 @@ export const VerificationChecklist: React.FC<VerificationChecklistProps> = ({ ch
             return (
               <div
                 key={task.id}
-                className={`p-5 border transition-all duration-200 ${
+                className={`p-3.5 sm:p-5 border transition-all duration-200 ${
                   isDone
                     ? 'bg-[#003135]/60 border-[#024950] opacity-60'
                     : 'bg-[#003135] border-[#024950] hover:border-[#0FA4AF]/50'
@@ -61,7 +61,7 @@ export const VerificationChecklist: React.FC<VerificationChecklistProps> = ({ ch
                   <button
                     type="button"
                     onClick={() => toggleCheck(task.id)}
-                    className={`w-5 h-5 mt-0.5 border flex items-center justify-center shrink-0 transition-all duration-150 cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
+                    className={`w-6 h-6 mt-0.5 border flex items-center justify-center shrink-0 transition-all duration-150 cursor-pointer active:scale-95 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF] ${
                       isDone
                         ? 'bg-[#0FA4AF] border-[#0FA4AF] text-[#003135]'
                         : 'border-[#0FA4AF] bg-[#003135] hover:bg-[#024950]'
