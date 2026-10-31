@@ -1,7 +1,8 @@
 import json
+import re
 import logging
 import httpx
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 from app.core.config import settings
 from app.models.schemas import SourceRecord
 
@@ -19,7 +20,7 @@ Strict Evidence Rules:
 6. CITATIONS: Every finding must reference existing source IDs (e.g., S1, S2) and quote the actual relevant excerpt.
 7. ACTIONABLE VERIFICATION: Suggest concrete, prioritized verification actions recommending official or primary authorities.
 
-You MUST respond strictly with a valid JSON object matching this schema:
+Respond strictly with valid JSON conforming to this schema (do not wrap in markdown or extra commentary):
 {
   "summary": "Objective synthesis of what the reviewed sources establish regarding the question.",
   "is_insufficient_evidence": false,
@@ -27,16 +28,11 @@ You MUST respond strictly with a valid JSON object matching this schema:
     {
       "id": "G1",
       "question": "Specific unanswered or partially answered question",
-      "status": "not_found_in_reviewed_sources" | "partially_addressed",
+      "status": "not_found_in_reviewed_sources",
       "why_it_matters": "Reason why this missing information is critical",
-      "checked_source_ids": ["S1", "S2"],
-      "priority": "high" | "medium" | "low",
-      "evidence": [
-        {
-          "source_id": "S1",
-          "quote": "Partial excerpt if applicable"
-        }
-      ]
+      "checked_source_ids": ["S1"],
+      "priority": "high",
+      "evidence": []
     }
   ],
   "conflicts": [
@@ -48,7 +44,7 @@ You MUST respond strictly with a valid JSON object matching this schema:
       "claim_b": "Conflicting claim made by source B",
       "source_id_b": "S2",
       "evidence_b": "Exact or close quote from source B",
-      "conflict_status": "material_conflict" | "possible_discrepancy",
+      "conflict_status": "material_conflict",
       "context_note": "Explanation of possible reason for difference"
     }
   ],
@@ -56,8 +52,8 @@ You MUST respond strictly with a valid JSON object matching this schema:
     {
       "id": "F1",
       "source_id": "S1",
-      "warning_type": "stale_dated" | "date_not_found" | "currentness_unknown",
-      "date_found": "2023-01-15 or null",
+      "warning_type": "date_not_found",
+      "date_found": null,
       "rationale": "Why currentness requires verification"
     }
   ],
@@ -65,17 +61,42 @@ You MUST respond strictly with a valid JSON object matching this schema:
     {
       "id": "V1",
       "action": "Specific verification step for the researcher",
-      "priority": "high" | "medium" | "low",
+      "priority": "high",
       "why_it_matters": "Why this verification step is recommended",
-      "related_finding_ids": ["G1", "C1"],
-      "suggested_source_type": "e.g. Official University Admissions Portal"
+      "related_finding_ids": ["G1"],
+      "suggested_source_type": "Official Program Portal"
     }
   ],
   "limitations": [
-    "List of methodological constraints or unreviewed dimensions."
+    "Methodological constraint or unreviewed dimension."
   ]
 }
 """
+
+def extract_json_payload(raw_text: str) -> Dict[str, Any]:
+    """Robustly extracts and parses JSON from LLM response text."""
+    text = raw_text.strip()
+    # Strip markdown code fences if present
+    if text.startswith("```"):
+        text = re.sub(r"^```[a-zA-Z]*\n", "", text)
+        text = re.sub(r"\n```$", "", text)
+        text = text.strip()
+
+    # Try direct parse
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        pass
+
+    # Extract first outer { ... }
+    match = re.search(r"(\{.*\})", text, re.DOTALL)
+    if match:
+        try:
+            return json.loads(match.group(1))
+        except json.JSONDecodeError:
+            pass
+
+    raise ValueError(f"Could not parse valid JSON from LLM response text:\n{text[:300]}")
 
 def build_evidence_pack(sources: List[SourceRecord]) -> str:
     """Formats retrieved sources into a clearly delineated, untrusted evidence pack."""
@@ -96,7 +117,6 @@ def build_evidence_pack(sources: List[SourceRecord]) -> str:
 def call_gemini_api(question: str, sources: List[SourceRecord]) -> Dict[str, Any]:
     """
     Sends the evidence pack to the Gemini API requesting structured JSON output.
-    Uses direct REST API with configured model and API key.
     """
     api_key = settings.GEMINI_API_KEY.strip()
     if not api_key or api_key == "your_gemini_api_key_here":
@@ -104,13 +124,13 @@ def call_gemini_api(question: str, sources: List[SourceRecord]) -> Dict[str, Any
 
     evidence_pack = build_evidence_pack(sources)
     prompt_text = (
+        f"{SYSTEM_INSTRUCTION}\n\n"
         f"RESEARCH QUESTION:\n{question}\n\n"
         f"{evidence_pack}\n\n"
-        "Analyze the provided source evidence strictly following the instructions. Return valid JSON only."
+        "Analyze the provided source evidence strictly following the instructions. Return valid JSON only without markdown wrapping or conversational chatter."
     )
 
-    # Use Google Gemini REST endpoint
-    model_name = settings.LLM_MODEL.strip() or "gemini-2.5-flash"
+    model_name = settings.LLM_MODEL.strip() or "gemini-3.1-flash-lite"
     url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent?key={api_key}"
 
     payload = {
@@ -120,12 +140,9 @@ def call_gemini_api(question: str, sources: List[SourceRecord]) -> Dict[str, Any
                 "parts": [{"text": prompt_text}]
             }
         ],
-        "systemInstruction": {
-            "parts": [{"text": SYSTEM_INSTRUCTION}]
-        },
         "generationConfig": {
-            "responseMimeType": "application/json",
             "temperature": 0.1,
+            "maxOutputTokens": 4096,
         }
     }
 
@@ -139,7 +156,7 @@ def call_gemini_api(question: str, sources: List[SourceRecord]) -> Dict[str, Any
         data = response.json()
         try:
             candidate = data["candidates"][0]
-            text = candidate["content"]["parts"][0]["text"]
-            return json.loads(text)
-        except (KeyError, IndexError, json.JSONDecodeError) as e:
-            raise ValueError(f"Failed to parse structured JSON from Gemini response: {e}")
+            raw_text = candidate["content"]["parts"][0]["text"]
+            return extract_json_payload(raw_text)
+        except (KeyError, IndexError) as e:
+            raise ValueError(f"Failed to find content candidate in Gemini response: {e}")

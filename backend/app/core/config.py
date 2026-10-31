@@ -5,7 +5,7 @@ from pydantic import Field
 
 class Settings(BaseSettings):
     GEMINI_API_KEY: str = Field(default="", description="Gemini API Key from Google AI Studio")
-    LLM_MODEL: str = Field(default="gemini-2.5-flash", description="Model name available in AI Studio")
+    LLM_MODEL: str = Field(default="gemini-3.1-flash-lite", description="Model name available in AI Studio")
     FRONTEND_ORIGIN: str = Field(default="http://localhost:5173", description="Frontend origin for CORS")
     HOST: str = Field(default="127.0.0.1", description="Backend host")
     PORT: int = Field(default=8000, description="Backend port")
