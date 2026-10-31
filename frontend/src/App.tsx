@@ -90,20 +90,20 @@ export function App() {
       <div className="flex-1 w-full flex flex-col lg:flex-row">
         {/* Left Side (~78% width on desktop) */}
         <div className="w-full lg:w-[78%] flex flex-col min-h-screen border-r border-[#024950]">
-          <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-12">
+          <main className="flex-1 w-full flex flex-col">
             {/* If no result active: Hero & Form View */}
             {!analysisResult && (
-              <section aria-labelledby="investigation-form" className="space-y-12">
+              <section aria-labelledby="investigation-form" className="w-full flex-1 flex flex-col">
                 <ResearchForm onSubmit={handleStartAnalysis} isLoading={isLoading} />
 
                 {analysisError && (
-                  <section aria-labelledby="error-section">
+                  <section aria-labelledby="error-section" className="p-6 sm:p-8 lg:p-10">
                     <ErrorState message={analysisError} onRetry={handleRetry} />
                   </section>
                 )}
 
                 {/* Symmetrical Core Architecture Grid (No redundant boxes) */}
-                <section id="features" className="pt-6 border-t border-[#024950] space-y-6">
+                <section id="features" className="p-6 sm:p-8 lg:p-10 space-y-6">
                   <div className="flex items-center gap-3">
                     <span className="text-xs font-mono font-black text-[#0FA4AF] uppercase tracking-[0.2em]">
                       AUDIT ARCHITECTURE
@@ -197,7 +197,7 @@ export function App() {
               <section
                 key={analysisResult.investigation_id}
                 aria-labelledby="dashboard-section"
-                className="space-y-6"
+                className="w-full p-6 sm:p-8 lg:p-10 space-y-8 animate-fade-rise"
               >
                 {/* Active Report Header Bar */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#024950] gap-4 animate-fade-rise delay-0">
@@ -320,8 +320,8 @@ export function App() {
           </main>
 
           {/* Editorial Footer */}
-          <footer className="border-t border-[#024950] bg-[#003135] py-6 px-6 sm:px-8 mt-auto">
-            <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#AFDDE5]/70">
+          <footer className="border-t border-[#024950] bg-[#003135] py-6 px-6 sm:px-8 lg:px-10 mt-auto">
+            <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-[#AFDDE5]/70">
               <div className="flex items-center gap-2">
                 <span className="text-white font-bold tracking-wider">BLINDSPOT</span>
                 <span>• Evidence-Grounded AI Analysis</span>

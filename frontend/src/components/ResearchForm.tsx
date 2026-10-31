@@ -79,7 +79,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
   };
 
   return (
-    <div className="w-full flex flex-col border border-[#024950] bg-[#001c1f]">
+    <div className="w-full flex flex-col bg-[#001c1f]">
       {/* 1. Cinematic Hero Visual Block (Direct Visual from Image 2) */}
       <div className="relative w-full h-[360px] sm:h-[440px] md:h-[500px] overflow-hidden bg-[#001c1f]">
         {/* Background visual with crisp high-contrast styling */}
@@ -105,7 +105,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
       </div>
 
       {/* 2. Unified, Symmetrical Investigation Console (Seamlessly integrated with top border) */}
-      <div id="investigation-console" className="border-t border-[#024950] bg-[#00272b] p-6 sm:p-8 space-y-6 relative">
+      <div id="investigation-console" className="border-t border-b border-[#024950] bg-[#00272b] p-6 sm:p-8 lg:p-10 space-y-6 relative">
         {/* Real-time Scanning Indicator (Stops immediately on completion/failure) */}
         {isLoading && (
           <div className="absolute top-0 inset-x-0 h-[2px] bg-[#024950] overflow-hidden" role="progressbar" aria-label="Investigation in progress">
