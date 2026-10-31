@@ -49,12 +49,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
               : 'Up to 10 distinct URLs with SSRF protection'}
           </p>
         </div>
-
-        <div className="pt-1 border-t border-[#024950]/60">
-          <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-[#0FA4AF] font-bold">
-            SAFE FETCH ENGINE
-          </span>
-        </div>
       </div>
 
       {/* Panel 2: Teal #024950 (Evidence) */}
@@ -76,12 +70,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
               ? 'Consecutive shingle density verified'
               : 'Extracted text & verifiable timestamps'}
           </p>
-        </div>
-
-        <div className="pt-1 border-t border-[#0FA4AF]/30">
-          <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-[#AFDDE5]/90 font-bold">
-            EVIDENCE-GROUNDED ANALYSIS
-          </span>
         </div>
       </div>
 
@@ -118,12 +106,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
               : 'Addressed vs partial vs unaddressed'}
           </p>
         </div>
-
-        <div className="pt-1 border-t border-white/20">
-          <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-[#AFDDE5] font-black">
-            VOID DETECTION
-          </span>
-        </div>
       </div>
 
       {/* Panel 4: Cyan #0FA4AF (Conflicts) */}
@@ -159,12 +141,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
               : 'Contradiction vs contextual difference'}
           </p>
         </div>
-
-        <div className="pt-1 border-t border-[#001c1f]/20">
-          <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-[#001c1f] font-black">
-            STRICT PROOF
-          </span>
-        </div>
       </div>
 
       {/* Panel 5: Pale Cyan #AFDDE5 (Verify) */}
@@ -199,12 +175,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
               ? 'Direct primary authority recommendations'
               : 'Official registries, portals & handbooks'}
           </p>
-        </div>
-
-        <div className="pt-1 border-t border-[#001c1f]/20">
-          <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-[#964734] font-black">
-            PRIMARY REGISTRIES
-          </span>
         </div>
       </div>
     </aside>
