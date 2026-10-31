@@ -1,3 +1,4 @@
+import re
 import uuid
 import logging
 from typing import List, Dict, Any, Set
@@ -195,9 +196,10 @@ def build_heuristic_analysis(question: str, sources: List[SourceRecord], investi
 def validate_citations(result: AnalysisResult, valid_source_ids: Set[str]) -> AnalysisResult:
     """
     Validates that every cited source ID in findings actually exists in the retrieved sources.
-    Filters out spurious or invalid source references.
+    Filters out spurious or invalid source references, ensures bilateral evidence on conflicts,
+    enforces cautious gap scoping, and ensures freshness warnings do not assert falsity.
     """
-    # Validate gaps
+    # 1. Validate gaps: refer only to sources actually reviewed and use cautious scoping
     sanitized_gaps: List[GapFinding] = []
     for gap in result.gaps:
         checked_ids = [sid for sid in gap.checked_source_ids if sid in valid_source_ids]
@@ -206,10 +208,16 @@ def validate_citations(result: AnalysisResult, valid_source_ids: Set[str]) -> An
         ev_list = [ev for ev in gap.evidence if ev.source_id in valid_source_ids]
         gap.checked_source_ids = checked_ids
         gap.evidence = ev_list
+
+        # Ensure why_it_matters uses cautious wording scoping absence to reviewed sources
+        wim_lower = gap.why_it_matters.lower()
+        if not ("reviewed" in wim_lower or "analyzed" in wim_lower or "provided" in wim_lower):
+            gap.why_it_matters = f"{gap.why_it_matters.rstrip('.')} in the reviewed sources."
+
         sanitized_gaps.append(gap)
     result.gaps = sanitized_gaps
 
-    # Validate conflicts: must cite two distinct valid sources and have evidence for both sides
+    # 2. Validate conflicts: must cite two distinct valid sources and have evidence on both sides
     sanitized_conflicts: List[ConflictFinding] = []
     for conf in result.conflicts:
         is_valid_sources = (
@@ -230,10 +238,20 @@ def validate_citations(result: AnalysisResult, valid_source_ids: Set[str]) -> An
             )
     result.conflicts = sanitized_conflicts
 
-    # Validate freshness warnings
+    # 3. Validate freshness warnings: must reference valid sources and never assert that old info is false
     sanitized_warnings: List[FreshnessWarning] = []
     for w in result.freshness_warnings:
         if w.source_id in valid_source_ids:
+            cleaned_rationale = w.rationale
+            for bad_phrase in ["is false", "are false", "is incorrect", "are incorrect", "is invalid"]:
+                if bad_phrase in cleaned_rationale.lower():
+                    cleaned_rationale = re.sub(
+                        re.escape(bad_phrase),
+                        "may be outdated and warrants currentness verification",
+                        cleaned_rationale,
+                        flags=re.IGNORECASE
+                    )
+            w.rationale = cleaned_rationale
             sanitized_warnings.append(w)
     result.freshness_warnings = sanitized_warnings
 
