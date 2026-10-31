@@ -113,18 +113,18 @@ def build_heuristic_analysis(question: str, sources: List[SourceRecord], investi
                 source_id=s.id,
                 warning_type=FreshnessWarningType.STALE_DATED,
                 date_found=s.date,
-                rationale=f"Source {s.id} is dated {s.date}, which may represent an older cycle or outdated terms."
+                rationale=f"Source {s.id} is dated {s.date}. Prior-dated materials require verification to confirm terms remain current."
             ))
 
     # 2. Extract potential gaps based on common unaddressed research facets
     gaps: List[GapFinding] = []
     combined_text = " ".join([s.full_text or "" for s in valid_sources]).lower()
     
-    # Check for typical informational gaps
+    # Check for typical informational gaps (always referencing reviewed materials)
     gap_candidates = [
         ("renewal", "What are the ongoing renewal criteria or continuation requirements?", "Reviewed sources mention initial guidelines but omit specific continuation/renewal criteria."),
-        ("deadline", "What are the exact submission deadlines for international vs domestic applicants?", "Deadlines may differ by applicant cohort and require explicit verification."),
-        ("fee", "Are there application, administrative, or hidden maintenance fees?", "Sources do not explicitly outline applicable fee waivers or cost breakdowns."),
+        ("deadline", "What are the exact submission deadlines for international vs domestic applicants?", "Reviewed sources do not clarify distinct cohort submission deadlines."),
+        ("fee", "Are there application, administrative, or hidden maintenance fees?", "Reviewed sources do not explicitly outline applicable fee waivers or cost breakdowns."),
         ("appeal", "What is the dispute or appeal process if an application is denied?", "No review or appeal mechanism is documented in the analyzed sources.")
     ]
 
@@ -209,13 +209,25 @@ def validate_citations(result: AnalysisResult, valid_source_ids: Set[str]) -> An
         sanitized_gaps.append(gap)
     result.gaps = sanitized_gaps
 
-    # Validate conflicts
+    # Validate conflicts: must cite two distinct valid sources and have evidence for both sides
     sanitized_conflicts: List[ConflictFinding] = []
     for conf in result.conflicts:
-        if conf.source_id_a in valid_source_ids and conf.source_id_b in valid_source_ids:
+        is_valid_sources = (
+            conf.source_id_a in valid_source_ids and
+            conf.source_id_b in valid_source_ids and
+            conf.source_id_a != conf.source_id_b
+        )
+        has_bilateral_evidence = bool(
+            conf.evidence_a and conf.evidence_a.strip() and
+            conf.evidence_b and conf.evidence_b.strip()
+        )
+        if is_valid_sources and has_bilateral_evidence:
             sanitized_conflicts.append(conf)
         else:
-            logger.warning("Dropping conflict referencing invalid source ID: %s vs %s", conf.source_id_a, conf.source_id_b)
+            logger.warning(
+                "Dropping invalid conflict: source_a=%s, source_b=%s, has_evidence=%s",
+                conf.source_id_a, conf.source_id_b, has_bilateral_evidence
+            )
     result.conflicts = sanitized_conflicts
 
     # Validate freshness warnings
