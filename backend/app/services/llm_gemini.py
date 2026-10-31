@@ -30,7 +30,7 @@ Strict Evidence Rules:
 
 Respond strictly with valid JSON conforming to this schema (do not wrap in markdown or extra commentary):
 {
-  "summary": "Objective synthesis of what the reviewed sources establish regarding the question.",
+  "summary": "Concise, evidence-grounded synthesis in 3-4 crisp sentences. Directly state verified answers with key figures/guidelines, and explicitly name what remains unaddressed or missing. Avoid bloated prose.",
   "is_insufficient_evidence": false,
   "gaps": [
     {

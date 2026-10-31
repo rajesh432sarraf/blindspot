@@ -17,6 +17,7 @@ import {
   Clock,
   CheckSquare,
   Layers,
+  Sparkles,
 } from 'lucide-react';
 import type { HealthResponse, AnalyzeRequest, AnalysisResult } from './types';
 
@@ -212,11 +213,78 @@ export function App() {
                   <button
                     type="button"
                     onClick={handleReset}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#964734] hover:bg-[#aa533e] active:scale-[0.98] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#964734]"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#E76F51] hover:bg-[#ea7b5f] active:scale-[0.98] text-white text-xs font-mono font-bold uppercase tracking-wider transition-all duration-150 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E76F51]"
                   >
                     <PlusCircle className="w-4 h-4" />
                     <span>New Investigation</span>
                   </button>
+                </div>
+
+                {/* 🎯 Hackathon Executive Verdict (Section 3 Illustrative Output Match) */}
+                <div className="p-4 sm:p-5 bg-[#001c1f] border border-[#0FA4AF] space-y-3 animate-fade-rise shadow-[0_0_20px_rgba(15,164,175,0.15)]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-[#024950] gap-2">
+                    <div className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-[#0FA4AF]" />
+                      <span className="text-xs font-mono font-black uppercase tracking-[0.2em] text-white">
+                        Executive Audit Verdict (At-a-Glance)
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 bg-[#024950] text-[#AFDDE5] border border-[#0FA4AF]/40">
+                      Problem Statement Spec: 3-Second Briefing
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs font-mono">
+                    {/* 1. Potential Gap */}
+                    <div className="p-3 bg-[#00272b] border-l-4 border-l-[#E76F51] border border-[#024950] flex flex-col justify-between space-y-2">
+                      <div>
+                        <span className="text-[10px] font-mono font-black text-[#E76F51] uppercase tracking-wider block mb-1">
+                          ⚠️ Potential Gap Identified
+                        </span>
+                        <p className="text-white text-xs leading-snug line-clamp-3">
+                          {analysisResult.gaps.find(g => g.status === 'not_found_in_reviewed_sources')?.question ||
+                           analysisResult.gaps[0]?.question ||
+                           'No unaddressed information gaps detected across reviewed sources.'}
+                        </p>
+                      </div>
+                      <span className="text-[10px] text-[#AFDDE5]/70 block pt-1 border-t border-[#024950]">
+                        Status: Not Found in Reviewed Sources
+                      </span>
+                    </div>
+
+                    {/* 2. Possible Conflict */}
+                    <div className="p-3 bg-[#00272b] border-l-4 border-l-[#AFDDE5] border border-[#024950] flex flex-col justify-between space-y-2">
+                      <div>
+                        <span className="text-[10px] font-mono font-black text-[#AFDDE5] uppercase tracking-wider block mb-1">
+                          ⚖️ Contradiction Audit
+                        </span>
+                        <p className="text-white text-xs leading-snug line-clamp-3">
+                          {analysisResult.conflicts.length > 0
+                            ? `${analysisResult.conflicts[0].claim_a} vs ${analysisResult.conflicts[0].claim_b}`
+                            : 'Zero material factual contradictions found between reviewed sources.'}
+                        </p>
+                      </div>
+                      <span className="text-[10px] text-[#AFDDE5]/70 block pt-1 border-t border-[#024950]">
+                        {analysisResult.conflicts.length > 0 ? 'Bilateral quotes cited' : 'Consensus across sources'}
+                      </span>
+                    </div>
+
+                    {/* 3. Priority Action Checklist */}
+                    <div className="p-3 bg-[#00272b] border-l-4 border-l-[#0FA4AF] border border-[#024950] flex flex-col justify-between space-y-2">
+                      <div>
+                        <span className="text-[10px] font-mono font-black text-[#0FA4AF] uppercase tracking-wider block mb-1">
+                          📋 Verify Next
+                        </span>
+                        <p className="text-white text-xs leading-snug line-clamp-3">
+                          {analysisResult.verification_checklist[0]?.action ||
+                           'Confirm current cycle guidelines on primary registry.'}
+                        </p>
+                      </div>
+                      <span className="text-[10px] text-[#AFDDE5]/70 block pt-1 border-t border-[#024950]">
+                        Target: {analysisResult.verification_checklist[0]?.suggested_source_type || 'Official Portal'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Summary Panel */}
@@ -248,10 +316,10 @@ export function App() {
                     <button
                       type="button"
                       onClick={() => setActiveTab('gaps')}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#964734] ${
+                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 border transition-all duration-150 active:scale-[0.98] cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E76F51] ${
                         activeTab === 'gaps'
-                          ? 'bg-[#964734] text-white border-[#964734] font-bold'
-                          : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#964734]'
+                          ? 'bg-[#E76F51] text-white border-[#E76F51] font-bold'
+                          : 'bg-[#003135] text-[#AFDDE5] border-[#024950] hover:border-[#E76F51]'
                       }`}
                     >
                       <Search className="w-3.5 h-3.5" />
