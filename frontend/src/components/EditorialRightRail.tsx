@@ -73,7 +73,7 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
         </div>
       </div>
 
-      {/* Panel 3: Rust #964734 (Gaps) */}
+      {/* Panel 3: Vibrant Luminous Coral #E76F51 (Gaps) */}
       <div
         role={onSelectTab ? 'button' : undefined}
         tabIndex={onSelectTab ? 0 : undefined}
@@ -84,20 +84,20 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({ result, 
           }
         }}
         onClick={() => onSelectTab && onSelectTab('gaps')}
-        className={`h-[20%] p-3.5 xl:p-4 bg-[#964734] text-white flex flex-col justify-between transition-all duration-150 group relative animate-fade-rise delay-80 ${
+        className={`h-[20%] p-3.5 xl:p-4 bg-[#E76F51] text-white flex flex-col justify-between transition-all duration-150 group relative animate-fade-rise delay-80 ${
           onSelectTab
-            ? 'cursor-pointer hover:bg-[#a84f3a] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white'
+            ? 'cursor-pointer hover:bg-[#eb7d61] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white'
             : ''
         }`}
       >
         <div className="flex items-center justify-between">
-          <span className="text-[11px] font-mono tracking-[0.2em] text-[#AFDDE5] uppercase font-black">
+          <span className="text-[11px] font-mono tracking-[0.2em] text-white/90 uppercase font-black">
             03 // GAPS
           </span>
         </div>
 
         <div className="my-auto py-1">
-          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
             {animatedGaps !== null ? `${animatedGaps} IDENTIFIED` : '3-TIER AUDIT'}
           </div>
           <p className="text-[10px] xl:text-[11px] font-mono text-white/95 mt-1 leading-snug line-clamp-2">
