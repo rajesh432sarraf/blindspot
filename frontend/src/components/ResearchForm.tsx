@@ -124,7 +124,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
           {/* Dual Evaluation Benchmark Buttons */}
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[11px] font-mono text-[#AFDDE5]/70 font-bold hidden md:inline">
-              Evaluation Benchmarks:
+              Sample Presets:
             </span>
             <button
               type="button"
@@ -162,7 +162,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
                   RESEARCH QUESTION / OBJECTIVE
                 </label>
                 <span className="text-[10px] font-mono text-[#0FA4AF] font-bold uppercase tracking-wider">
-                  Target Inquiries
+                  Any Custom Topic
                 </span>
               </div>
               <textarea
@@ -171,7 +171,7 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
                 value={question}
                 onChange={(e) => setQuestion(e.target.value)}
                 disabled={isLoading}
-                placeholder="e.g. What are the current eligibility criteria, deadlines, and renewal policies across these sources?"
+                placeholder="Enter any research question or topic (e.g. policy guidelines, technical specifications, scientific consensus, or admission requirements across sources)..."
                 className="w-full h-full min-h-[160px] p-4 bg-[#001c1f] text-xs sm:text-sm font-mono border border-[#024950] text-[#AFDDE5] placeholder-[#AFDDE5]/40 focus:outline-none focus:border-[#0FA4AF] focus:ring-1 focus:ring-[#0FA4AF] disabled:opacity-50 transition-colors"
                 required
               />

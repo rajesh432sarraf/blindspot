@@ -53,7 +53,7 @@ export const UrlInputList: React.FC<UrlInputListProps> = ({ urls, onChange, disa
                 value={url}
                 onChange={(e) => handleUrlChange(idx, e.target.value)}
                 disabled={disabled}
-                placeholder="https://example.gov.in/policy-or-guidelines"
+                placeholder="https://example.com/article-or-documentation"
                 className="w-full pl-10 pr-3 py-2.5 bg-[#001c1f] text-xs font-mono border border-[#024950] text-[#AFDDE5] placeholder-[#AFDDE5]/40 focus:outline-none focus:border-[#0FA4AF] focus:ring-1 focus:ring-[#0FA4AF] disabled:opacity-50 transition-colors duration-150"
               />
             </div>

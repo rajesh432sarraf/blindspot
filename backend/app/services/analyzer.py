@@ -173,7 +173,8 @@ def build_heuristic_analysis(question: str, sources: List[SourceRecord], investi
     
     # Check for typical informational gaps with topic-aware candidates and risk-weighted priority
     q_lower = question.lower()
-    is_tech_policy = any(k in q_lower for k in ["security", "compliance", "privacy", "software", "api", "health", "clinical", "regulatory"])
+    is_tech_policy = any(k in q_lower for k in ["security", "compliance", "privacy", "software", "api", "health", "clinical", "regulatory", "code", "system"])
+    is_admission_scholarship = any(k in q_lower for k in ["scholarship", "eligibility", "admission", "tuition", "degree", "grant", "fellowship", "scheme", "renewal", "university"])
 
     if is_tech_policy:
         gap_candidates = [
@@ -182,13 +183,20 @@ def build_heuristic_analysis(question: str, sources: List[SourceRecord], investi
             ("exception", "What are the operational exception or incident handling protocols?", "No exemption or escalation protocols are documented in reviewed sources.", PriorityLevel.MEDIUM),
             ("contact", "Who is the designated compliance officer or authoritative oversight entity?", "No administrative contact or oversight channel is documented in reviewed sources.", PriorityLevel.LOW)
         ]
-    else:
+    elif is_admission_scholarship:
         gap_candidates = [
             ("eligibility", "What are the precise baseline eligibility thresholds or disqualifying criteria?", "Reviewed sources do not document baseline eligibility parameters.", PriorityLevel.HIGH),
             ("renewal", "What are the ongoing renewal criteria or continuation requirements?", "Specific continuation and renewal requirements were not found in the reviewed sources.", PriorityLevel.HIGH),
             ("deadline", "What are the exact submission deadlines for international vs domestic applicants?", "Reviewed sources do not clarify distinct cohort submission deadlines.", PriorityLevel.HIGH),
             ("fee", "Are there application, administrative, or hidden maintenance fees?", "Reviewed sources do not explicitly outline applicable fee waivers or cost breakdowns.", PriorityLevel.MEDIUM),
             ("appeal", "What is the dispute or appeal process if an application is denied?", "No review or appeal mechanism is documented in the analyzed sources.", PriorityLevel.LOW)
+        ]
+    else:
+        gap_candidates = [
+            ("methodology", "What primary empirical evidence, methodology, or source dataset supports these claims?", "Reviewed sources omit specific methodology or data collection parameters.", PriorityLevel.HIGH),
+            ("timeline", "What is the authoritative implementation timeline or effective date range?", "Reviewed sources do not establish an authoritative effective timeline.", PriorityLevel.HIGH),
+            ("scope", "What are the explicit operational limitations, scope boundaries, or exclusions?", "Operational scope boundaries are not comprehensively delineated in reviewed sources.", PriorityLevel.MEDIUM),
+            ("authority", "What primary authority or governing institution oversees this information?", "Authoritative oversight channels are omitted in the reviewed materials.", PriorityLevel.LOW)
         ]
 
     for term, q_text, why, prio in gap_candidates:
@@ -206,13 +214,15 @@ def build_heuristic_analysis(question: str, sources: List[SourceRecord], investi
     # 3. Verification checklist
     checklist: List[VerificationTask] = []
     if freshness_warnings:
+        action_text = "Cross-check terms against current academic year official announcements" if is_admission_scholarship else "Cross-check claims against current primary announcements or documentation"
+        source_type_text = "Official Program Portal" if is_admission_scholarship else "Primary Source Documentation"
         checklist.append(VerificationTask(
             id=f"V{len(checklist) + 1}",
-            action="Cross-check terms against current academic year official announcements",
+            action=action_text,
             priority=PriorityLevel.HIGH,
             why_it_matters="One or more sources are undated or refer to previous cycles.",
             related_finding_ids=[f.id for f in freshness_warnings],
-            suggested_source_type="Official Program Portal"
+            suggested_source_type=source_type_text
         ))
 
     if gaps:
