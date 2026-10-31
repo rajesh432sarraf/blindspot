@@ -1,10 +1,21 @@
 import React from 'react';
+import {
+  Globe,
+  Database,
+  AlertTriangle,
+  GitCompare,
+  ListChecks,
+  ArrowUpRight,
+} from 'lucide-react';
 import type { AnalysisResult } from '../types';
 import { useCountUp } from '../hooks/useCountUp';
 
 interface EditorialRightRailProps {
   result: AnalysisResult | null;
-  onNavigateSection?: (section: 'sources' | 'evidence' | 'gaps' | 'conflicts' | 'checklist', sourceId?: string) => void;
+  onNavigateSection?: (
+    section: 'sources' | 'evidence' | 'gaps' | 'conflicts' | 'checklist',
+    sourceId?: string
+  ) => void;
   onSelectTab?: (tab: 'all' | 'gaps' | 'conflicts' | 'freshness' | 'checklist') => void;
   orientation?: 'vertical' | 'horizontal';
 }
@@ -17,12 +28,12 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
 }) => {
   const isHoriz = orientation === 'horizontal';
   const itemBaseClass = isHoriz
-    ? 'min-w-[195px] sm:min-w-[220px] p-3 sm:p-3.5 flex flex-col justify-between shrink-0 cursor-pointer transition-all duration-150 active:scale-[0.99]'
-    : 'h-[20%] p-3.5 xl:p-4 flex flex-col justify-between cursor-pointer transition-all duration-150 active:scale-[0.99]';
+    ? 'min-w-[210px] sm:min-w-[240px] p-3 sm:p-4 flex flex-col justify-between shrink-0 cursor-pointer transition-all duration-150 active:scale-[0.99] border-r border-[#024950]'
+    : 'h-[20%] p-3.5 xl:p-4 flex flex-col justify-between cursor-pointer transition-all duration-150 active:scale-[0.99] border-b border-[#024950]';
 
   const totalCount = result ? result.sources.length : 0;
-  const sourcesCount = result ? result.sources.filter(s => s.status !== 'failed').length : null;
-  const failedCount = result ? result.sources.filter(s => s.status === 'failed').length : 0;
+  const sourcesCount = result ? result.sources.filter((s) => s.status !== 'failed').length : null;
+  const failedCount = result ? result.sources.filter((s) => s.status === 'failed').length : 0;
   const charsCount = result
     ? result.sources.reduce((acc, s) => acc + (s.full_text?.length || 0), 0)
     : null;
@@ -30,57 +41,70 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
   const conflictsCount = result ? result.conflicts.length : null;
   const verifyCount = result ? result.verification_checklist.length : null;
 
-  // Single-run count animations on investigation completion; no continuous loop, respects reduced-motion
+  // Single-run count animations on investigation completion
   const animatedSources = useCountUp(sourcesCount, result?.investigation_id);
   const animatedChars = useCountUp(charsCount, result?.investigation_id);
   const animatedGaps = useCountUp(gapsCount, result?.investigation_id);
   const animatedConflicts = useCountUp(conflictsCount, result?.investigation_id);
   const animatedVerify = useCountUp(verifyCount, result?.investigation_id);
 
-  const handleSectionClick = (section: 'sources' | 'evidence' | 'gaps' | 'conflicts' | 'checklist', sourceId?: string) => {
+  const handleSectionClick = (
+    section: 'sources' | 'evidence' | 'gaps' | 'conflicts' | 'checklist',
+    sourceId?: string
+  ) => {
     if (onNavigateSection) {
       onNavigateSection(section, sourceId);
-    } else if (onSelectTab && (section === 'gaps' || section === 'conflicts' || section === 'checklist')) {
+    } else if (
+      onSelectTab &&
+      (section === 'gaps' || section === 'conflicts' || section === 'checklist')
+    ) {
       onSelectTab(section);
     }
   };
 
   return (
     <aside
-      className={`w-full select-none bg-[#003135] ${
+      className={`w-full select-none bg-[#00272b] ${
         isHoriz
-          ? 'flex overflow-x-auto no-scrollbar scroll-smooth divide-x divide-[#024950] border-t border-b border-[#024950]'
-          : 'h-full flex flex-col border-l border-[#024950] divide-y divide-[#024950]'
+          ? 'flex overflow-x-auto no-scrollbar scroll-smooth border-t border-b border-[#024950]'
+          : 'h-full flex flex-col border-l border-[#024950]'
       }`}
     >
-      {/* Panel 1: Deep Teal #003135 (Sources) */}
+      {/* 1. SOURCES TELEMETRY */}
       <div
         role="button"
         tabIndex={0}
         onClick={() => handleSectionClick('sources')}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('sources')}
-        className={`${itemBaseClass} bg-[#003135] text-[#AFDDE5] hover:bg-[#024950]/80 group relative animate-fade-rise delay-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]`}
-        title="Click to view Source Evidence Rail"
+        className={`${itemBaseClass} bg-[#00272b] hover:bg-[#003135] group border-l-4 border-l-[#0FA4AF] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]`}
+        title="Inspect Ingested Source Repositories"
       >
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-mono tracking-[0.2em] text-[#0FA4AF] uppercase font-black">
-            01 // SOURCES
-          </span>
-          <span className="text-[9px] font-mono text-[#0FA4AF] font-bold opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
-            {result ? 'View Webpages →' : 'Sources →'}
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5">
+            <Globe className="w-3.5 h-3.5 text-[#0FA4AF]" />
+            <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
+              SOURCES
+            </span>
+            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#024950] text-[#0FA4AF] border border-[#0FA4AF]/30">
+              SSRF GUARD
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#0FA4AF] flex items-center gap-0.5 transition-colors">
+            <span>{result ? 'View' : 'Docs'}</span>
+            <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
 
         <div className="my-auto py-1">
           <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight">
-            {animatedSources !== null ? `${animatedSources}/${totalCount} RETRIEVED` : 'PUBLIC WEB'}
+            {animatedSources !== null ? `${animatedSources}/${totalCount} RETRIEVED` : 'WEB INGESTION'}
           </div>
           <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {sourcesCount !== null
               ? failedCount > 0
-                ? `${sourcesCount}/${totalCount} retrieved (${failedCount} failed)`
-                : `${sourcesCount}/${totalCount} sources retrieved (0 failed)`
-              : 'Up to 10 distinct URLs with SSRF protection'}
+                ? `${sourcesCount}/${totalCount} endpoints parsed (${failedCount} failed)`
+                : `${sourcesCount}/${totalCount} endpoints parsed cleanly`
+              : 'Deterministic URL fetcher with RFC-1918 guard'}
           </p>
 
           {/* Quick Clickable Source Pills */}
@@ -94,8 +118,8 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
                     e.stopPropagation();
                     handleSectionClick('sources', s.id);
                   }}
-                  className="px-1.5 py-0.5 bg-[#024950] text-[#0FA4AF] hover:bg-[#0FA4AF] hover:text-[#003135] text-[10px] font-mono font-bold border border-[#0FA4AF]/30 transition-colors"
-                  title={`Jump to ${s.id}: ${s.title || s.url}`}
+                  className="px-1.5 py-0.5 bg-[#003135] text-[#0FA4AF] hover:bg-[#0FA4AF] hover:text-[#003135] text-[10px] font-mono font-bold border border-[#0FA4AF]/30 transition-colors"
+                  title={`Inspect source ${s.id}`}
                 >
                   {s.id}
                 </button>
@@ -105,122 +129,150 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
         </div>
       </div>
 
-      {/* Panel 2: Teal #024950 (Evidence) */}
+      {/* 2. CORPUS / GROUNDED EVIDENCE */}
       <div
         role="button"
         tabIndex={0}
         onClick={() => handleSectionClick('evidence')}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('evidence')}
-        className={`${itemBaseClass} bg-[#024950] text-[#AFDDE5] hover:bg-[#035962] group relative animate-fade-rise delay-40 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#AFDDE5]`}
-        title="Click to view Evidence Synthesis"
+        className={`${itemBaseClass} bg-[#00272b] hover:bg-[#003135] group border-l-4 border-l-[#2A9D8F] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2A9D8F]`}
+        title="Inspect Grounded Evidence Corpus"
       >
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-mono tracking-[0.2em] text-[#AFDDE5] uppercase font-black">
-            02 // EVIDENCE
-          </span>
-          <span className="text-[9px] font-mono text-[#AFDDE5] font-bold opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
-            Synthesis →
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5">
+            <Database className="w-3.5 h-3.5 text-[#2A9D8F]" />
+            <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
+              CORPUS
+            </span>
+            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#024950] text-[#2A9D8F] border border-[#2A9D8F]/30">
+              GROUNDED
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#2A9D8F] flex items-center gap-0.5 transition-colors">
+            <span>Synthesis</span>
+            <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
 
         <div className="my-auto py-1">
           <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight">
-            {animatedChars !== null ? `${animatedChars.toLocaleString()} CHARS` : 'GROUNDED'}
+            {animatedChars !== null ? `${animatedChars.toLocaleString()} CHARACTERS` : 'GROUNDED TEXT'}
           </div>
-          <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/90 mt-1 leading-snug line-clamp-2">
+          <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {charsCount !== null
-              ? 'Consecutive shingle density verified'
-              : 'Extracted text & verifiable timestamps'}
+              ? 'Verifiable shingle extraction & density verified'
+              : 'Boilerplate stripping & provenance timestamps'}
           </p>
         </div>
       </div>
 
-      {/* Panel 3: Vibrant Luminous Coral #E76F51 (Gaps) */}
+      {/* 3. GAPS AUDIT */}
       <div
         role="button"
         tabIndex={0}
         onClick={() => handleSectionClick('gaps')}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('gaps')}
-        className={`${itemBaseClass} bg-[#E76F51] text-white hover:bg-[#eb7d61] group relative animate-fade-rise delay-80 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white`}
-        title="Click to open Potential Information Gaps"
+        className={`${itemBaseClass} bg-[#00272b] hover:bg-[#003135] group border-l-4 border-l-[#E76F51] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#E76F51]`}
+        title="Inspect Information Gaps"
       >
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-mono tracking-[0.2em] text-white/90 uppercase font-black">
-            03 // GAPS
-          </span>
-          <span className="text-[9px] font-mono text-white font-bold opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
-            Open Gaps →
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5">
+            <AlertTriangle className="w-3.5 h-3.5 text-[#E76F51]" />
+            <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
+              GAPS AUDIT
+            </span>
+            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#E76F51]/20 text-[#E76F51] border border-[#E76F51]/40">
+              EPISTEMIC
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#E76F51] flex items-center gap-0.5 transition-colors">
+            <span>Audit</span>
+            <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
 
         <div className="my-auto py-1">
-          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]">
-            {animatedGaps !== null ? `${animatedGaps} IDENTIFIED` : '3-TIER AUDIT'}
+          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-[#E76F51] tracking-tight leading-tight">
+            {animatedGaps !== null ? `${animatedGaps} IDENTIFIED` : 'ABSENCE AUDIT'}
           </div>
-          <p className="text-[10px] xl:text-[11px] font-mono text-white/95 mt-1 leading-snug line-clamp-2">
+          <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {gapsCount !== null
-              ? 'Absence scoped strictly to reviewed sources'
-              : 'Addressed vs partial vs unaddressed'}
+              ? 'Absence scoped strictly to reviewed corpus'
+              : 'Deterministic audit of unaddressed facets'}
           </p>
         </div>
       </div>
 
-      {/* Panel 4: Pale Cyan #AFDDE5 (Conflicts) */}
+      {/* 4. CONTRADICTION DIFF */}
       <div
         role="button"
         tabIndex={0}
         onClick={() => handleSectionClick('conflicts')}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('conflicts')}
-        className={`${itemBaseClass} bg-[#AFDDE5] text-[#003135] hover:bg-[#c2eaf0] group relative animate-fade-rise delay-120 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]`}
-        title="Click to open Evidence Conflicts"
+        className={`${itemBaseClass} bg-[#00272b] hover:bg-[#003135] group border-l-4 border-l-[#AFDDE5] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#AFDDE5]`}
+        title="Inspect Contradictions & Discrepancies"
       >
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-mono tracking-[0.2em] text-[#003135] uppercase font-black">
-            04 // CONFLICTS
-          </span>
-          <span className="text-[9px] font-mono text-[#003135] font-bold opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
-            Open Conflicts →
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5">
+            <GitCompare className="w-3.5 h-3.5 text-[#AFDDE5]" />
+            <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
+              CONFLICTS
+            </span>
+            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#AFDDE5]/10 text-[#AFDDE5] border border-[#AFDDE5]/30">
+              BILATERAL
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#AFDDE5] flex items-center gap-0.5 transition-colors">
+            <span>Diff</span>
+            <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
 
         <div className="my-auto py-1">
-          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-[#003135] tracking-tight leading-tight">
-            {animatedConflicts !== null ? `${animatedConflicts} DETECTED` : 'BILATERAL'}
+          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight">
+            {animatedConflicts !== null ? `${animatedConflicts} DETECTED` : 'FACTUAL CONFLICTS'}
           </div>
-          <p className="text-[10px] xl:text-[11px] font-mono text-[#003135]/90 mt-1 leading-snug line-clamp-2 font-medium">
+          <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {conflictsCount !== null
-              ? 'Material contradictions with quoted evidence'
-              : 'Contradiction vs contextual difference'}
+              ? 'Bilateral quote evidence verified'
+              : 'Detects mutually contradictory claims'}
           </p>
         </div>
       </div>
 
-      {/* Panel 5: Vibrant Cyan #0FA4AF (Verification) */}
+      {/* 5. VERIFICATION PROTOCOLS */}
       <div
         role="button"
         tabIndex={0}
         onClick={() => handleSectionClick('checklist')}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('checklist')}
-        className={`${itemBaseClass} bg-[#0FA4AF] text-[#003135] hover:bg-[#12b9c6] group relative animate-fade-rise delay-160 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#003135]`}
-        title="Click to open Verification Checklist"
+        className={`${itemBaseClass} bg-[#00272b] hover:bg-[#003135] group border-l-4 border-l-[#0FA4AF] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]`}
+        title="Inspect Verification Checklist"
       >
-        <div className="flex items-center justify-between">
-          <span className="text-[11px] font-mono tracking-[0.2em] text-[#003135] uppercase font-black">
-            05 // VERIFICATION
-          </span>
-          <span className="text-[9px] font-mono text-[#003135] font-bold opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
-            Open Checklist →
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-1.5">
+            <ListChecks className="w-3.5 h-3.5 text-[#0FA4AF]" />
+            <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
+              VERIFICATION
+            </span>
+            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#024950] text-[#0FA4AF] border border-[#0FA4AF]/30">
+              ACTIONS
+            </span>
+          </div>
+          <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#0FA4AF] flex items-center gap-0.5 transition-colors">
+            <span>Protocol</span>
+            <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
 
         <div className="my-auto py-1">
-          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-[#003135] tracking-tight leading-tight">
-            {animatedVerify !== null ? `${animatedVerify} ACTIONS` : 'NEXT STEPS'}
+          <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight">
+            {animatedVerify !== null ? `${animatedVerify} ACTIONS` : 'ACTION CHECKLIST'}
           </div>
-          <p className="text-[10px] xl:text-[11px] font-mono text-[#003135]/90 mt-1 leading-snug line-clamp-2 font-medium">
+          <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {verifyCount !== null
               ? 'Direct primary authority recommendations'
-              : 'Official registries, portals & handbooks'}
+              : 'Prescribed verification targets & registries'}
           </p>
         </div>
       </div>
