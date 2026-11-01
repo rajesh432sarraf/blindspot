@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 from app.models.schemas import HealthResponse, AnalyzeRequest, AnalysisResult
 from app.core.config import settings
 from app.services.analyzer import run_investigation
+from app.services.pdf_generator import build_pdf_report
 
 api_router = APIRouter(prefix="/api")
 
@@ -24,3 +25,19 @@ def analyze_sources_endpoint(request: AnalyzeRequest):
         raise HTTPException(status_code=400, detail=f"Maximum allowed sources is {settings.MAX_SOURCES}.")
 
     return run_investigation(request)
+
+@api_router.post("/export-pdf")
+def export_pdf_endpoint(result: AnalysisResult):
+    """Generate and return a publication-ready PDF audit report."""
+    try:
+        pdf_bytes = build_pdf_report(result)
+        filename = f"blindspot-audit-{result.investigation_id}.pdf"
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={
+                "Content-Disposition": f'attachment; filename="{filename}"'
+            }
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to generate PDF: {str(e)}")

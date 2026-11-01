@@ -40,3 +40,28 @@ export async function analyzeSources(request: AnalyzeRequest): Promise<AnalysisR
   return response.json();
 }
 
+export async function exportReportPdf(result: AnalysisResult): Promise<Blob> {
+  const response = await fetch(`${API_BASE}/export-pdf`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/pdf',
+    },
+    body: JSON.stringify(result),
+  });
+
+  if (!response.ok) {
+    let errorDetail = `PDF export failed with status ${response.status}`;
+    try {
+      const errJson = await response.json();
+      if (errJson.detail) {
+        errorDetail = errJson.detail;
+      }
+    } catch {
+      // fallback
+    }
+    throw new Error(errorDetail);
+  }
+
+  return response.blob();
+}
