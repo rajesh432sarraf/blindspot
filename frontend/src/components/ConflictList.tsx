@@ -38,9 +38,6 @@ export const ConflictList: React.FC<ConflictListProps> = ({ conflicts }) => {
                   <span className="px-2.5 py-1 bg-[#0FA4AF] text-[#003135] text-xs font-mono font-bold">
                     {conf.id}
                   </span>
-                  <span className="hidden sm:inline-flex text-[9px] font-mono uppercase px-2 py-0.5 bg-[#003135] text-[#AFDDE5] border border-[#024950] font-bold">
-                    Bilateral Source Comparison
-                  </span>
                 </div>
                 <span
                   className={`text-[11px] font-mono px-2.5 py-1 border font-bold ${

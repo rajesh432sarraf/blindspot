@@ -85,9 +85,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
             <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
               SOURCES
             </span>
-            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#024950] text-[#0FA4AF] border border-[#0FA4AF]/30">
-              SSRF GUARD
-            </span>
           </div>
           <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#0FA4AF] flex items-center gap-0.5 transition-colors">
             <span>{result ? 'View' : 'Docs'}</span>
@@ -144,9 +141,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
             <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
               CORPUS
             </span>
-            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#024950] text-[#2A9D8F] border border-[#2A9D8F]/30">
-              GROUNDED
-            </span>
           </div>
           <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#2A9D8F] flex items-center gap-0.5 transition-colors">
             <span>Synthesis</span>
@@ -180,9 +174,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
             <AlertTriangle className="w-3.5 h-3.5 text-[#E76F51]" />
             <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
               GAPS AUDIT
-            </span>
-            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#E76F51]/20 text-[#E76F51] border border-[#E76F51]/40">
-              EPISTEMIC
             </span>
           </div>
           <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#E76F51] flex items-center gap-0.5 transition-colors">
@@ -218,9 +209,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
             <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
               CONFLICTS
             </span>
-            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#AFDDE5]/10 text-[#AFDDE5] border border-[#AFDDE5]/30">
-              BILATERAL
-            </span>
           </div>
           <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#AFDDE5] flex items-center gap-0.5 transition-colors">
             <span>Diff</span>
@@ -254,9 +242,6 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
             <ListChecks className="w-3.5 h-3.5 text-[#0FA4AF]" />
             <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
               VERIFICATION
-            </span>
-            <span className="text-[9px] font-mono px-1.5 py-0.5 bg-[#024950] text-[#0FA4AF] border border-[#0FA4AF]/30">
-              ACTIONS
             </span>
           </div>
           <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#0FA4AF] flex items-center gap-0.5 transition-colors">

@@ -61,9 +61,6 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
                 </div>
 
                 <div className="flex flex-wrap items-center gap-1.5 shrink-0">
-                  <span className="hidden sm:inline-flex text-[9px] font-mono uppercase px-2 py-0.5 bg-[#003135] text-[#E76F51] border border-[#E76F51]/40 font-bold">
-                    AI Gap Void
-                  </span>
                   <span
                     className={`text-[11px] font-mono px-2.5 py-1 border ${
                       gap.status === 'not_found_in_reviewed_sources'

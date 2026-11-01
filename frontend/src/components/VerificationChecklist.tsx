@@ -83,9 +83,6 @@ export const VerificationChecklist: React.FC<VerificationChecklistProps> = ({ ch
                       </div>
 
                       <div className="flex items-center gap-2 shrink-0">
-                        <span className="hidden sm:inline-flex text-[9px] font-mono uppercase px-2 py-0.5 bg-[#003135] text-[#AFDDE5] border border-[#024950] font-bold">
-                          AI Action
-                        </span>
                         <span
                           className={`self-start sm:self-auto text-[10px] font-mono px-2.5 py-1 border uppercase font-bold ${
                             task.priority === 'high'
