@@ -3,6 +3,12 @@
 **AI-Assisted Information-Gap Detection Platform**  
 *Built for Shinchan Online Hackathon 2026 by Devengers*
 
+- 🌐 **Live Application:** [https://blindspot-ruby-omega.vercel.app](https://blindspot-ruby-omega.vercel.app)
+- ⚙️ **Live Backend API:** [https://blindspotd.onrender.com](https://blindspotd.onrender.com)
+- 📄 **API Documentation:** [https://blindspotd.onrender.com/docs](https://blindspotd.onrender.com/docs)
+- 🧪 **Automated Tests:** 56/56 passing (`pytest`)
+- 🔒 **Security:** Enterprise SSRF defense, IP rate-limiting, CSP headers, zero-hallucination scoping
+
 Blindspot helps researchers inspect multiple sources for a research question and identify potential unanswered questions, conflicting claims, unclear or outdated dates, and a prioritized verification checklist. It emphasizes evidence and uncertainty rather than guessing.
 
 ---
@@ -75,11 +81,13 @@ npm run dev
 
 All test suites have been run and verified:
 
-### 1. Backend Automated Unit Tests (30/30 Passing)
+### 1. Backend Automated Unit Tests (56/56 Passing)
 ```bash
 cd backend; python -m pytest
 ```
-- `tests/test_fetcher_extractor.py`: SSRF defenses (blocking `localhost`, `127.0.0.1`, `10.0.0.1`, `192.168.1.1`, `169.254.169.254`, `ftp://`, `file://`), date metadata parsing, dateModified prioritization over older datePublished, JSON-LD `@graph` extraction, HTML cleaning.
+- `tests/test_security.py`: Comprehensive SSRF defenses (blocking `localhost`, `127.0.0.1`, `10.0.0.1`, `192.168.1.1`, `169.254.169.254`, `ftp://`, `file://`), IP rate limiting, security headers, and secret leakage prevention.
+- `tests/test_pdf_export.py`: Publication-grade PDF report generation with metadata, audit findings, and dynamic page numbering.
+- `tests/test_fetcher_extractor.py`: Date metadata parsing, dateModified prioritization over older datePublished, JSON-LD `@graph` extraction, HTML cleaning.
 - `tests/test_analyzer.py`: URL deduplication and normalization, topic-aware heuristic fallback adaptation, empty readable page containment, three-tier gap taxonomy (`not_found_in_reviewed_sources`, `partially_addressed`, `fully_addressed`), grounded excerpt shingle verification, downgrade of ungrounded partial claims, bidirectional checklist linking (`related_finding_ids`), freshness date synchronization, partial source failure limitation reporting, Phase 1 acceptance tests, heuristic fallback audit.
 - `tests/test_health.py`: Health endpoint contract verification.
 - `tests/test_schemas.py`: Pydantic request and response schema validation.
