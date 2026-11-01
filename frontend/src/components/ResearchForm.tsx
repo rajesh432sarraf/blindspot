@@ -83,8 +83,8 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
     setQuestion('What are the eligibility criteria, application deadline, and renewal requirements for the PM-USP Central Sector Scholarship Scheme?');
     setUrls([
       'https://scholarships.gov.in/',
-      'https://www.education.gov.in/',
-      'https://scholarships.gov.in/non-existent-guidelines-404'
+      'https://www.education.gov.in/scholarships-education-loan-0',
+      'https://www.education.gov.in/'
     ]);
     setFormError(null);
   };
