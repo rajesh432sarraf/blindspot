@@ -1,6 +1,8 @@
 import type { AnalyzeRequest, AnalysisResult, HealthResponse } from '../types';
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_BASE_URL
+  ? `${(import.meta.env.VITE_API_BASE_URL as string).replace(/\/+$/, '')}/api`
+  : '/api';
 
 export async function checkHealth(): Promise<HealthResponse> {
   const response = await fetch(`${API_BASE}/health`, {

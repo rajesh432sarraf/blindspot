@@ -21,10 +21,11 @@ app.add_middleware(SecurityHeadersMiddleware)
 app.add_middleware(RateLimitMiddleware, analyze_limit=20, default_limit=120)
 
 # 3. CORS configuration: Restricted to approved origins
+is_wildcard_cors = "*" in settings.cors_origins
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
-    allow_credentials=True,
+    allow_credentials=not is_wildcard_cors,
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["Content-Type", "Accept", "Authorization", "X-Requested-With"],
 )
