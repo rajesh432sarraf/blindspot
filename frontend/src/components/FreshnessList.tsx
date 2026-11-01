@@ -17,12 +17,8 @@ export const FreshnessList: React.FC<FreshnessListProps> = ({ warnings }) => {
           </h2>
         </div>
         <span className="text-xs font-mono text-[#AFDDE5]/80">
-          Currentness audit
+          Source recency check
         </span>
-      </div>
-
-      <div className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/90">
-        <strong className="text-[#0FA4AF] uppercase tracking-wider mr-1">Principle:</strong> Age does not equate to falsity. Older documents may accurately describe their historical context, but changes over time necessitate verifying current applicability.
       </div>
 
       {warnings.length === 0 ? (

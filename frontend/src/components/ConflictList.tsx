@@ -17,12 +17,8 @@ export const ConflictList: React.FC<ConflictListProps> = ({ conflicts }) => {
           </h2>
         </div>
         <span className="text-xs font-mono text-[#AFDDE5]/80">
-          Contradictions with bilateral evidence
+          Contradictions with source citations
         </span>
-      </div>
-
-      <div className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/90">
-        <strong className="text-[#0FA4AF] uppercase tracking-wider mr-1">Principle:</strong> Discrepancies are flagged only when sources assert materially incompatible claims. Differences stemming from distinct dates or jurisdictions are labeled as discrepancies requiring context review.
       </div>
 
       {conflicts.length === 0 ? (

@@ -96,7 +96,13 @@ export function App() {
     section: 'sources' | 'evidence' | 'gaps' | 'conflicts' | 'checklist',
     sourceId?: string
   ) => {
-    if (!analysisResult) return;
+    if (!analysisResult) {
+      const el = document.getElementById('investigation-console');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      return;
+    }
 
     if (sourceId) {
       const targetSource = analysisResult.sources.find((s) => s.id === sourceId);
@@ -297,90 +303,34 @@ ${analysisResult.sources
                   </section>
                 )}
 
-                {/* Symmetrical Core Architecture Grid (No redundant boxes) */}
-                <section id="features" className="p-6 sm:p-8 lg:p-10 space-y-6">
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono font-black text-[#0FA4AF] uppercase tracking-[0.2em]">
-                      AUDIT ARCHITECTURE
-                    </span>
-                    <span className="w-8 h-px bg-[#0FA4AF]/50"></span>
-                    <span className="text-xs font-mono text-[#AFDDE5]/70 uppercase">
-                      Evidence Grounding & Verification
-                    </span>
-                  </div>
-
-                  {/* Symmetrical 4-Column Grid: Uniform heights, identical padding, crisp 1px borders */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                    <div className="p-5 bg-[#003135] border border-[#024950] flex flex-col justify-between space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xl font-mono font-black text-[#E76F51]">01</span>
-                          <Search className="w-4 h-4 text-[#E76F51]" />
-                        </div>
-                        <h4 className="text-xs font-mono font-black text-white uppercase tracking-wider">
-                          Gap Detection
-                        </h4>
-                        <p className="text-xs font-mono text-[#AFDDE5]/80 leading-relaxed">
-                          Categorizes findings into Fully Addressed, Partially Addressed, and Not Found in Reviewed Sources with strict scoping.
-                        </p>
-                      </div>
-                      <div className="text-[10px] font-mono text-[#E76F51] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
-                        3-Tier Taxonomy
-                      </div>
+                {/* Direct & Simple Overview (Problem Statement Capabilities) */}
+                <section id="features" className="p-6 sm:p-8 lg:p-10 border-t border-[#024950]">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs font-mono">
+                    <div className="p-4 bg-[#003135] border border-[#024950] border-l-4 border-l-[#E76F51] space-y-1.5">
+                      <span className="text-[11px] font-bold text-[#E76F51] uppercase tracking-wider block">
+                        Identify Information Gaps
+                      </span>
+                      <p className="text-[#AFDDE5]/80 leading-relaxed">
+                        Finds crucial unanswered questions and missing criteria across reviewed sources before you make decisions.
+                      </p>
                     </div>
 
-                    <div className="p-5 bg-[#003135] border border-[#024950] flex flex-col justify-between space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xl font-mono font-black text-[#0FA4AF]">02</span>
-                          <GitCompare className="w-4 h-4 text-[#0FA4AF]" />
-                        </div>
-                        <h4 className="text-xs font-mono font-black text-white uppercase tracking-wider">
-                          Conflict Proof
-                        </h4>
-                        <p className="text-xs font-mono text-[#AFDDE5]/80 leading-relaxed">
-                          Requires non-empty verified quotes on both sides from distinct sources before confirming a material contradiction.
-                        </p>
-                      </div>
-                      <div className="text-[10px] font-mono text-[#0FA4AF] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
-                        Bilateral Grounding
-                      </div>
+                    <div className="p-4 bg-[#003135] border border-[#024950] border-l-4 border-l-[#AFDDE5] space-y-1.5">
+                      <span className="text-[11px] font-bold text-[#AFDDE5] uppercase tracking-wider block">
+                        Detect Contradictions
+                      </span>
+                      <p className="text-[#AFDDE5]/80 leading-relaxed">
+                        Highlights conflicting claims between different websites with side-by-side quoted evidence.
+                      </p>
                     </div>
 
-                    <div className="p-5 bg-[#003135] border border-[#024950] flex flex-col justify-between space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xl font-mono font-black text-[#AFDDE5]">03</span>
-                          <Clock className="w-4 h-4 text-[#AFDDE5]" />
-                        </div>
-                        <h4 className="text-xs font-mono font-black text-white uppercase tracking-wider">
-                          Temporal Warnings
-                        </h4>
-                        <p className="text-xs font-mono text-[#AFDDE5]/80 leading-relaxed">
-                          Monitors timestamps and flags stale documents without falsely claiming that older information is incorrect.
-                        </p>
-                      </div>
-                      <div className="text-[10px] font-mono text-[#AFDDE5] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
-                        Currentness Audit
-                      </div>
-                    </div>
-
-                    <div className="p-5 bg-[#003135] border border-[#024950] flex flex-col justify-between space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-2xl font-mono font-black text-[#0FA4AF]">04</span>
-                          <CheckSquare className="w-4 h-4 text-[#0FA4AF]" />
-                        </div>
-                        <h4 className="text-xs font-mono font-black text-white uppercase tracking-wider">
-                          Action Checklist
-                        </h4>
-                        <p className="text-xs font-mono text-[#AFDDE5]/80 leading-relaxed">
-                          Generates prioritized, concrete inquiries directly linked to primary registers to resolve uncertainties.
-                        </p>
-                      </div>
-                      <div className="text-[10px] font-mono text-[#0FA4AF] font-bold uppercase tracking-wider pt-2 border-t border-[#024950]">
-                        Primary Registers
-                      </div>
+                    <div className="p-4 bg-[#003135] border border-[#024950] border-l-4 border-l-[#0FA4AF] space-y-1.5">
+                      <span className="text-[11px] font-bold text-[#0FA4AF] uppercase tracking-wider block">
+                        Verify What&apos;s Next
+                      </span>
+                      <p className="text-[#AFDDE5]/80 leading-relaxed">
+                        Provides a prioritized checklist of official registries and primary portals to verify uncertain facts.
+                      </p>
                     </div>
                   </div>
                 </section>
@@ -396,12 +346,15 @@ ${analysisResult.sources
               >
                 {/* Active Report Header Bar */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 sm:pb-4 border-b border-[#024950] gap-3 sm:gap-4 animate-fade-rise delay-0">
-                  <div>
-                    <span className="text-xs font-mono uppercase tracking-wider text-[#0FA4AF] font-bold">
-                      Active Evidence Audit Report
-                    </span>
-                    <h2 className="text-base sm:text-lg font-mono font-black text-white">
-                      {analysisResult.investigation_id}
+                  <div className="max-w-2xl">
+                    <div className="flex items-center gap-2 text-xs font-mono text-[#0FA4AF] font-bold mb-1">
+                      <Terminal className="w-3.5 h-3.5" />
+                      <span className="uppercase tracking-wider">Audit Report</span>
+                      <span className="text-[#AFDDE5]/60">&bull;</span>
+                      <span className="text-white font-mono">{analysisResult.investigation_id}</span>
+                    </div>
+                    <h2 className="text-sm sm:text-base md:text-lg font-mono font-bold text-white leading-snug">
+                      &ldquo;{analysisResult.question}&rdquo;
                     </h2>
                   </div>
                   <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full sm:w-auto">
@@ -450,12 +403,12 @@ ${analysisResult.sources
                   />
                 </div>
 
-                {/* Executive Audit Verdict */}
-                <div className="bg-[#024950]/40 border border-[#024950] p-5 sm:p-6 space-y-4 animate-fade-rise">
-                  <div className="flex items-center gap-2 pb-3 border-b border-[#024950]">
+                {/* At-a-Glance Takeaways (Problem Statement Section 3 Core Outcomes) */}
+                <div className="bg-[#024950]/40 border border-[#024950] p-4 sm:p-5 lg:p-6 space-y-3.5 animate-fade-rise">
+                  <div className="flex items-center gap-2 pb-2.5 border-b border-[#024950]">
                     <Terminal className="w-4 h-4 text-[#0FA4AF] shrink-0" />
                     <span className="text-xs sm:text-sm font-mono font-black uppercase tracking-[0.2em] text-white">
-                      Executive Audit Verdict (At-a-Glance)
+                      At-a-Glance Takeaways
                     </span>
                   </div>
 
@@ -465,7 +418,7 @@ ${analysisResult.sources
                       <div>
                         <span className="text-[11px] font-mono font-black text-[#E76F51] uppercase tracking-wider flex items-center gap-1.5 mb-1">
                           <AlertTriangle className="w-3.5 h-3.5 text-[#E76F51] shrink-0" />
-                          <span>Potential Gap Identified</span>
+                          <span>Potential Gap</span>
                         </span>
                         <p className="text-white text-xs leading-snug line-clamp-3 font-medium">
                           {analysisResult.gaps.find(g => g.status === 'not_found_in_reviewed_sources')?.question ||
@@ -483,7 +436,7 @@ ${analysisResult.sources
                       <div>
                         <span className="text-[11px] font-mono font-black text-[#AFDDE5] uppercase tracking-wider flex items-center gap-1.5 mb-1">
                           <GitCompare className="w-3.5 h-3.5 text-[#AFDDE5] shrink-0" />
-                          <span>Contradiction Audit</span>
+                          <span>Possible Conflict</span>
                         </span>
                         <p className="text-white text-xs leading-snug line-clamp-3 font-medium">
                           {analysisResult.conflicts.length > 0
@@ -492,7 +445,7 @@ ${analysisResult.sources
                         </p>
                       </div>
                       <span className="text-[10px] text-[#AFDDE5]/70 block pt-1.5 border-t border-[#024950]">
-                        {analysisResult.conflicts.length > 0 ? 'Bilateral quotes cited' : 'Consensus across sources'}
+                        {analysisResult.conflicts.length > 0 ? 'Source quotes compared' : 'Consensus across sources'}
                       </span>
                     </div>
 

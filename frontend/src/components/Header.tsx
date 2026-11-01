@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = () => {
             href="#features"
             className="hover:text-white transition-all duration-150 py-1 border-b-2 border-transparent hover:border-[#0FA4AF] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
           >
-            Architecture
+            Features
           </a>
         </nav>
       </div>

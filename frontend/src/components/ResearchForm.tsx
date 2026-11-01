@@ -152,10 +152,10 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
               onClick={handleLoadNspExample}
               disabled={isLoading}
               className="flex-1 sm:flex-none justify-center inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-bold border border-[#E76F51]/70 bg-[#003135] text-[#AFDDE5] hover:bg-[#E76F51] hover:text-white hover:border-[#E76F51] active:scale-[0.98] transition-all duration-150 disabled:opacity-50 cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#0FA4AF]"
-              title="Load National Scholarship Portal benchmark with 404 failure containment test"
+              title="Load National Scholarship Portal benchmark"
             >
               <Terminal className="w-3.5 h-3.5 text-[#E76F51] shrink-0" />
-              <span className="truncate">Preset 2: NSP + 404 Test</span>
+              <span className="truncate">Preset 2: National Scholarship Portal</span>
             </button>
           </div>
         </div>
@@ -225,10 +225,10 @@ export const ResearchForm: React.FC<ResearchFormProps> = ({ onSubmit, isLoading 
 
           {/* Symmetrical Bottom Bar: Scope Caption on Left, Action Button on Right */}
           <div className="pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t border-[#024950]">
-            <div className="text-xs font-mono text-[#AFDDE5]/70 flex items-center gap-2">
+            <div className="text-xs font-mono text-[#AFDDE5]/80 flex items-center gap-2">
               <Info className="w-4 h-4 text-[#0FA4AF] shrink-0" />
               <span>
-                <strong className="text-white">Audit Scope:</strong> Evaluates exclusively retrieved source content. Unanswered items reflect reviewed documents, not global absence.
+                <strong className="text-white">Scope:</strong> Identifies gaps, contradictions, and next verification steps directly from your reviewed sources.
               </span>
             </div>
 

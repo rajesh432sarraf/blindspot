@@ -21,13 +21,6 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
         </span>
       </div>
 
-      <div className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/90 flex items-center gap-2">
-        <strong className="text-[#0FA4AF] uppercase tracking-wider">Principle:</strong>
-        <span>
-          "Not found in reviewed sources" means the question is unaddressed by the submitted materials—not that the information does not exist on the wider internet.
-        </span>
-      </div>
-
       {gaps.length === 0 ? (
         <div className="p-6 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/70 text-center">
           No evident information gaps identified across reviewed sources.
@@ -86,12 +79,6 @@ export const GapList: React.FC<GapListProps> = ({ gaps }) => {
                         : 'bg-[#003135] text-[#AFDDE5]/70 border-[#024950]'
                     }`}
                   >
-                    {gap.priority === 'high' && (
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                      </span>
-                    )}
                     {gap.priority} Priority
                   </span>
                 </div>

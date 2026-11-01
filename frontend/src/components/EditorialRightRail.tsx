@@ -70,7 +70,7 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
           : 'h-full flex flex-col border-l border-[#024950]'
       }`}
     >
-      {/* 1. SOURCES TELEMETRY */}
+      {/* 1. SOURCES */}
       <div
         role="button"
         tabIndex={0}
@@ -87,21 +87,21 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
             </span>
           </div>
           <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#0FA4AF] flex items-center gap-0.5 transition-colors">
-            <span>{result ? 'View' : 'Docs'}</span>
+            <span>{result ? 'View' : 'Explore'}</span>
             <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
 
         <div className="my-auto py-1">
           <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight">
-            {animatedSources !== null ? `${animatedSources}/${totalCount} RETRIEVED` : 'WEB INGESTION'}
+            {animatedSources !== null ? `${animatedSources} SOURCES` : 'SOURCE MATERIAL'}
           </div>
           <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {sourcesCount !== null
               ? failedCount > 0
-                ? `${sourcesCount}/${totalCount} endpoints parsed (${failedCount} failed)`
-                : `${sourcesCount}/${totalCount} endpoints parsed cleanly`
-              : 'Deterministic URL fetcher with RFC-1918 guard'}
+                ? `${sourcesCount} of ${totalCount} sources verified (${failedCount} failed)`
+                : `${sourcesCount} of ${totalCount} sources verified`
+              : 'Add custom URLs or choose a preset to review'}
           </p>
 
           {/* Quick Clickable Source Pills */}
@@ -126,20 +126,20 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
         </div>
       </div>
 
-      {/* 2. CORPUS / GROUNDED EVIDENCE */}
+      {/* 2. STRUCTURED SUMMARY */}
       <div
         role="button"
         tabIndex={0}
         onClick={() => handleSectionClick('evidence')}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSectionClick('evidence')}
         className={`${itemBaseClass} bg-[#00272b] hover:bg-[#003135] group border-l-4 border-l-[#2A9D8F] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#2A9D8F]`}
-        title="Inspect Grounded Evidence Corpus"
+        title="Inspect Grounded Evidence Summary"
       >
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5">
             <Database className="w-3.5 h-3.5 text-[#2A9D8F]" />
             <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
-              CORPUS
+              SUMMARY
             </span>
           </div>
           <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#2A9D8F] flex items-center gap-0.5 transition-colors">
@@ -150,17 +150,17 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
 
         <div className="my-auto py-1">
           <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight">
-            {animatedChars !== null ? `${animatedChars.toLocaleString()} CHARACTERS` : 'GROUNDED TEXT'}
+            {animatedChars !== null ? `${animatedChars.toLocaleString()} CHARS` : 'KEY SUMMARY'}
           </div>
           <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {charsCount !== null
-              ? 'Verifiable shingle extraction & density verified'
-              : 'Boilerplate stripping & provenance timestamps'}
+              ? 'Structured synthesis of verified facts'
+              : 'Synthesizes key information across sources'}
           </p>
         </div>
       </div>
 
-      {/* 3. GAPS AUDIT */}
+      {/* 3. GAPS */}
       <div
         role="button"
         tabIndex={0}
@@ -173,7 +173,7 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
           <div className="flex items-center gap-1.5">
             <AlertTriangle className="w-3.5 h-3.5 text-[#E76F51]" />
             <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
-              GAPS AUDIT
+              GAPS
             </span>
           </div>
           <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#E76F51] flex items-center gap-0.5 transition-colors">
@@ -184,17 +184,17 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
 
         <div className="my-auto py-1">
           <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-[#E76F51] tracking-tight leading-tight">
-            {animatedGaps !== null ? `${animatedGaps} IDENTIFIED` : 'ABSENCE AUDIT'}
+            {animatedGaps !== null ? `${animatedGaps} GAPS FOUND` : 'INFORMATION GAPS'}
           </div>
           <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {gapsCount !== null
-              ? 'Absence scoped strictly to reviewed corpus'
-              : 'Deterministic audit of unaddressed facets'}
+              ? 'Unanswered questions in reviewed sources'
+              : 'Finds missing criteria and questions'}
           </p>
         </div>
       </div>
 
-      {/* 4. CONTRADICTION DIFF */}
+      {/* 4. CONFLICTS */}
       <div
         role="button"
         tabIndex={0}
@@ -218,17 +218,17 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
 
         <div className="my-auto py-1">
           <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight">
-            {animatedConflicts !== null ? `${animatedConflicts} DETECTED` : 'FACTUAL CONFLICTS'}
+            {animatedConflicts !== null ? `${animatedConflicts} CONFLICTS` : 'CONTRADICTIONS'}
           </div>
           <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {conflictsCount !== null
-              ? 'Bilateral quote evidence verified'
-              : 'Detects mutually contradictory claims'}
+              ? 'Conflicting claims with cited quotes'
+              : 'Flags contradicting claims between sources'}
           </p>
         </div>
       </div>
 
-      {/* 5. VERIFICATION PROTOCOLS */}
+      {/* 5. VERIFY NEXT */}
       <div
         role="button"
         tabIndex={0}
@@ -241,23 +241,23 @@ export const EditorialRightRail: React.FC<EditorialRightRailProps> = ({
           <div className="flex items-center gap-1.5">
             <ListChecks className="w-3.5 h-3.5 text-[#0FA4AF]" />
             <span className="text-[11px] font-mono tracking-wider text-white uppercase font-bold">
-              VERIFICATION
+              NEXT STEPS
             </span>
           </div>
           <span className="text-[10px] font-mono text-[#AFDDE5]/60 group-hover:text-[#0FA4AF] flex items-center gap-0.5 transition-colors">
-            <span>Protocol</span>
+            <span>Checklist</span>
             <ArrowUpRight className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </span>
         </div>
 
         <div className="my-auto py-1">
           <div className="text-base sm:text-lg xl:text-xl font-mono font-black text-white tracking-tight leading-tight">
-            {animatedVerify !== null ? `${animatedVerify} ACTIONS` : 'ACTION CHECKLIST'}
+            {animatedVerify !== null ? `${animatedVerify} ACTIONS` : 'VERIFY NEXT'}
           </div>
           <p className="text-[10px] xl:text-[11px] font-mono text-[#AFDDE5]/80 mt-1 leading-snug line-clamp-2">
             {verifyCount !== null
-              ? 'Direct primary authority recommendations'
-              : 'Prescribed verification targets & registries'}
+              ? 'Prioritized items to verify with official sources'
+              : 'Action checklist of items to verify next'}
           </p>
         </div>
       </div>

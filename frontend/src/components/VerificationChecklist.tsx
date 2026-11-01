@@ -35,10 +35,6 @@ export const VerificationChecklist: React.FC<VerificationChecklistProps> = ({ ch
         </span>
       </div>
 
-      <div className="p-3 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/90">
-        <strong className="text-[#0FA4AF] uppercase tracking-wider mr-1">Principle:</strong> These actionable items are AI-assisted recommendations pointing to authoritative channels for confirming gaps and resolving potential discrepancies.
-      </div>
-
       {checklist.length === 0 ? (
         <div className="p-6 bg-[#003135] border border-[#024950] text-xs font-mono text-[#AFDDE5]/70 text-center">
           No additional verification tasks generated.
